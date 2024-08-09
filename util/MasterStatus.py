@@ -2,6 +2,7 @@ import requests
 
 NS_MASTER_SERVER_URL = "https://northstar.tf/client/servers"
 
+
 def IsMasterDown():
     try:
         ms_response = requests.get(NS_MASTER_SERVER_URL)

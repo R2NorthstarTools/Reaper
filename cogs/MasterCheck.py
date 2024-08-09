@@ -3,9 +3,9 @@ import util.MasterStatus
 
 
 class MasterCheck(commands.Cog):
-    def __init__(self, bot :commands.Bot) -> None:
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        
+
     @commands.hybrid_command(description="Check Northstar master server status")
     async def ms_status(self, ctx):
         if util.MasterStatus.IsMasterDown() is True:
@@ -17,6 +17,7 @@ class MasterCheck(commands.Cog):
         else:
             await ctx.send("Spectre encountered an exception while talking to MS")
             return
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(MasterCheck(bot))

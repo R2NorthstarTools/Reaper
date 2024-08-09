@@ -7,10 +7,9 @@ import os
 url = "https://api.github.com/graphql"
 githubAccessToken = os.getenv("githubAccessToken")
 
+
 def getLatestDiscussion():
-    headers = {
-        "Authorization": f"Bearer {githubAccessToken}"
-    }
+    headers = {"Authorization": f"Bearer {githubAccessToken}"}
 
     query = """
     query {
@@ -30,36 +29,41 @@ def getLatestDiscussion():
         response = requests.post(url, json={"query": query}, headers=headers)
         if response.status_code == 200:
             raw_data = response.json()
-            
+
     except requests.exceptions.RequestException as err:
         print(f"GitHub API request failed: {err}")
         return None
-    
+
     discussion_post = {
-        'body': raw_data["data"]["repository"]["discussions"]["edges"][0]["node"]["body"],
-        'url': raw_data["data"]["repository"]["discussions"]["edges"][0]["node"]["url"]
+        "body": raw_data["data"]["repository"]["discussions"]["edges"][0]["node"][
+            "body"
+        ],
+        "url": raw_data["data"]["repository"]["discussions"]["edges"][0]["node"]["url"],
     }
-    
+
     return discussion_post
 
+
 def getLatestReleaseName():
-    headers = {
-        "Authorization": f"Bearer {githubAccessToken}"
-    }
+    headers = {"Authorization": f"Bearer {githubAccessToken}"}
 
     try:
-        response = requests.get("https://api.github.com/repos/R2Northstar/NorthstarLauncher/releases", headers=headers)
-            
+        response = requests.get(
+            "https://api.github.com/repos/R2Northstar/NorthstarLauncher/releases",
+            headers=headers,
+        )
+
     except requests.exceptions.RequestException as err:
         print(f"GitHub API request failed: {err}")
         return None
-    
+
     return response.json()[0]["tag_name"]
 
+
 class PlayTesterPing(commands.Cog):
-    def __init__(self, bot :commands.Bot) -> None:
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        
+
     @commands.Cog.listener()
     async def on_message(self, message):
         playtestPingChannel = self.bot.get_channel(936678773150081055)
@@ -71,17 +75,22 @@ class PlayTesterPing(commands.Cog):
         if message.channel == thunderstoreReleaseChannel:
             if not message.embeds:
                 return
-            if re.search(r'NorthstarReleaseCandidate v\d+.\d+.\d+', message.embeds[0].title) and message.embeds[0].author.name == "northstar":
+            if (
+                re.search(
+                    r"NorthstarReleaseCandidate v\d+.\d+.\d+", message.embeds[0].title
+                )
+                and message.embeds[0].author.name == "northstar"
+            ):
                 data = getLatestDiscussion()
                 rcVersion = getLatestReleaseName()
-                
-                embed = discord.Embed(
-                    title="Changelog:",
-                    description=data["body"]
+
+                embed = discord.Embed(title="Changelog:", description=data["body"])
+
+                embed.set_author(
+                    name="Northstar " + rcVersion,
+                    icon_url="https://avatars.githubusercontent.com/u/86304187",
                 )
 
-                embed.set_author(name="Northstar " + rcVersion, icon_url="https://avatars.githubusercontent.com/u/86304187")
-                
                 pingMessage = await playtestPingChannel.send(
                     f"""<@&936669179359141908>
 There is a new Northstar release candidate, `{rcVersion}`. If you find any issues or have feedback, please inform us in the thread attached to this message.
@@ -93,9 +102,10 @@ Go to settings in FlightCore, and enable testing release channels. After you've 
 Make sure your release channel is still set to `Northstar release candidate`, and click the `UPDATE` button.
 ## **Release Notes**:
 <{data["url"]}>""",
-                    embed=embed
+                    embed=embed,
                 )
                 await pingMessage.create_thread(name=rcVersion)
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(PlayTesterPing(bot))
