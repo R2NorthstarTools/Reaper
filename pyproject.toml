@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "spectre"
+name = "reaper"
 version = "0.1.0"
 description = ""
 authors = ["Cyn <70904206+CooldudePUGS@users.noreply.github.com>"]

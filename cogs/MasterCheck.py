@@ -15,7 +15,7 @@ class MasterCheck(commands.Cog):
             await ctx.send("Master server is **UP**")
             return
         else:
-            await ctx.send("Spectre encountered an exception while talking to MS")
+            await ctx.send("Reaper encountered an exception while talking to MS")
             return
 
 

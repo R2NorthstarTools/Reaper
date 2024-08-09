@@ -9,8 +9,8 @@ class helpCommand(commands.Cog):
     @commands.hybrid_command(description="Display information for using the bot")
     async def help(self, ctx):
         helpembed = discord.Embed(
-            title="Spectre",
-            description="Spectre is a bot created by Cyn (aka cooldudepugs) with major help from H0L0. Its purpose is to try to automatically solve issues that users have.",
+            title="Reaper",
+            description="Reaper is a bot based on Spectre created by Cyn (aka cooldudepugs) with major help from H0L0. Its purpose is to try to automatically solve issues that users have.",
             color=0x6495ED,
         )
         helpembed.add_field(name="", value="\u200b")
