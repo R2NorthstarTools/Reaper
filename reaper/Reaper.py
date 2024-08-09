@@ -22,7 +22,9 @@ INTENTS = discord.Intents.default()
 INTENTS.message_content = True
 
 with open("config.toml", "rb") as file:
-    config = tomllib.load(file)["general"]
+    whole_config = tomllib.load(file)
+    config = whole_config["general"]
+    tokens = whole_config["tokens"]
 allowed_users = util.JsonHandler.load_allowed_users()
 
 # Config docs
@@ -104,8 +106,5 @@ async def setstatus(ctx, status: str):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
 
-with open("secrets.toml", "rb") as file:
-    secrets = tomllib.load(file)
-
 util.JsonHandler.init_json()
-bot.run(secrets["tokens"]["discord"])
+bot.run(tokens["discord"])

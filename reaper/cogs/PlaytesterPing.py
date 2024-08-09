@@ -4,11 +4,11 @@ import re
 import requests
 import tomllib
 
-with open("secrets.toml", "rb") as file:
-    secrets = tomllib.load(file)
+with open("config.toml", "rb") as file:
+    tokens = tomllib.load(file)["tokens"]
 
 url = "https://api.github.com/graphql"
-githubAccessToken = secrets["tokens"]["github"]
+githubAccessToken = tokens["github"]
 
 
 def getLatestDiscussion():
