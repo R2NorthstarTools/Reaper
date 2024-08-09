@@ -1,5 +1,4 @@
 import discord
-import os
 import util.JsonHandler
 from discord.ext import commands
 import tomllib
