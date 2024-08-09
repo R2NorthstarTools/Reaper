@@ -2,7 +2,7 @@ import discord
 import os
 import util.JsonHandler
 from discord.ext import commands
-from dotenv import load_dotenv
+import tomllib
 
 COGS = (
     "cogs.AutoResponse",
@@ -103,6 +103,8 @@ async def setstatus(ctx, status: str):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
 
-load_dotenv()
+with open("secrets.toml", "rb") as file:
+    secrets = tomllib.load(file)
+
 util.JsonHandler.init_json()
-bot.run(os.getenv("TOKEN"))
+bot.run(secrets["tokens"]["discord"])

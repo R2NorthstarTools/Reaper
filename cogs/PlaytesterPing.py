@@ -3,9 +3,13 @@ from discord.ext import commands
 import re
 import requests
 import os
+import tomllib
+
+with open("secrets.toml", "rb") as file:
+    secrets = tomllib.load(file)
 
 url = "https://api.github.com/graphql"
-githubAccessToken = os.getenv("githubAccessToken")
+githubAccessToken = secrets["tokens"]["github"]
 
 
 def getLatestDiscussion():
