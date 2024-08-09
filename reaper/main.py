@@ -4,19 +4,19 @@ from discord.ext import commands
 import tomllib
 
 COGS = (
-    "cogs.AllowedChannels",
-    "cogs.AllowedUsers",
-    "cogs.AutoResponse",
-    "cogs.GlobalReplies",
-    "cogs.HelpCommand",
-    "cogs.ImageResponse",
-    "cogs.InstallChannelEmbed",
-    "cogs.LogReading",
-    "cogs.MasterCheck",
-    "cogs.ModSearch",
-    "cogs.PlaytesterPing",
-    "cogs.PriceCheck",
-    "cogs.UserReplies",
+    "cogs.allowed_channels",
+    "cogs.allowed_users",
+    "cogs.auto_response",
+    "cogs.global_replies",
+    "cogs.help_command",
+    "cogs.image_response",
+    "cogs.install_channel_embed",
+    "cogs.log_reading",
+    "cogs.master_check",
+    "cogs.mod_search",
+    "cogs.playtester_ping",
+    "cogs.price_check",
+    "cogs.user_replies",
 )
 INTENTS = discord.Intents.default()
 INTENTS.message_content = True
@@ -106,5 +106,5 @@ async def setstatus(ctx, status: str):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
 
-util.JsonHandler.init_json()
+util.json_handler.init_json()
 bot.run(tokens["discord"])
