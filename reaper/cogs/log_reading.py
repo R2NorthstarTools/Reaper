@@ -142,430 +142,421 @@ class LogReading(commands.Cog):
         if message.author.bot:
             return
 
-        else:
+        if str(message.channel.id) in allowed_channels or str(
+            message.channel.name
+        ).startswith("ticket"):
+            if message.attachments:
+                filename = message.attachments[0].filename
+                if "nslog" in filename and filename.endswith(".txt"):
 
-            if str(message.channel.id) in allowed_channels or str(
-                message.channel.name
-            ).startswith("ticket"):
-                if message.attachments:
-                    filename = message.attachments[0].filename
-                    if "nslog" in filename and filename.endswith(".txt"):
+                    modsList.clear()
+                    modsListDisabled.clear()
+                    modsDisabledCore.clear()
 
-                        modsList.clear()
-                        modsListDisabled.clear()
-                        modsDisabledCore.clear()
+                    print("Found a log!")
+                    if os.path.exists("Logs") == False:
+                        os.mkdir("Logs")
 
-                        print("Found a log!")
-                        if os.path.exists("Logs") == False:
-                            os.mkdir("Logs")
+                    await message.attachments[0].save("Logs/nslogunparsed.txt")
+                    with open(r"Logs/nslogunparsed.txt", "r") as file:
+                        lines = file.readlines()
 
-                        await message.attachments[0].save("Logs/nslogunparsed.txt")
-                        with open(r"Logs/nslogunparsed.txt", "r") as file:
-                            lines = file.readlines()
+                        for line in lines:
+                            if "NorthstarLauncher version:" in line:
 
-                            for line in lines:
-                                if "NorthstarLauncher version:" in line:
-
-                                    verSplit = line.split("version:")[1]
-                                    if verSplit.strip() == "0.0.0.1+dev":
-                                        return
-                                    elif verSplit.strip() < versionCheck():
-                                        dmLog.add_field(
-                                            name="",
-                                            value=f"Version: {verSplit.strip()}",
-                                            inline=False,
-                                        )
-                                        problemFound = True
-                                        oldVersion = True
-
-                                # Check mods
-
-                                if "(DISABLED)" in line:
-                                    if (
-                                        "Northstar.Client" in line
-                                        or "Northtar.Custom" in line
-                                        or "Northstar.CustomServers" in line
-                                    ):
-                                        disabledCoreMod = True
-                                        modsDisabledCore.append(line.split("'")[1])
-                                    print(line.split("'")[1])
-                                    modsListDisabled.append(line.split("'")[1])
-
-                                if "blacklisted mod" in line:
-                                    modsListDisabled.append(
-                                        line.split('"')[1] + " (blacklisted)\n"
-                                    )
-
-                                if "Loading mod" in line:
-
-                                    if "R2Northstar" in line:
-                                        continue
-                                    else:
-                                        for mod in modsListDisabled:
-                                            if mod + "\n" in line:
-                                                continue
-                                            else:
-                                                modsList.append(
-                                                    line.split("Loading mod")[1]
-                                                )
-
-                                    # Check if HUD Revamp is installed: conflicts with Client Kill callback
-                                    if "HUD Revamp" in line:
-                                        dmLog.add_field(
-                                            name="",
-                                            value="HUD Revamp: True",
-                                            inline=False,
-                                        )
-                                        print("I found HUD Revamp!")
-                                        hud = True
-
-                                    # Check if Client Kill callback is installed: conflicts with HUD Revamp
-                                    if "ClientKillCallback" in line:
-                                        dmLog.add_field(
-                                            name="",
-                                            value="Client Kill Callback: True",
-                                            inline=False,
-                                        )
-                                        print("I found Client Kill Callback!")
-                                        problemFound = True
-                                        callback = True
-
-                                    # Check if the OLD, merged better server browser is loading. It's broken now and causes issues
-                                    if "Better.Serverbrowser" in line:
-                                        dmLog.add_field(
-                                            name="",
-                                            value="Better.Serverbrowser: True",
-                                            inline=False,
-                                        )
-                                        print("I found better server browser!")
-                                        problemFound = True
-                                        betterServerBrowser = True
-
-                                # Check for a compile error for missing Client Kill callback as a dependency, or when there's a conflict with it
-                                if (
-                                    'COMPILE ERROR expected ",", found identifier "inputParams"'
-                                    in line
-                                ):
+                                verSplit = line.split("version:")[1]
+                                if verSplit.strip() == "0.0.0.1+dev":
+                                    return
+                                elif verSplit.strip() < versionCheck():
                                     dmLog.add_field(
                                         name="",
-                                        value="Client kill callback compile error: True",
+                                        value=f"Version: {verSplit.strip()}",
                                         inline=False,
                                     )
-                                    print("I found a compile error!")
                                     problemFound = True
-                                    compileErrorClientKillCallback = True
+                                    oldVersion = True
 
+                            # Check mods
+
+                            if "(DISABLED)" in line:
                                 if (
-                                    'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"'
-                                    in line
+                                    "Northstar.Client" in line
+                                    or "Northtar.Custom" in line
+                                    or "Northstar.CustomServers" in line
                                 ):
-                                    dmLog.add_field(
-                                        name="",
-                                        value="Missing negativbild: True",
-                                        inline=False,
-                                    )
-                                    print("I found a person missing negativbild!")
-                                    problemFound = True
-                                    rgbError = True
+                                    disabledCoreMod = True
+                                    modsDisabledCore.append(line.split("'")[1])
+                                print(line.split("'")[1])
+                                modsListDisabled.append(line.split("'")[1])
 
-                                if (
-                                    'COMPILE ERROR Undefined variable "NS_InternalLoadFile"'
-                                    in line
-                                ):
-                                    dmLog.add_field(
-                                        name="",
-                                        value="Titan Framework issue: True",
-                                        inline=False,
-                                    )
-                                    print("I found a titan framework issue >:(")
-                                    problemFound = True
-                                    frameworkError = True
+                            if "blacklisted mod" in line:
+                                modsListDisabled.append(
+                                    line.split('"')[1] + " (blacklisted)\n"
+                                )
 
-                                # Check for audio replacements being loaded
-                                # If 2 seperate mods replacing the same audio are enabled at the same time the game fucking kills itself
-                                if "Finished async read of audio sample" in line:
+                            if "Loading mod" in line:
 
-                                    if "packages" in line:
-                                        # Split the string after "R2Northstar/mods" to keep the folder name onwards
-                                        a = line.split("R2Northstar\packages")[1]
-                                    if "R2Northstar\mods" in line:
-                                        a = line.split("R2Northstar\mods")[1]
-                                    # Split the previous split at "audio" to cleanly format as "FolderName, audioname"
-                                    # side note: why the fuck don't we use the mod name at all literally anywhere even when registering the audio fully
-                                    b = a.split("audio")
-                                    # Further clean up the last split
-                                    c = [item.split("\\")[1] for item in b]
-
-                                    # Add these to the audio list for checking for errors
-                                    audioList.append(c)
-
-                                if (
-                                    "[NORTHSTAR] [error] Northstar has crashed! a minidump has been written and exception info is available below:"
-                                    in line
-                                ):  # Checks for first line of the crash section of the log
-                                    checkLine = lines[
-                                        i - 2
-                                    ]  # Stores the previous line (right before the crash), we have to skip the version printout
-                                    crashCounter += 1
-                                    if (
-                                        crashCounter == 2
-                                    ):  # More than 1 crash, flip multiCrash to true. Only needs to happen once so check for equality
-                                        multiCrash = True
-                                    elif (
-                                        "LoadStreamPak" in checkLine
-                                        and crashCounter == 1
-                                    ):  # Check for paks being loaded right before crash, only search if one crash
-                                        modProblem = True
-                                        # Use regex to grab the name of the pak that probably failed
-                                        match = re.search(
-                                            r"LoadStreamPak: (\S+)", checkLine
-                                        )
-                                        global badStreamPakLoad
-                                        badStreamPakLoad = str(match.group(1))
-                                        problemFound = True
-
-                                        # this shit is so fucking gross oh my fucking god
-                                        # i am so sorry for what i did to your code tony
-                                        for lineAgain in lines:
-                                            if (
-                                                f"registered starpak '{badStreamPakLoad}'"
-                                                in lineAgain
-                                            ):
-
-                                                match = re.search(
-                                                    r"Mod\s+(.*?)\s+registered",
-                                                    lineAgain,
-                                                )
-                                                badStreamPakLoad = match.group(
-                                                    1
-                                                )  # Store problematic mod in global var
-
-                                        file.close()
-
-                                        with open(
-                                            r"Logs/nslogstarpaks.txt", "w"
-                                        ) as file1:
-                                            file1.write(
-                                                f"Bad streampak: {badStreamPakLoad}"
+                                if "R2Northstar" in line:
+                                    continue
+                                else:
+                                    for mod in modsListDisabled:
+                                        if mod + "\n" in line:
+                                            continue
+                                        else:
+                                            modsList.append(
+                                                line.split("Loading mod")[1]
                                             )
-                                            file1.close()
 
-                                        with open(
-                                            r"Logs/nslogstarpaks.txt", "r"
-                                        ) as file2:
-                                            lines = file2.readlines()
+                                # Check if HUD Revamp is installed: conflicts with Client Kill callback
+                                if "HUD Revamp" in line:
+                                    dmLog.add_field(
+                                        name="",
+                                        value="HUD Revamp: True",
+                                        inline=False,
+                                    )
+                                    print("I found HUD Revamp!")
+                                    hud = True
 
-                                            for i, line in enumerate(lines):
-                                                if "Bad streampak: " in line:
-                                                    badMod = line.split(
-                                                        "Bad streampak: "
-                                                    )[1]
+                                # Check if Client Kill callback is installed: conflicts with HUD Revamp
+                                if "ClientKillCallback" in line:
+                                    dmLog.add_field(
+                                        name="",
+                                        value="Client Kill Callback: True",
+                                        inline=False,
+                                    )
+                                    print("I found Client Kill Callback!")
+                                    problemFound = True
+                                    callback = True
 
-                                                    # Run back over the log to find what mod the pak is registered with
-                                                    if badMod == "Northstar.Custom":
-                                                        doubleBarrelCrash = True
-                                                    file2.close()
-                                                    break  # End the loop as it is no longer useful
+                                # Check if the OLD, merged better server browser is loading. It's broken now and causes issues
+                                if "Better.Serverbrowser" in line:
+                                    dmLog.add_field(
+                                        name="",
+                                        value="Better.Serverbrowser: True",
+                                        inline=False,
+                                    )
+                                    print("I found better server browser!")
+                                    problemFound = True
+                                    betterServerBrowser = True
 
-                        # Properly set up the list for actual checking
-                        d = list(set(tuple(audio) for audio in audioList))
+                            # Check for a compile error for missing Client Kill callback as a dependency, or when there's a conflict with it
+                            if (
+                                'COMPILE ERROR expected ",", found identifier "inputParams"'
+                                in line
+                            ):
+                                dmLog.add_field(
+                                    name="",
+                                    value="Client kill callback compile error: True",
+                                    inline=False,
+                                )
+                                print("I found a compile error!")
+                                problemFound = True
+                                compileErrorClientKillCallback = True
 
-                        # Set up a list for checking duplicates
-                        audio_duplicates_list = {}
+                            if (
+                                'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"'
+                                in line
+                            ):
+                                dmLog.add_field(
+                                    name="",
+                                    value="Missing negativbild: True",
+                                    inline=False,
+                                )
+                                print("I found a person missing negativbild!")
+                                problemFound = True
+                                rgbError = True
 
-                        for item in d:
-                            # Grab the audio replacement string (e.g. "player_killed_indicator") and add it to a list to check directly for conflicts
-                            audio_duplicate = item[1]
+                            if (
+                                'COMPILE ERROR Undefined variable "NS_InternalLoadFile"'
+                                in line
+                            ):
+                                dmLog.add_field(
+                                    name="",
+                                    value="Titan Framework issue: True",
+                                    inline=False,
+                                )
+                                print("I found a titan framework issue >:(")
+                                problemFound = True
+                                frameworkError = True
 
-                            # If the audio override already in the list, add the mod name to the list
-                            if audio_duplicate in audio_duplicates_list:
-                                audio_duplicates_list[audio_duplicate].append(item[0])
-                            else:
-                                audio_duplicates_list[audio_duplicate] = [item[0]]
+                            # Check for audio replacements being loaded
+                            # If 2 seperate mods replacing the same audio are enabled at the same time the game fucking kills itself
+                            if "Finished async read of audio sample" in line:
+
+                                if "packages" in line:
+                                    # Split the string after "R2Northstar/mods" to keep the folder name onwards
+                                    a = line.split("R2Northstar\packages")[1]
+                                if "R2Northstar\mods" in line:
+                                    a = line.split("R2Northstar\mods")[1]
+                                # Split the previous split at "audio" to cleanly format as "FolderName, audioname"
+                                # side note: why the fuck don't we use the mod name at all literally anywhere even when registering the audio fully
+                                b = a.split("audio")
+                                # Further clean up the last split
+                                c = [item.split("\\")[1] for item in b]
+
+                                # Add these to the audio list for checking for errors
+                                audioList.append(c)
+
+                            if (
+                                "[NORTHSTAR] [error] Northstar has crashed! a minidump has been written and exception info is available below:"
+                                in line
+                            ):  # Checks for first line of the crash section of the log
+                                checkLine = lines[
+                                    i - 2
+                                ]  # Stores the previous line (right before the crash), we have to skip the version printout
+                                crashCounter += 1
+                                if (
+                                    crashCounter == 2
+                                ):  # More than 1 crash, flip multiCrash to true. Only needs to happen once so check for equality
+                                    multiCrash = True
+                                elif (
+                                    "LoadStreamPak" in checkLine and crashCounter == 1
+                                ):  # Check for paks being loaded right before crash, only search if one crash
+                                    modProblem = True
+                                    # Use regex to grab the name of the pak that probably failed
+                                    match = re.search(
+                                        r"LoadStreamPak: (\S+)", checkLine
+                                    )
+                                    global badStreamPakLoad
+                                    badStreamPakLoad = str(match.group(1))
+                                    problemFound = True
+
+                                    # this shit is so fucking gross oh my fucking god
+                                    # i am so sorry for what i did to your code tony
+                                    for lineAgain in lines:
+                                        if (
+                                            f"registered starpak '{badStreamPakLoad}'"
+                                            in lineAgain
+                                        ):
+
+                                            match = re.search(
+                                                r"Mod\s+(.*?)\s+registered",
+                                                lineAgain,
+                                            )
+                                            badStreamPakLoad = match.group(
+                                                1
+                                            )  # Store problematic mod in global var
+
+                                    file.close()
+
+                                    with open(r"Logs/nslogstarpaks.txt", "w") as file1:
+                                        file1.write(
+                                            f"Bad streampak: {badStreamPakLoad}"
+                                        )
+                                        file1.close()
+
+                                    with open(r"Logs/nslogstarpaks.txt", "r") as file2:
+                                        lines = file2.readlines()
+
+                                        for i, line in enumerate(lines):
+                                            if "Bad streampak: " in line:
+                                                badMod = line.split("Bad streampak: ")[
+                                                    1
+                                                ]
+
+                                                # Run back over the log to find what mod the pak is registered with
+                                                if badMod == "Northstar.Custom":
+                                                    doubleBarrelCrash = True
+                                                file2.close()
+                                                break  # End the loop as it is no longer useful
+
+                    # Properly set up the list for actual checking
+                    d = list(set(tuple(audio) for audio in audioList))
+
+                    # Set up a list for checking duplicates
+                    audio_duplicates_list = {}
+
+                    for item in d:
+                        # Grab the audio replacement string (e.g. "player_killed_indicator") and add it to a list to check directly for conflicts
+                        audio_duplicate = item[1]
+
+                        # If the audio override already in the list, add the mod name to the list
+                        if audio_duplicate in audio_duplicates_list:
+                            audio_duplicates_list[audio_duplicate].append(item[0])
+                        else:
+                            audio_duplicates_list[audio_duplicate] = [item[0]]
+
+                    for audio_duplicate, names in audio_duplicates_list.items():
+                        if len(names) > 1:
+                            problemFound = True
+                            print(
+                                f"Found duplicates of {audio_duplicate}: {', '.join(names)}"
+                            )
+
+                    if problemFound == True:
+                        print("Found problems in the log! Replying...")
+                        await message.channel.typing()
+                        sleep(5)
+
+                        if disabledCoreMod == True:
+                            disabledCoreString = ""
+
+                            if len(modsDisabledCore) > 1:
+                                if len(modsDisabledCore) == 2:
+                                    for mod in modsDisabledCore:
+                                        disabledCoreString = disabledCoreString + mod
+
+                                problem.add_field(
+                                    name="Disabled core mods",
+                                    value=f"The core mods {disabledCoreString} are disabled! Please re-enable them using a mod manager or by deleting `Titanfall2/R2Northstar/enabledmods.json` (this only applies if trying to play Northstar. If you are playing vanilla via Northstar and encountering an issue, it is something else)",
+                                    inline=False,
+                                )
+
+                            elif len(modsDisabledCore) == 1:
+                                for mod in modsDisabledCore:
+                                    disabledCoreString = disabledCoreString + mod
+                                problem.add_field(
+                                    name="Disabled core mod",
+                                    value=f"The core mod {disabledCoreString} is disabled! Please re-enable it using a mod manager or by deleting `Titanfall2/R2Northstar/enabledmods.json` (this only applies if trying to play Northstar. If you are playing vanilla via Northstar and encountering an issue, it is something else)",
+                                    inline=False,
+                                )
+
+                        if (
+                            hud == True
+                            and callback == True
+                            and compileErrorClientKillCallback == True
+                        ):
+                            problem.add_field(
+                                name="",
+                                value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to delete/disable HUD Revamp.",
+                                inline=False,
+                            )
+
+                        else:
+
+                            if compileErrorClientKillCallback:
+                                problem.add_field(
+                                    name="Missing dependency!",
+                                    value="One or more mods you have may require the mod [Client killcallback](https://northstar.thunderstore.io/package/S2Mods/KraberPrimrose/) to work. Please install or update the mod via a mod manager or Thunderstore.",
+                                    inline=False,
+                                )
+
+                        if rgbError == True:
+                            problem.add_field(
+                                name="Missing dependency!",
+                                value="One or more mods you have may require the mod [Negativbild](https://northstar.thunderstore.io/package/odds/Negativbild/) to work. Please install or update this mod via a mod manager or Thundersore",
+                            )
+
+                        if frameworkError == True:
+                            problem.add_field(
+                                name="Titan Framework",
+                                value="Currently, Titan Framework expects a work in progress Northstar feature to function. As such, having it installed will cause issues (temporarily, until the feature is implemented), which uninstalling it will fix. You can temporarily make it work by manually installing the mod by moving the plugins inside the `plugins` folder of the mod into `r2northstar/plugins`, however this is a TEMPORARY fix, and you'll have to undo it when Northstar gets its next update.",
+                                inline=False,
+                            )
+
+                        if betterServerBrowser == True:
+                            problem.add_field(
+                                name="Better server browser",
+                                value='There are two mods called better server browser. The one called "Better.Serverbrowser" causes issues when installed, as it was added to Northstar a while ago. Removing it should fix that specific issue.',
+                            )
 
                         for audio_duplicate, names in audio_duplicates_list.items():
                             if len(names) > 1:
-                                problemFound = True
-                                print(
-                                    f"Found duplicates of {audio_duplicate}: {', '.join(names)}"
+                                audioProblem = True
+                                problem.add_field(
+                                    name="Audio replacement conflict",
+                                    value=f"The following mods replace the same audio (`{audio_duplicate}`):\n {', '.join(names)}",
+                                    inline=False,
+                                )
+                                dmLog.add_field(
+                                    name="Audio replacement conflict",
+                                    value=f"The following mods replace the same audio (`{audio_duplicate}`):\n {', '.join(names)}",
+                                    inline=False,
                                 )
 
-                        if problemFound == True:
-                            print("Found problems in the log! Replying...")
-                            await message.channel.typing()
-                            sleep(5)
+                        if oldVersion == True:
+                            problem.add_field(
+                                name="Older Version",
+                                value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {versionCheck()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
+                                inline=False,
+                            )
+                            problem.add_field(
+                                name="\u200b",
+                                value="If you've already updated and are still seeing this, please check if you have a file called `northstar.dll` in `titanfall2/R2Northstar`. If you do, delete it, and try launching again.",
+                                inline=False,
+                            )
 
-                            if disabledCoreMod == True:
-                                disabledCoreString = ""
+                        if audioProblem == True:
+                            problem.add_field(
+                                name="Fixing audio replacement conflicts",
+                                value="Please remove mods until only one of these audio mods are enabled. These names aren't perfect to what they are for the mod, however they are the file names for the mod, so you can just remove the folder matching the name from `Titanfall2/R2Northstar/mods`.",
+                                inline=False,
+                            )
 
-                                if len(modsDisabledCore) > 1:
-                                    if len(modsDisabledCore) == 2:
-                                        for mod in modsDisabledCore:
-                                            disabledCoreString = (
-                                                disabledCoreString + mod
-                                            )
+                        if modProblem == True:
+                            if doubleBarrelCrash == True:
 
-                                    problem.add_field(
-                                        name="Disabled core mods",
-                                        value=f"The core mods {disabledCoreString} are disabled! Please re-enable them using a mod manager or by deleting `Titanfall2/R2Northstar/enabledmods.json` (this only applies if trying to play Northstar. If you are playing vanilla via Northstar and encountering an issue, it is something else)",
-                                        inline=False,
-                                    )
-
-                                elif len(modsDisabledCore) == 1:
-                                    for mod in modsDisabledCore:
-                                        disabledCoreString = disabledCoreString + mod
-                                    problem.add_field(
-                                        name="Disabled core mod",
-                                        value=f"The core mod {disabledCoreString} is disabled! Please re-enable it using a mod manager or by deleting `Titanfall2/R2Northstar/enabledmods.json` (this only applies if trying to play Northstar. If you are playing vanilla via Northstar and encountering an issue, it is something else)",
-                                        inline=False,
-                                    )
-
-                            if (
-                                hud == True
-                                and callback == True
-                                and compileErrorClientKillCallback == True
-                            ):
                                 problem.add_field(
-                                    name="",
-                                    value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to delete/disable HUD Revamp.",
-                                    inline=False,
+                                    name="Mod crashing",
+                                    value="Northstar crashed right after loading the double barrel assets.\nPlease try deleting `w_shotgun_doublebarrel.mdl` from `Titanfall2/R2Northstar/mods/Northstar.Custom/mod/models/weapon/shotgun_doublebarrel`.\nDoing this will solve this specific crash, but will make you hold an error when trying to use the double barrel in game.",
                                 )
 
                             else:
 
-                                if compileErrorClientKillCallback:
-                                    problem.add_field(
-                                        name="Missing dependency!",
-                                        value="One or more mods you have may require the mod [Client killcallback](https://northstar.thunderstore.io/package/S2Mods/KraberPrimrose/) to work. Please install or update the mod via a mod manager or Thunderstore.",
-                                        inline=False,
-                                    )
-
-                            if rgbError == True:
                                 problem.add_field(
-                                    name="Missing dependency!",
-                                    value="One or more mods you have may require the mod [Negativbild](https://northstar.thunderstore.io/package/odds/Negativbild/) to work. Please install or update this mod via a mod manager or Thundersore",
+                                    name="Mod crashing",
+                                    value=f"Northstar crashed right after attempting to load as asset from the mod `{badMod}`. Please try removing/disabling this mod to see if this solves the issue.",
                                 )
 
-                            if frameworkError == True:
-                                problem.add_field(
-                                    name="Titan Framework",
-                                    value="Currently, Titan Framework expects a work in progress Northstar feature to function. As such, having it installed will cause issues (temporarily, until the feature is implemented), which uninstalling it will fix. You can temporarily make it work by manually installing the mod by moving the plugins inside the `plugins` folder of the mod into `r2northstar/plugins`, however this is a TEMPORARY fix, and you'll have to undo it when Northstar gets its next update.",
-                                    inline=False,
-                                )
+                        problem.add_field(
+                            name="",
+                            value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
+                            inline=False,
+                        )
+                        await message.channel.send(embed=problem, reference=message)
 
-                            if betterServerBrowser == True:
-                                problem.add_field(
-                                    name="Better server browser",
-                                    value='There are two mods called better server browser. The one called "Better.Serverbrowser" causes issues when installed, as it was added to Northstar a while ago. Removing it should fix that specific issue.',
-                                )
+                        dmme = await self.bot.fetch_user(self.bot.owner_id)
 
-                            for audio_duplicate, names in audio_duplicates_list.items():
-                                if len(names) > 1:
-                                    audioProblem = True
-                                    problem.add_field(
-                                        name="Audio replacement conflict",
-                                        value=f"The following mods replace the same audio (`{audio_duplicate}`):\n {', '.join(names)}",
-                                        inline=False,
-                                    )
-                                    dmLog.add_field(
-                                        name="Audio replacement conflict",
-                                        value=f"The following mods replace the same audio (`{audio_duplicate}`):\n {', '.join(names)}",
-                                        inline=False,
-                                    )
-
-                            if oldVersion == True:
-                                problem.add_field(
-                                    name="Older Version",
-                                    value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {versionCheck()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
-                                    inline=False,
-                                )
-                                problem.add_field(
-                                    name="\u200b",
-                                    value="If you've already updated and are still seeing this, please check if you have a file called `northstar.dll` in `titanfall2/R2Northstar`. If you do, delete it, and try launching again.",
-                                    inline=False,
-                                )
-
-                            if audioProblem == True:
-                                problem.add_field(
-                                    name="Fixing audio replacement conflicts",
-                                    value="Please remove mods until only one of these audio mods are enabled. These names aren't perfect to what they are for the mod, however they are the file names for the mod, so you can just remove the folder matching the name from `Titanfall2/R2Northstar/mods`.",
-                                    inline=False,
-                                )
-
-                            if modProblem == True:
-                                if doubleBarrelCrash == True:
-
-                                    problem.add_field(
-                                        name="Mod crashing",
-                                        value="Northstar crashed right after loading the double barrel assets.\nPlease try deleting `w_shotgun_doublebarrel.mdl` from `Titanfall2/R2Northstar/mods/Northstar.Custom/mod/models/weapon/shotgun_doublebarrel`.\nDoing this will solve this specific crash, but will make you hold an error when trying to use the double barrel in game.",
-                                    )
-
-                                else:
-
-                                    problem.add_field(
-                                        name="Mod crashing",
-                                        value=f"Northstar crashed right after attempting to load as asset from the mod `{badMod}`. Please try removing/disabling this mod to see if this solves the issue.",
-                                    )
-
+                        if len(problem.fields) > 0:
                             problem.add_field(
                                 name="",
                                 value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
                                 inline=False,
                             )
-                            await message.channel.send(embed=problem, reference=message)
-
-                            dmme = await self.bot.fetch_user(self.bot.owner_id)
-
-                            if len(problem.fields) > 0:
-                                problem.add_field(
-                                    name="",
-                                    value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
-                                    inline=False,
-                                )
-                                await message.channel.send(
-                                    embed=problem, reference=message, view=view
-                                )
-                                dmLog.add_field(
-                                    name="I found an issue in the log and replied!",
-                                    value=f"A link to their log can be found here: {message.jump_url}",
-                                )
-                                await dmme.send(embed=dmLog)
-                            else:
-                                await dmme.send(
-                                    f"I failed to respond to a log! The log can be found here: {message.jump_url}"
-                                )
-                                await message.channel.send(
-                                    "I failed to respond to the log properly!"
-                                )
-
-                            dmLog.clear_fields()
-
-                            audio_duplicates_list.clear()
-                            audioList.clear()
-                            problem.clear_fields()
-                            hud = False
-                            callback = False
-                            compileErrorClientKillCallback = False
-                            problemFound = False
-                            rgbError = False
-                            frameworkError = False
-                            betterServerBrowser = False
-                            oldVersion = False
-                            modProblem = False
-                            badMod = ""
-
-                        elif problemFound == False:
-                            dmme = await self.bot.fetch_user(self.bot.owner_id)
+                            await message.channel.send(
+                                embed=problem, reference=message, view=view
+                            )
                             dmLog.add_field(
-                                name="I didn't find any issues!",
-                                value=f"Here's a log you could potentially train from: {message.jump_url}",
+                                name="I found an issue in the log and replied!",
+                                value=f"A link to their log can be found here: {message.jump_url}",
                             )
                             await dmme.send(embed=dmLog)
-                            dmLog.clear_fields()
+                        else:
+                            await dmme.send(
+                                f"I failed to respond to a log! The log can be found here: {message.jump_url}"
+                            )
+                            await message.channel.send(
+                                "I failed to respond to the log properly!"
+                            )
 
-                            print("I didn't find any problems in the log!")
+                        dmLog.clear_fields()
 
-                        shutil.rmtree("Logs")
+                        audio_duplicates_list.clear()
+                        audioList.clear()
+                        problem.clear_fields()
+                        hud = False
+                        callback = False
+                        compileErrorClientKillCallback = False
+                        problemFound = False
+                        rgbError = False
+                        frameworkError = False
+                        betterServerBrowser = False
+                        oldVersion = False
+                        modProblem = False
+                        badMod = ""
+
+                    elif problemFound == False:
+                        dmme = await self.bot.fetch_user(self.bot.owner_id)
+                        dmLog.add_field(
+                            name="I didn't find any issues!",
+                            value=f"Here's a log you could potentially train from: {message.jump_url}",
+                        )
+                        await dmme.send(embed=dmLog)
+                        dmLog.clear_fields()
+
+                        print("I didn't find any problems in the log!")
+
+                    shutil.rmtree("Logs")
 
 
 async def setup(bot: commands.Bot) -> None:
