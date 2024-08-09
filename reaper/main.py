@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import tomllib
+import os
 from util import globals
 
 # Load config into global var
@@ -12,6 +13,8 @@ import util.json_handler
 
 allowed_users = util.json_handler.load_allowed_users()
 
+if not os.path.exists("data"):
+    os.makedirs("data")
 util.json_handler.init_json()
 
 COGS = (
