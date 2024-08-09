@@ -5,7 +5,6 @@ import util.json_handler, util.master_status
 from cogs.global_replies import replycheck
 import re
 import asyncio
-import tomllib
 from util import globals
 
 # Embed for automatically replying to potential questions about installing Northstar

@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import re
 import requests
-import tomllib
 from util import globals
 
 url = "https://api.github.com/graphql"
