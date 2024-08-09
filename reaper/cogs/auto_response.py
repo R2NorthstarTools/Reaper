@@ -1,7 +1,7 @@
 import datetime
 import discord
 from discord.ext import commands
-import util.JsonHandler, util.MasterStatus
+import util.json_handler, util.master_status
 from cogs.global_replies import replycheck
 import re
 import asyncio
@@ -88,9 +88,9 @@ class AutoResponse(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        users = util.JsonHandler.load_users()
-        neverusers = util.JsonHandler.load_neverusers()
-        enabledchannels = util.JsonHandler.load_channels()
+        users = util.json_handler.load_users()
+        neverusers = util.json_handler.load_neverusers()
+        enabledchannels = util.json_handler.load_channels()
         time_diff = (datetime.datetime.utcnow() - self.last_time).total_seconds()
 
         if not (
@@ -136,7 +136,7 @@ class AutoResponse(commands.Cog):
                     elif re.search(
                         "authentication.*failed", message.content.lower()
                     ) or re.search("cant.*join", message.content.lower()):
-                        if util.MasterStatus.IsMasterDown() == True:
+                        if util.master_status.IsMasterDown() == True:
                             await message.channel.send(
                                 reference=message, embed=msdownembed
                             )

@@ -1,5 +1,5 @@
 import discord
-import util.JsonHandler
+import util.json_handler
 from discord.ext import commands
 import tomllib
 
@@ -25,7 +25,7 @@ with open("config.toml", "rb") as file:
     whole_config = tomllib.load(file)
     config = whole_config["general"]
     tokens = whole_config["tokens"]
-allowed_users = util.JsonHandler.load_allowed_users()
+allowed_users = util.json_handler.load_allowed_users()
 
 # Config docs
 # [general]

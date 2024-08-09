@@ -1,10 +1,10 @@
 from discord.ext import commands
 from discord import app_commands
-import util.JsonHandler
+import util.json_handler
 import typing
 import discord
 
-allowed_users = util.JsonHandler.load_allowed_users()
+allowed_users = util.json_handler.load_allowed_users()
 
 
 class AllowedUsers(commands.Cog):
@@ -62,7 +62,7 @@ class AllowedUsers(commands.Cog):
                 await ctx.send(
                     "Please select either a user or a role to allow!", ephemeral=True
                 )
-                util.JsonHandler.save_allowed_users(allowed_users)
+                util.json_handler.save_allowed_users(allowed_users)
 
         else:
             await ctx.send(

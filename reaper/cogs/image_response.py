@@ -2,7 +2,7 @@ from PIL import Image
 import pytesseract
 from discord.ext import commands
 import re
-import util.JsonHandler
+import util.json_handler
 import os
 import discord
 
@@ -86,8 +86,8 @@ class imageStuff(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        channels = util.JsonHandler.load_channels()
-        users = util.JsonHandler.load_users()
+        channels = util.json_handler.load_channels()
+        users = util.json_handler.load_users()
 
         if str(message.author.id) in users:
             return

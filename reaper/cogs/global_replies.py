@@ -1,5 +1,5 @@
 import discord
-import util.JsonHandler
+import util.json_handler
 from discord.ext import commands
 
 
@@ -33,7 +33,7 @@ class GlobalReplies(commands.Cog):
         description="Globally enables Reaper replying to messages. Allowed users only."
     )
     async def toggleglobalreplies(self, ctx):
-        allowed_users = util.JsonHandler.load_allowed_users()
+        allowed_users = util.json_handler.load_allowed_users()
 
         if str(ctx.author.id) in allowed_users:
             global replies
@@ -55,9 +55,9 @@ class GlobalReplies(commands.Cog):
     # Displays the current status of replies across all servers
     @commands.hybrid_command(description="Displays if bot replies are on or off")
     async def replystatus(self, ctx):
-        users = util.JsonHandler.load_users()
-        neverusers = util.JsonHandler.load_neverusers()
-        allowedchannels = util.JsonHandler.load_channels()
+        users = util.json_handler.load_users()
+        neverusers = util.json_handler.load_neverusers()
+        allowedchannels = util.json_handler.load_channels()
 
         if replies == True:
             if str(ctx.author.id) in neverusers:

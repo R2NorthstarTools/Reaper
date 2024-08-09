@@ -1,5 +1,5 @@
 from discord.ext import commands
-import util.MasterStatus
+import util.master_status
 
 
 class MasterCheck(commands.Cog):
@@ -8,10 +8,10 @@ class MasterCheck(commands.Cog):
 
     @commands.hybrid_command(description="Check Northstar master server status")
     async def ms_status(self, ctx):
-        if util.MasterStatus.IsMasterDown() is True:
+        if util.master_status.IsMasterDown() is True:
             await ctx.send("Master server is likely **DOWN**")
             return
-        elif util.MasterStatus.IsMasterDown() is False:
+        elif util.master_status.IsMasterDown() is False:
             await ctx.send("Master server is **UP**")
             return
         else:

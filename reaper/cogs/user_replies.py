@@ -1,9 +1,9 @@
 import discord
-import util.JsonHandler
+import util.json_handler
 from discord.ext import commands
 from discord import app_commands
 
-allowed_users = util.JsonHandler.load_allowed_users()
+allowed_users = util.json_handler.load_allowed_users()
 
 
 class UserReplies(commands.Cog):
@@ -15,7 +15,7 @@ class UserReplies(commands.Cog):
         description="Toggles replies for the user who uses the command"
     )
     async def togglereplies(self, ctx):
-        data = util.JsonHandler.load_users()
+        data = util.json_handler.load_users()
 
         if str(ctx.author.id) in data:
             del data[str(ctx.author.id)]
@@ -31,7 +31,7 @@ class UserReplies(commands.Cog):
                 ephemeral=True,
             )
 
-        util.JsonHandler.save_users(data)
+        util.json_handler.save_users(data)
 
     # Disable a user's automatic replies if they're being naughty :D
     @commands.hybrid_command(
@@ -39,7 +39,7 @@ class UserReplies(commands.Cog):
     )
     @app_commands.describe(user="The user to disable reply toggling for")
     async def toggleuserreplies(self, ctx, user: discord.Member):
-        data = util.JsonHandler.load_neverusers()
+        data = util.json_handler.load_neverusers()
 
         if str(ctx.author.id) in allowed_users:
             if str(user.id) in data:
@@ -58,7 +58,7 @@ class UserReplies(commands.Cog):
                     ephemeral=True,
                 )
 
-            util.JsonHandler.save_neverusers(data)
+            util.json_handler.save_neverusers(data)
         else:
             await ctx.send(
                 "You don't have permission to use this command!", ephemeral=True

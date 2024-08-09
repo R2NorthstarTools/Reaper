@@ -1,4 +1,4 @@
-import util.JsonHandler
+import util.json_handler
 from discord.ext import commands
 
 
@@ -10,8 +10,8 @@ class AllowedChannels(commands.Cog):
         description="Enables automatic replies for the current channel. Allowed users only."
     )
     async def togglechannel(self, ctx):
-        allowed_users = util.JsonHandler.load_allowed_users()
-        data = util.JsonHandler.load_channels()
+        allowed_users = util.json_handler.load_allowed_users()
+        data = util.json_handler.load_channels()
 
         if str(ctx.author.id) in allowed_users:
             if str(ctx.channel.id) in data:
@@ -27,7 +27,7 @@ class AllowedChannels(commands.Cog):
                     "Successfully enabled automatic replies in this channel!"
                 )
 
-            util.JsonHandler.save_channels(data)
+            util.json_handler.save_channels(data)
         else:
             await ctx.send(
                 "You don't have permission to use this command", ephemeral=True

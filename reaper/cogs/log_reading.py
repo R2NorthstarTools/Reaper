@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import util.JsonHandler
+import util.json_handler
 from time import sleep
 import requests
 import shutil
@@ -138,7 +138,7 @@ class LogReading(commands.Cog):
 
         view = LogButtons()
 
-        allowed_channels = util.JsonHandler.load_channels()
+        allowed_channels = util.json_handler.load_channels()
         if message.author.bot:
             return
 
