@@ -4,13 +4,13 @@ from util import globals
 
 
 def init_json():
-    if os.path.isfile(noreplylist) == False:
+    if not os.path.isfile(noreplylist):
         new_json(noreplylist)
-    if os.path.isfile(allowedchannels) == False:
+    if not os.path.isfile(allowedchannels):
         new_json(allowedchannels)
-    if os.path.isfile(neverreplylist) == False:
+    if not os.path.isfile(neverreplylist):
         new_json(neverreplylist)
-    if os.path.isfile(allowedusers) == False:
+    if not os.path.isfile(allowedusers):
         new_json(allowedusers)
 
 
