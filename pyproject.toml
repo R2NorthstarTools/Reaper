@@ -2,7 +2,10 @@
 name = "reaper"
 version = "0.1.0"
 description = ""
-authors = ["Cyn <70904206+CooldudePUGS@users.noreply.github.com>"]
+authors = [
+    "Gecko <gecko.eidechse+git@pm.me>",
+    "Cyn <70904206+CooldudePUGS@users.noreply.github.com>",
+]
 license = "MIT"
 readme = "README.md"
 
