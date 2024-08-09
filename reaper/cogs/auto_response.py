@@ -2,7 +2,7 @@ import datetime
 import discord
 from discord.ext import commands
 import util.JsonHandler, util.MasterStatus
-from cogs.GlobalReplies import replycheck
+from cogs.global_replies import replycheck
 import re
 import asyncio
 import tomllib
