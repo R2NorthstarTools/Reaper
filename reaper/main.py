@@ -2,6 +2,7 @@ import discord
 import util.json_handler
 from discord.ext import commands
 import tomllib
+from util import globals
 
 COGS = (
     "cogs.allowed_channels",
@@ -22,9 +23,9 @@ INTENTS = discord.Intents.default()
 INTENTS.message_content = True
 
 with open("config.toml", "rb") as file:
-    whole_config = tomllib.load(file)
-    config = whole_config["general"]
-    tokens = whole_config["tokens"]
+    globals.config = tomllib.load(file)
+    config = globals.config["general"]
+    tokens = globals.config["tokens"]
 allowed_users = util.json_handler.load_allowed_users()
 
 # Config docs
