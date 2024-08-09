@@ -24,7 +24,7 @@ class AllowedUsers(commands.Cog):
 
         if ctx.author.id == self.bot.owner_id:
 
-            if user is not None and Role is not None:
+            if user is not None and role is not None:
                 await ctx.send(
                     "Please only select either a user or a role to allow!",
                     ephemeral=True,
