@@ -67,7 +67,7 @@ class PlayTesterPing(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         playtestPingChannel = self.bot.get_channel(globals.config["channels"]["playtesters-channel-id"])
-        thunderstoreReleaseChannel = self.bot.get_channel(939573786355859498)
+        thunderstoreReleaseChannel = self.bot.get_channel(globals.config["channels"]["thunderstore-releases-channel-id"])
 
         if message.author == self.bot.user:
             return
