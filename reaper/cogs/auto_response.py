@@ -6,6 +6,7 @@ from cogs.global_replies import replycheck
 import re
 import asyncio
 import tomllib
+from util import globals
 
 # Embed for automatically replying to potential questions about installing Northstar
 installing = discord.Embed(
@@ -168,7 +169,7 @@ class AutoResponse(commands.Cog):
                         )
                         print(f"Northstar mods installing embed reply sent")
 
-                if message.channel.id == 937922165163065384:
+                if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
                     # This is to check if the message is a "Person started a thread" message
                     if message.type != discord.MessageType.thread_created:
 
