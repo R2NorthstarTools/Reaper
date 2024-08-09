@@ -4,19 +4,19 @@ from discord.ext import commands
 import tomllib
 
 COGS = (
+    "cogs.AllowedChannels",
+    "cogs.AllowedUsers",
     "cogs.AutoResponse",
     "cogs.GlobalReplies",
-    "cogs.UserReplies",
-    "cogs.InstallChannelEmbed",
-    "cogs.AllowedChannels",
-    "cogs.LogReading",
-    "cogs.PriceCheck",
-    "cogs.AllowedUsers",
     "cogs.HelpCommand",
+    "cogs.ImageResponse",
+    "cogs.InstallChannelEmbed",
+    "cogs.LogReading",
     "cogs.MasterCheck",
     "cogs.ModSearch",
-    "cogs.ImageResponse",
     "cogs.PlaytesterPing",
+    "cogs.PriceCheck",
+    "cogs.UserReplies",
 )
 INTENTS = discord.Intents.default()
 INTENTS.message_content = True
