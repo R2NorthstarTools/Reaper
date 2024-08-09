@@ -24,6 +24,7 @@ COGS = (
     "cogs.master_check",
     "cogs.mod_search",
     "cogs.playtester_ping",
+    "cogs.playtester_ping_proxy",
     "cogs.price_check",
     "cogs.user_replies",
 )
