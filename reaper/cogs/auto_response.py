@@ -77,9 +77,6 @@ ea = discord.Embed(
     color=0x5D3FD3,
 )
 
-with open("config.toml", "rb") as file:
-    config = tomllib.load(file)["general"]
-
 
 class AutoResponse(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -95,7 +92,7 @@ class AutoResponse(commands.Cog):
         time_diff = (datetime.datetime.utcnow() - self.last_time).total_seconds()
 
         if not (
-            time_diff > config["cooldowntime"]
+            time_diff > globals.config["general"]["cooldowntime"]
             or message.channel.id != self.last_channel
         ):
             self.last_channel = message.channel.id
