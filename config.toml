@@ -6,3 +6,7 @@ noreplylist = "data/noreplyusers.json"
 neverreplylist = "data/neverreplyusers.json"
 allowedchannels = "data/allowedchannels.json"
 allowedusers = "data/allowedusers.json"
+
+[tokens]
+discord = "REPLACE-ME"
+github = ""
