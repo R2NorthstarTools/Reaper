@@ -12,6 +12,8 @@ import util.json_handler
 
 allowed_users = util.json_handler.load_allowed_users()
 
+util.json_handler.init_json()
+
 COGS = (
     "cogs.allowed_channels",
     "cogs.allowed_users",
@@ -111,5 +113,4 @@ async def setstatus(ctx, status: str):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
 
-util.json_handler.init_json()
 bot.run(tokens["discord"])
