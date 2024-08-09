@@ -5,6 +5,7 @@ import util.JsonHandler, util.MasterStatus
 from cogs.GlobalReplies import replycheck
 import re
 import asyncio
+import tomllib
 
 # Embed for automatically replying to potential questions about installing Northstar
 installing = discord.Embed(
@@ -75,7 +76,8 @@ ea = discord.Embed(
     color=0x5D3FD3,
 )
 
-config = util.JsonHandler.load_json("config.json")
+with open("config.toml", "rb") as file:
+    config = tomllib.load(file)["general"]
 
 
 class AutoResponse(commands.Cog):

@@ -21,18 +21,20 @@ COGS = (
 INTENTS = discord.Intents.default()
 INTENTS.message_content = True
 
-config = util.JsonHandler.load_json("config.json")
+with open("config.toml", "rb") as file:
+    config = tomllib.load(file)["general"]
 allowed_users = util.JsonHandler.load_allowed_users()
 
 # Config docs
-# {
-#     "admin": <admin id>,
-#     "cooldowntime": <cooldown seconds>,
-#     "noreplylist": <name of list.json>,
-#     "neverreplylist": <name of neverreplylist.json>
-#     "allowedchannels": <name of list.json>
-#     "allowedusers": <name of alloweduserslist.json>
-# }
+# [general]
+# "admin": <admin id>
+# "prefix": "$"
+# "cooldowntime": <cooldown seconds>
+# "noreplylist": <name of list.json>
+# "neverreplylist": <name of neverreplylist.json>
+# "allowedchannels": <name of list.json>
+# "allowedusers": <name of alloweduserslist.json>
+#
 
 bot = commands.Bot(
     intents=INTENTS, command_prefix=config["prefix"], owner_id=config["admin"]
