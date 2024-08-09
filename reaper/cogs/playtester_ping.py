@@ -66,8 +66,8 @@ class PlayTesterPing(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        playtestPingChannel = self.bot.get_channel(936678773150081055)
-        thunderstoreReleaseChannel = self.bot.get_channel(939573786355859498)
+        playtestPingChannel = self.bot.get_channel(globals.config["channels"]["report-users-channel-id"])
+        thunderstoreReleaseChannel = self.bot.get_channel(globals.config["channels"]["report-users-channel-id"])
 
         if message.author == self.bot.user:
             return
@@ -105,6 +105,28 @@ Make sure your release channel is still set to `Northstar release candidate`, an
                     embed=embed,
                 )
                 await pingMessage.create_thread(name=rcVersion)
+
+    @commands.hybrid_command()
+    async def pingplaytesters(self, ctx):
+        playtestPingChannel = self.bot.get_channel(globals.config["channels"]["report-users-channel-id"])
+        playtester_role = None
+
+        authorized = False
+        for role in ctx.author.roles:
+            if role.name == "Contributor" or role.name == "Modder": # there's a better way of doing this by adding a decorator but this works for now since it's the only command that checks for this
+                authorized = True
+                
+        for role in ctx.guild.roles:
+            if role.name == "Playtester":
+                playtester_role = role
+        
+        if not playtester_role:
+            return await ctx.send("Could not find playtester role. Does it exist?")
+
+        if authorized:
+            await playtestPingChannel.send(playtester_role.mention)
+        else:
+            await ctx.send("You don't have permission to use this command!")
 
 
 async def setup(bot: commands.Bot) -> None:

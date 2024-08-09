@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import tomllib
+import os
 from util import globals
 
 # Load config into global var
@@ -10,6 +11,10 @@ with open("config.toml", "rb") as file:
     tokens = globals.config["tokens"]
 import util.json_handler
 
+if not os.path.exists("data"):
+    os.makedirs("data")
+
+util.json_handler.init_json()
 allowed_users = util.json_handler.load_allowed_users()
 
 COGS = (
@@ -110,5 +115,4 @@ async def setstatus(ctx, status: str):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
 
-util.json_handler.init_json()
 bot.run(tokens["discord"])
