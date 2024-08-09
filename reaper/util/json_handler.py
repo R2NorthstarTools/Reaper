@@ -1,6 +1,7 @@
 import json
 import os
 import tomllib
+from util import globals
 
 
 def init_json():
@@ -66,9 +67,7 @@ def load_allowed_users():
     return load_json(allowedusers)
 
 
-with open("config.toml", "rb") as file:
-    config = tomllib.load(file)["general"]
-noreplylist = config["noreplylist"]
-neverreplylist = config["neverreplylist"]
-allowedchannels = config["allowedchannels"]
-allowedusers = config["allowedusers"]
+noreplylist = globals.config["general"]["noreplylist"]
+neverreplylist = globals.config["general"]["neverreplylist"]
+allowedchannels = globals.config["general"]["allowedchannels"]
+allowedusers = globals.config["general"]["allowedusers"]
