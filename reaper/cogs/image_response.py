@@ -6,13 +6,16 @@ import util.json_handler
 import os
 import discord
 
+
+information_message = "Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn"
+
 vanillaPlus = discord.Embed(
     description="If you're using VanillaPlus, please make sure to read the instructions [on the mod page](https://northstar.thunderstore.io/package/NanohmProtogen/VanillaPlus/) (if you're updating from an older version, the steps have changed, so please read it again)\n\nIf you AREN'T using VanillaPlus, make sure you didn't disable any core mods. You can see if they're enabled or disabled in `R2Northstar/enabledmods.json`. Either change `false` to `true` on disabled core mods, or delete `enabledmods.json` and ALL mods will automatically enable",
     color=0x5D3FD3,
 )
 vanillaPlus.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 operationNotPermitted = discord.Embed(
@@ -21,7 +24,7 @@ operationNotPermitted = discord.Embed(
 )
 operationNotPermitted.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 modFailedSanity = discord.Embed(
@@ -30,7 +33,7 @@ modFailedSanity = discord.Embed(
 )
 modFailedSanity.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 logFile = discord.Embed(
@@ -39,7 +42,7 @@ logFile = discord.Embed(
 )
 logFile.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 msvcp = discord.Embed(
@@ -48,7 +51,7 @@ msvcp = discord.Embed(
 )
 msvcp.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 playeraccount = discord.Embed(
@@ -57,7 +60,7 @@ playeraccount = discord.Embed(
 )
 playeraccount.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 originOffline = discord.Embed(
@@ -66,7 +69,7 @@ originOffline = discord.Embed(
 )
 originOffline.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 scriptComp = discord.Embed(
@@ -75,7 +78,7 @@ scriptComp = discord.Embed(
 )
 scriptComp.add_field(
     name="",
-    value="Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @Cyn",
+    value=information_message,
 )
 
 
