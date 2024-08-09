@@ -166,7 +166,10 @@ class AutoResponse(commands.Cog):
                         )
                         print(f"Northstar mods installing embed reply sent")
 
-                if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
+                if (
+                    message.channel.id
+                    == globals.config["channels"]["report-users-channel-id"]
+                ):
                     # This is to check if the message is a "Person started a thread" message
                     if message.type != discord.MessageType.thread_created:
 
