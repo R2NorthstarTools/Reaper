@@ -38,12 +38,12 @@ class GlobalReplies(commands.Cog):
         if str(ctx.author.id) in allowed_users:
             global replies
 
-            if replies == False:
+            if not replies:
                 replies = True
                 await ctx.send(embed=replieson)
                 print(f"Automatic bot replies are enabled")
 
-            elif replies == True:
+            elif not replies:
                 replies = False
                 await ctx.send(embed=repliesoff)
                 print(f"Automatic bot replies are disabled")
@@ -59,7 +59,7 @@ class GlobalReplies(commands.Cog):
         neverusers = util.json_handler.load_neverusers()
         allowedchannels = util.json_handler.load_channels()
 
-        if replies == True:
+        if replies:
             if str(ctx.author.id) in neverusers:
                 replystatusenabled.add_field(
                     name=f"{ctx.author.display_name}'s ability to control replies:",
@@ -79,7 +79,7 @@ class GlobalReplies(commands.Cog):
             await ctx.send(embed=replystatusenabled, ephemeral=True)
             replystatusenabled.clear_fields()
 
-        elif replies == False:
+        elif replies:
             if str(ctx.author.id) in neverusers:
                 replystatusdisabled.add_field(
                     name=f"{ctx.author.display_name}'s ability to control replies:",

@@ -99,7 +99,7 @@ class AutoResponse(commands.Cog):
             print(f"Tried to send message while on cooldown! Didn't send message!")
             return
         else:
-            if replycheck() == True:
+            if replycheck():
                 if str(message.author.id) in users:
                     return
 
@@ -134,7 +134,7 @@ class AutoResponse(commands.Cog):
                     elif re.search(
                         "authentication.*failed", message.content.lower()
                     ) or re.search("cant.*join", message.content.lower()):
-                        if util.master_status.IsMasterDown() == True:
+                        if util.master_status.IsMasterDown():
                             await message.channel.send(
                                 reference=message, embed=msdownembed
                             )
