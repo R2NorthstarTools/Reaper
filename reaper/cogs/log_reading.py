@@ -161,7 +161,7 @@ class LogReading(commands.Cog):
                     with open(r"Logs/nslogunparsed.txt", "r") as file:
                         lines = file.readlines()
 
-                        for line in lines:
+                        for i, line in enumerate(lines):
                             if "NorthstarLauncher version:" in line:
 
                                 verSplit = line.split("version:")[1]
@@ -296,22 +296,19 @@ class LogReading(commands.Cog):
 
                                 # Add these to the audio list for checking for errors
                                 audioList.append(c)
-
+                            # Checks for first line of the crash section of the log
                             if (
                                 "[NORTHSTAR] [error] Northstar has crashed! a minidump has been written and exception info is available below:"
                                 in line
-                            ):  # Checks for first line of the crash section of the log
-                                checkLine = lines[
-                                    i - 2
-                                ]  # Stores the previous line (right before the crash), we have to skip the version printout
+                            ):
+                                # Stores the previous line (right before the crash), we have to skip the version printout
+                                checkLine = lines[i - 2]
                                 crashCounter += 1
-                                if (
-                                    crashCounter == 2
-                                ):  # More than 1 crash, flip multiCrash to true. Only needs to happen once so check for equality
-                                    multiCrash = True
-                                elif (
-                                    "LoadStreamPak" in checkLine and crashCounter == 1
-                                ):  # Check for paks being loaded right before crash, only search if one crash
+                                # More than 1 crash, flip multiCrash to true. Only needs to happen once so check for equality
+                                # if crashCounter == 2:
+                                #     multiCrash = True
+                                # Check for paks being loaded right before crash, only search if one crash
+                                if "LoadStreamPak" in checkLine and crashCounter == 1:
                                     modProblem = True
                                     # Use regex to grab the name of the pak that probably failed
                                     match = re.search(
