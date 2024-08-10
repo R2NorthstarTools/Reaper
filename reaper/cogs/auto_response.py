@@ -80,7 +80,7 @@ ea = discord.Embed(
 class AutoResponse(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.last_time = datetime.datetime.utcfromtimestamp(0)
+        self.last_time = datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc)
         self.last_channel = 0
 
     @commands.Cog.listener()
@@ -88,7 +88,9 @@ class AutoResponse(commands.Cog):
         users = util.json_handler.load_users()
         neverusers = util.json_handler.load_neverusers()
         enabledchannels = util.json_handler.load_channels()
-        time_diff = (datetime.datetime.utcnow() - self.last_time).total_seconds()
+        time_diff = (
+            datetime.datetime.now(datetime.timezone.utc) - self.last_time
+        ).total_seconds()
 
         if not (
             time_diff > globals.config["general"]["cooldowntime"]
