@@ -154,14 +154,14 @@ class LogReading(commands.Cog):
                     modsDisabledCore.clear()
 
                     print("Found a log!")
-                    if os.path.exists("Logs") == False:
+                    if not os.path.exists("Logs"):
                         os.mkdir("Logs")
 
                     await message.attachments[0].save("Logs/nslogunparsed.txt")
                     with open(r"Logs/nslogunparsed.txt", "r") as file:
                         lines = file.readlines()
 
-                        for line in lines:
+                        for i, line in enumerate(lines):
                             if "NorthstarLauncher version:" in line:
 
                                 verSplit = line.split("version:")[1]
@@ -296,22 +296,19 @@ class LogReading(commands.Cog):
 
                                 # Add these to the audio list for checking for errors
                                 audioList.append(c)
-
+                            # Checks for first line of the crash section of the log
                             if (
                                 "[NORTHSTAR] [error] Northstar has crashed! a minidump has been written and exception info is available below:"
                                 in line
-                            ):  # Checks for first line of the crash section of the log
-                                checkLine = lines[
-                                    i - 2
-                                ]  # Stores the previous line (right before the crash), we have to skip the version printout
+                            ):
+                                # Stores the previous line (right before the crash), we have to skip the version printout
+                                checkLine = lines[i - 2]
                                 crashCounter += 1
-                                if (
-                                    crashCounter == 2
-                                ):  # More than 1 crash, flip multiCrash to true. Only needs to happen once so check for equality
-                                    multiCrash = True
-                                elif (
-                                    "LoadStreamPak" in checkLine and crashCounter == 1
-                                ):  # Check for paks being loaded right before crash, only search if one crash
+                                # More than 1 crash, flip multiCrash to true. Only needs to happen once so check for equality
+                                # if crashCounter == 2:
+                                #     multiCrash = True
+                                # Check for paks being loaded right before crash, only search if one crash
+                                if "LoadStreamPak" in checkLine and crashCounter == 1:
                                     modProblem = True
                                     # Use regex to grab the name of the pak that probably failed
                                     match = re.search(
@@ -383,12 +380,12 @@ class LogReading(commands.Cog):
                                 f"Found duplicates of {audio_duplicate}: {', '.join(names)}"
                             )
 
-                    if problemFound == True:
+                    if problemFound:
                         print("Found problems in the log! Replying...")
                         await message.channel.typing()
                         sleep(5)
 
-                        if disabledCoreMod == True:
+                        if disabledCoreMod:
                             disabledCoreString = ""
 
                             if len(modsDisabledCore) > 1:
@@ -411,11 +408,7 @@ class LogReading(commands.Cog):
                                     inline=False,
                                 )
 
-                        if (
-                            hud == True
-                            and callback == True
-                            and compileErrorClientKillCallback == True
-                        ):
+                        if hud and callback and compileErrorClientKillCallback:
                             problem.add_field(
                                 name="",
                                 value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to delete/disable HUD Revamp.",
@@ -431,20 +424,20 @@ class LogReading(commands.Cog):
                                     inline=False,
                                 )
 
-                        if rgbError == True:
+                        if rgbError:
                             problem.add_field(
                                 name="Missing dependency!",
                                 value="One or more mods you have may require the mod [Negativbild](https://northstar.thunderstore.io/package/odds/Negativbild/) to work. Please install or update this mod via a mod manager or Thundersore",
                             )
 
-                        if frameworkError == True:
+                        if frameworkError:
                             problem.add_field(
                                 name="Titan Framework",
                                 value="Currently, Titan Framework expects a work in progress Northstar feature to function. As such, having it installed will cause issues (temporarily, until the feature is implemented), which uninstalling it will fix. You can temporarily make it work by manually installing the mod by moving the plugins inside the `plugins` folder of the mod into `r2northstar/plugins`, however this is a TEMPORARY fix, and you'll have to undo it when Northstar gets its next update.",
                                 inline=False,
                             )
 
-                        if betterServerBrowser == True:
+                        if betterServerBrowser:
                             problem.add_field(
                                 name="Better server browser",
                                 value='There are two mods called better server browser. The one called "Better.Serverbrowser" causes issues when installed, as it was added to Northstar a while ago. Removing it should fix that specific issue.',
@@ -464,7 +457,7 @@ class LogReading(commands.Cog):
                                     inline=False,
                                 )
 
-                        if oldVersion == True:
+                        if oldVersion:
                             problem.add_field(
                                 name="Older Version",
                                 value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {versionCheck()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
@@ -476,15 +469,15 @@ class LogReading(commands.Cog):
                                 inline=False,
                             )
 
-                        if audioProblem == True:
+                        if audioProblem:
                             problem.add_field(
                                 name="Fixing audio replacement conflicts",
                                 value="Please remove mods until only one of these audio mods are enabled. These names aren't perfect to what they are for the mod, however they are the file names for the mod, so you can just remove the folder matching the name from `Titanfall2/R2Northstar/mods`.",
                                 inline=False,
                             )
 
-                        if modProblem == True:
-                            if doubleBarrelCrash == True:
+                        if modProblem:
+                            if doubleBarrelCrash:
 
                                 problem.add_field(
                                     name="Mod crashing",
@@ -545,7 +538,7 @@ class LogReading(commands.Cog):
                         modProblem = False
                         badMod = ""
 
-                    elif problemFound == False:
+                    elif not problemFound:
                         dmme = await self.bot.fetch_user(self.bot.owner_id)
                         dmLog.add_field(
                             name="I didn't find any issues!",
