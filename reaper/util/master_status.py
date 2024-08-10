@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 import requests
 
 NS_MASTER_SERVER_URL = "https://northstar.tf/client/servers"
@@ -11,5 +15,5 @@ def IsMasterDown():
         else:
             return True
     except requests.exceptions.RequestException as err:
-        print(f"Encountered exception while requesting MS: {err}")
+        logger.warn(f"Encountered exception while requesting MS: {err}")
         return None

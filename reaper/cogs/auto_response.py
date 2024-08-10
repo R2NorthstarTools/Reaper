@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 import datetime
 import discord
 from discord.ext import commands
@@ -97,7 +101,9 @@ class AutoResponse(commands.Cog):
             or message.channel.id != self.last_channel
         ):
             self.last_channel = message.channel.id
-            print("Tried to send message while on cooldown! Didn't send message!")
+            logger.warn(
+                "Tried to send message while on cooldown! Didn't send message!"
+            )
             return
         else:
             if replycheck():
@@ -118,11 +124,11 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             reference=message, embed=playeraccount
                         )
-                        print("Couldn't find player account embed reply sent")
+                        logger.info("Couldn't find player account embed reply sent")
 
                     elif re.search("failed.creating log file", message.content.lower()):
                         await message.channel.send(reference=message, embed=ea)
-                        print("Default EA App directory embed reply sent")
+                        logger.info("Default EA App directory embed reply sent")
 
                     elif re.search(
                         "controller.not.working", message.content.lower()
@@ -130,7 +136,7 @@ class AutoResponse(commands.Cog):
                         "can.i.use.controller.*northstar", message.content.lower()
                     ):
                         await message.channel.send(reference=message, embed=controller)
-                        print("Controller embed reply sent")
+                        logger.info("Controller embed reply sent")
 
                     elif re.search(
                         "authentication.*failed", message.content.lower()
@@ -148,13 +154,13 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             reference=message, embed=uninstalling
                         )
-                        print("Installing Northstar embed reply sent")
+                        logger.info("Installing Northstar embed reply sent")
 
                     elif re.search("how|help", message.content.lower()) and re.search(
                         "install.northstar", message.content.lower()
                     ):
                         await message.channel.send(reference=message, embed=installing)
-                        print("Uninstalling Northstar embed reply sent")
+                        logger.info("Uninstalling Northstar embed reply sent")
 
                     elif (
                         re.search("help|how", message.content.lower())
@@ -165,7 +171,7 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
                         )
-                        print("Northstar mods installing embed reply sent")
+                        logger.info("Northstar mods installing embed reply sent")
 
                 if (
                     message.channel.id

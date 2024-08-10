@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 import discord
 from discord.ext import commands
 import util.json_handler
@@ -28,11 +32,11 @@ def versionCheck():
         if gh_api_response.status_code == 200:
             gh_data = gh_api_response.json()
         else:
-            print(
+            logger.warn(
                 f"Error code when retrieving GitHub API: {gh_api_response.status_code}"
             )
     except requests.exceptions.RequestException as err:
-        print(f"GitHub API request failed: {err}")
+        logger.warn(f"GitHub API request failed: {err}")
         return None
 
     ns_current_version = gh_data["name"][
@@ -153,7 +157,7 @@ class LogReading(commands.Cog):
                     modsListDisabled.clear()
                     modsDisabledCore.clear()
 
-                    print("Found a log!")
+                    logger.info("Found a log!")
                     if not os.path.exists("Logs"):
                         os.mkdir("Logs")
 
@@ -186,7 +190,7 @@ class LogReading(commands.Cog):
                                 ):
                                     disabledCoreMod = True
                                     modsDisabledCore.append(line.split("'")[1])
-                                print(line.split("'")[1])
+                                logger.info(line.split("'")[1])
                                 modsListDisabled.append(line.split("'")[1])
 
                             if "blacklisted mod" in line:
@@ -214,7 +218,7 @@ class LogReading(commands.Cog):
                                         value="HUD Revamp: True",
                                         inline=False,
                                     )
-                                    print("I found HUD Revamp!")
+                                    logger.info("I found HUD Revamp!")
                                     hud = True
 
                                 # Check if Client Kill callback is installed: conflicts with HUD Revamp
@@ -224,7 +228,7 @@ class LogReading(commands.Cog):
                                         value="Client Kill Callback: True",
                                         inline=False,
                                     )
-                                    print("I found Client Kill Callback!")
+                                    logger.info("I found Client Kill Callback!")
                                     problemFound = True
                                     callback = True
 
@@ -235,7 +239,7 @@ class LogReading(commands.Cog):
                                         value="Better.Serverbrowser: True",
                                         inline=False,
                                     )
-                                    print("I found better server browser!")
+                                    logger.info("I found better server browser!")
                                     problemFound = True
                                     betterServerBrowser = True
 
@@ -249,7 +253,7 @@ class LogReading(commands.Cog):
                                     value="Client kill callback compile error: True",
                                     inline=False,
                                 )
-                                print("I found a compile error!")
+                                logger.info("I found a compile error!")
                                 problemFound = True
                                 compileErrorClientKillCallback = True
 
@@ -262,7 +266,7 @@ class LogReading(commands.Cog):
                                     value="Missing negativbild: True",
                                     inline=False,
                                 )
-                                print("I found a person missing negativbild!")
+                                logger.info("I found a person missing negativbild!")
                                 problemFound = True
                                 rgbError = True
 
@@ -275,7 +279,7 @@ class LogReading(commands.Cog):
                                     value="Titan Framework issue: True",
                                     inline=False,
                                 )
-                                print("I found a titan framework issue >:(")
+                                logger.info("I found a titan framework issue >:(")
                                 problemFound = True
                                 frameworkError = True
 
@@ -376,12 +380,12 @@ class LogReading(commands.Cog):
                     for audio_duplicate, names in audio_duplicates_list.items():
                         if len(names) > 1:
                             problemFound = True
-                            print(
+                            logger.info(
                                 f"Found duplicates of {audio_duplicate}: {', '.join(names)}"
                             )
 
                     if problemFound:
-                        print("Found problems in the log! Replying...")
+                        logger.info("Found problems in the log! Replying...")
                         await message.channel.typing()
                         sleep(5)
 
@@ -547,7 +551,7 @@ class LogReading(commands.Cog):
                         await dmme.send(embed=dmLog)
                         dmLog.clear_fields()
 
-                        print("I didn't find any problems in the log!")
+                        logger.info("I didn't find any problems in the log!")
 
                     shutil.rmtree("Logs")
 

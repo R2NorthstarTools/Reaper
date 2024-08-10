@@ -1,3 +1,11 @@
+import logging
+import coloredlogs
+
+logger = logging.getLogger(__name__)
+coloredlogs.install(
+    level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 import discord
 from discord.ext import commands
 import os
@@ -80,7 +88,7 @@ async def sync(ctx):
 
     if str(ctx.author.id) in allowed_users or ctx.author.id == bot.owner_id:
         await bot.tree.sync()
-        print("Commands synced successfully!")
+        logger.info("Commands synced successfully!")
         await ctx.send("Commands synced successfully!")
     else:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
@@ -95,7 +103,7 @@ async def reload(ctx):
     if str(ctx.author.id) in allowed_users:
         for cog in COGS:
             await bot.reload_extension(cog)
-        print("Reloaded cogs successfully!")
+        logger.info("Reloaded cogs successfully!")
         await ctx.send("Reloaded cogs succesfully!", ephemeral=True)
     else:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
@@ -116,4 +124,5 @@ async def setstatus(ctx, status: str):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
 
+logger.info("Starting bot")
 bot.run(tokens["discord"])

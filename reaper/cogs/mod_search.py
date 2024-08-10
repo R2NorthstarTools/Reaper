@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 from discord.ext import commands
 import requests
 import re
@@ -83,7 +87,7 @@ class ModSearch(commands.Cog):
                 data = response.json()
 
         except requests.exceptions.RequestException as err:
-            print(err)
+            logger.warn(err)
             return
 
         mods = {}

@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 from PIL import Image
 import pytesseract
 from discord.ext import commands
@@ -107,7 +111,7 @@ class imageStuff(commands.Cog):
 
                 image = Image.open("image.png")
                 text = pytesseract.image_to_string(image)
-                print(text)
+                logger.info(text)
 
                 if re.search(
                     "encountered.client.script.compilation.error", text.lower()
