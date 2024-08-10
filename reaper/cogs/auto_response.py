@@ -171,7 +171,7 @@ class AutoResponse(commands.Cog):
                 ):
                     # This is to check if the message is a "Person started a thread" message
                     if message.type != discord.MessageType.thread_created:
-                        
+
                         # There was a note here explaining the need for a sleep between each reaction add.
                         # However, this works perfectly fine, and I have had another bot on the same library
                         # do this with 10 emotes in a list work perfectly 100% of the time
