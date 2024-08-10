@@ -5,3 +5,4 @@ cogs/__pycache__
 data/
 Logs/
 __pycache__/
+config.toml
