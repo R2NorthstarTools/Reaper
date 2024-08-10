@@ -1,6 +1,8 @@
 from discord.ext import commands
-import requests, re
-import discord, asyncio
+import requests
+import re
+import discord
+import asyncio
 from discord import app_commands
 from typing import Optional
 
