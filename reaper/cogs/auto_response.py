@@ -101,9 +101,7 @@ class AutoResponse(commands.Cog):
             or message.channel.id != self.last_channel
         ):
             self.last_channel = message.channel.id
-            logger.warn(
-                "Tried to send message while on cooldown! Didn't send message!"
-            )
+            logger.warn("Tried to send message while on cooldown! Didn't send message!")
             return
         else:
             if replycheck():
