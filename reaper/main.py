@@ -10,7 +10,7 @@ import discord
 from discord.ext import commands
 import os
 import tomllib
-from util import globals   
+from util import globals
 
 # Load config into global var
 with open("config.toml", "rb") as file:
