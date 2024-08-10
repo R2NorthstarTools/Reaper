@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-import tomllib
 import os
+import tomllib
 from util import globals
 
 # Load config into global var
