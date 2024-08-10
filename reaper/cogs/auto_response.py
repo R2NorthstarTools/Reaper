@@ -96,7 +96,7 @@ class AutoResponse(commands.Cog):
             or message.channel.id != self.last_channel
         ):
             self.last_channel = message.channel.id
-            print(f"Tried to send message while on cooldown! Didn't send message!")
+            print("Tried to send message while on cooldown! Didn't send message!")
             return
         else:
             if replycheck():
@@ -117,7 +117,7 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             reference=message, embed=playeraccount
                         )
-                        print(f"Couldn't find player account embed reply sent")
+                        print("Couldn't find player account embed reply sent")
 
                     elif re.search("failed.creating log file", message.content.lower()):
                         await message.channel.send(reference=message, embed=ea)
@@ -147,13 +147,13 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             reference=message, embed=uninstalling
                         )
-                        print(f"Installing Northstar embed reply sent")
+                        print("Installing Northstar embed reply sent")
 
                     elif re.search("how|help", message.content.lower()) and re.search(
                         "install.northstar", message.content.lower()
                     ):
                         await message.channel.send(reference=message, embed=installing)
-                        print(f"Uninstalling Northstar embed reply sent")
+                        print("Uninstalling Northstar embed reply sent")
 
                     elif (
                         re.search("help|how", message.content.lower())
@@ -164,7 +164,7 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
                         )
-                        print(f"Northstar mods installing embed reply sent")
+                        print("Northstar mods installing embed reply sent")
 
                 if (
                     message.channel.id

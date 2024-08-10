@@ -20,7 +20,7 @@ class PlayTesterPingProxy(commands.Cog):
             playtester_role_id = globals.config["roles"]["playtester-role-id"]
             await ctx.send(f"<@&{playtester_role_id}>")
         else:
-            await ctx.send(f"Missing perms to ping playtesters", ephemeral=True)
+            await ctx.send("Missing perms to ping playtesters", ephemeral=True)
 
 
 async def setup(bot: commands.Bot) -> None:

@@ -41,12 +41,12 @@ class GlobalReplies(commands.Cog):
             if not replies:
                 replies = True
                 await ctx.send(embed=replieson)
-                print(f"Automatic bot replies are enabled")
+                print("Automatic bot replies are enabled")
 
             elif not replies:
                 replies = False
                 await ctx.send(embed=repliesoff)
-                print(f"Automatic bot replies are disabled")
+                print("Automatic bot replies are disabled")
         else:
             await ctx.send(
                 "You don't have permission to use this command!", ephemeral=True
