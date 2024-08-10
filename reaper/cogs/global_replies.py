@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 import discord
 import util.json_handler
 from discord.ext import commands
@@ -41,12 +45,12 @@ class GlobalReplies(commands.Cog):
             if not replies:
                 replies = True
                 await ctx.send(embed=replieson)
-                print("Automatic bot replies are enabled")
+                logger.info("Automatic bot replies are enabled")
 
             elif not replies:
                 replies = False
                 await ctx.send(embed=repliesoff)
-                print("Automatic bot replies are disabled")
+                logger.info("Automatic bot replies are disabled")
         else:
             await ctx.send(
                 "You don't have permission to use this command!", ephemeral=True

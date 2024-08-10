@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 import discord
 from discord.ext import commands
 import re
@@ -31,7 +35,7 @@ def getLatestDiscussion():
             raw_data = response.json()
 
     except requests.exceptions.RequestException as err:
-        print(f"GitHub API request failed: {err}")
+        logger.warn(f"GitHub API request failed: {err}")
         return None
 
     discussion_post = {
@@ -54,7 +58,7 @@ def getLatestReleaseName():
         )
 
     except requests.exceptions.RequestException as err:
-        print(f"GitHub API request failed: {err}")
+        logger.warn(f"GitHub API request failed: {err}")
         return None
 
     return response.json()[0]["tag_name"]
