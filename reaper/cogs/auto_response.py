@@ -1,7 +1,8 @@
 import datetime
 import discord
 from discord.ext import commands
-import util.json_handler, util.master_status
+import util.json_handler
+import util.master_status
 from cogs.global_replies import replycheck
 import re
 import asyncio

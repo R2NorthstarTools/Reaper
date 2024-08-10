@@ -1,4 +1,5 @@
-import typing, requests
+import typing
+import requests
 from discord.ext import commands
 from bs4 import BeautifulSoup
 from discord import app_commands
