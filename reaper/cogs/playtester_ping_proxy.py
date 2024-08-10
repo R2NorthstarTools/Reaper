@@ -1,3 +1,11 @@
+import logging
+import coloredlogs
+
+logger = logging.getLogger(__name__)
+coloredlogs.install(
+    level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 from discord.ext import commands
 from util import globals
 
@@ -18,8 +26,12 @@ class PlayTesterPingProxy(commands.Cog):
         # Check whether command invoker has necessary roles
         if any(element.id in allowed_roles for element in ctx.author.roles):
             playtester_role_id = globals.config["roles"]["playtester-role-id"]
+            logger.info(f"{ctx.author.display_name} pinged playtesters")
             await ctx.send(f"<@&{playtester_role_id}>")
         else:
+            logger.info(
+                f"{ctx.author.display_name} tried to ping playtesters but was lacking permissions to do so"
+            )
             await ctx.send("Missing perms to ping playtesters", ephemeral=True)
 
 
