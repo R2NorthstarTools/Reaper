@@ -1,10 +1,10 @@
 import datetime
 import discord
 from discord.ext import commands
-import util.json_handler, util.master_status
+import util.json_handler
+import util.master_status
 from cogs.global_replies import replycheck
 import re
-import asyncio
 from util import globals
 
 # Embed for automatically replying to potential questions about installing Northstar
@@ -95,10 +95,10 @@ class AutoResponse(commands.Cog):
             or message.channel.id != self.last_channel
         ):
             self.last_channel = message.channel.id
-            print(f"Tried to send message while on cooldown! Didn't send message!")
+            print("Tried to send message while on cooldown! Didn't send message!")
             return
         else:
-            if replycheck() == True:
+            if replycheck():
                 if str(message.author.id) in users:
                     return
 
@@ -116,7 +116,7 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             reference=message, embed=playeraccount
                         )
-                        print(f"Couldn't find player account embed reply sent")
+                        print("Couldn't find player account embed reply sent")
 
                     elif re.search("failed.creating log file", message.content.lower()):
                         await message.channel.send(reference=message, embed=ea)
@@ -133,7 +133,7 @@ class AutoResponse(commands.Cog):
                     elif re.search(
                         "authentication.*failed", message.content.lower()
                     ) or re.search("cant.*join", message.content.lower()):
-                        if util.master_status.IsMasterDown() == True:
+                        if util.master_status.IsMasterDown():
                             await message.channel.send(
                                 reference=message, embed=msdownembed
                             )
@@ -146,13 +146,13 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             reference=message, embed=uninstalling
                         )
-                        print(f"Installing Northstar embed reply sent")
+                        print("Installing Northstar embed reply sent")
 
                     elif re.search("how|help", message.content.lower()) and re.search(
                         "install.northstar", message.content.lower()
                     ):
                         await message.channel.send(reference=message, embed=installing)
-                        print(f"Uninstalling Northstar embed reply sent")
+                        print("Uninstalling Northstar embed reply sent")
 
                     elif (
                         re.search("help|how", message.content.lower())
@@ -163,7 +163,7 @@ class AutoResponse(commands.Cog):
                         await message.channel.send(
                             "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
                         )
-                        print(f"Northstar mods installing embed reply sent")
+                        print("Northstar mods installing embed reply sent")
 
                 if (
                     message.channel.id
@@ -171,20 +171,20 @@ class AutoResponse(commands.Cog):
                 ):
                     # This is to check if the message is a "Person started a thread" message
                     if message.type != discord.MessageType.thread_created:
+                        
+                        # There was a note here explaining the need for a sleep between each reaction add.
+                        # However, this works perfectly fine, and I have had another bot on the same library
+                        # do this with 10 emotes in a list work perfectly 100% of the time
 
-                        # Note: this is actually really gross. discord's api doesn't like when you try to add multiple emojis at once (say, from a list)
-                        # and will instead place them in the incorrect order regardless of sleep time or order you place them in the list :P
+                        emotes = [
+                            "🔴",
+                            "🟠",
+                            "🟢",
+                        ]
+                        for emote in emotes:
+                            await message.add_reaction(emote)
 
-                        await message.add_reaction("🔴")
-                        await asyncio.sleep(1)
-
-                        await message.add_reaction("🟠")
-                        await asyncio.sleep(1)
-
-                        await message.add_reaction("🟢")
-                        await asyncio.sleep(1)
-
-                self.last_time = datetime.datetime.utcnow()
+                self.last_time = datetime.datetime.now(datetime.timezone.utc)
             self.last_channel = message.channel.id
 
 
