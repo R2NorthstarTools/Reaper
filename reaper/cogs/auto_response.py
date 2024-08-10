@@ -5,7 +5,6 @@ import util.json_handler
 import util.master_status
 from cogs.global_replies import replycheck
 import re
-import asyncio
 from util import globals
 
 # Embed for automatically replying to potential questions about installing Northstar
@@ -173,17 +172,17 @@ class AutoResponse(commands.Cog):
                     # This is to check if the message is a "Person started a thread" message
                     if message.type != discord.MessageType.thread_created:
 
-                        # Note: this is actually really gross. discord's api doesn't like when you try to add multiple emojis at once (say, from a list)
-                        # and will instead place them in the incorrect order regardless of sleep time or order you place them in the list :P
+                        # There was a note here explaining the need for a sleep between each reaction add.
+                        # However, this works perfectly fine, and I have had another bot on the same library
+                        # do this with 10 emotes in a list work perfectly 100% of the time
 
-                        await message.add_reaction("🔴")
-                        await asyncio.sleep(1)
-
-                        await message.add_reaction("🟠")
-                        await asyncio.sleep(1)
-
-                        await message.add_reaction("🟢")
-                        await asyncio.sleep(1)
+                        emotes = [
+                            "🔴",
+                            "🟠",
+                            "🟢",
+                        ]
+                        for emote in emotes:
+                            await message.add_reaction(emote)
 
                 self.last_time = datetime.datetime.utcnow()
             self.last_channel = message.channel.id
