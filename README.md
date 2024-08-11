@@ -6,6 +6,10 @@ A fork of the open source GitHub repo for the Northstar bot [`Spectre`](https://
 
 Documentation can be found in [docs/README.md](docs/README.md)
 
+### Installation
+
+Installation instructions can be found in [docs/installation.md](docs/installation.md)
+
 ## Credits
 
 [H0L0](https://github.com/H0L0theBard) was _incredibly_ important in creating this bot and helping me troubleshoot things I was incredibly stupid about. She is the only reason the code is nearly as clean as it is and has the nice structure that it has now
