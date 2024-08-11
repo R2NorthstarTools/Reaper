@@ -11,12 +11,13 @@ class MasterCheck(commands.Cog):
         if util.master_status.IsMasterDown() is True:
             await ctx.send("Master server is likely **DOWN**")
             return
-        elif util.master_status.IsMasterDown() is False:
+
+        if util.master_status.IsMasterDown() is False:
             await ctx.send("Master server is **UP**")
             return
-        else:
-            await ctx.send("Reaper encountered an exception while talking to MS")
-            return
+
+        await ctx.send("Reaper encountered an exception while talking to MS")
+        return
 
 
 async def setup(bot: commands.Bot) -> None:
