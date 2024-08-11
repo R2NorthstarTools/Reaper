@@ -19,11 +19,11 @@ with open("config.toml", "rb") as file:
     tokens = globals.config["tokens"]
 import util.json_handler
 
-allowed_users = util.json_handler.load_allowed_users()
-
 if not os.path.exists("data"):
     os.makedirs("data")
 util.json_handler.init_json()
+
+allowed_users = util.json_handler.load_allowed_users()
 
 COGS = (
     "cogs.allowed_channels",
