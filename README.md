@@ -10,7 +10,7 @@ Documentation on the commands can be found [here](https://github.com/itscynxx/Sp
 
 Reach out with issues with a [GitHub issue](https://github.com/itscynxx/Spectre/issues) or by dming cooldudepugs on Discord (if you'd rather not dm or don't have dms open, ping me in `development` or `northstar-chat` on the Northstar Discord server or something)
 
-# Credits
+## Credits
 
 [H0L0](https://github.com/H0L0theBard) was _incredibly_ important in creating this bot and helping me troubleshoot things I was incredibly stupid about. She is the only reason the code is nearly as clean as it is and has the nice structure that it has now
 
