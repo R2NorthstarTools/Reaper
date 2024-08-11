@@ -1,6 +1,14 @@
+import logging
+import coloredlogs
+
+logger = logging.getLogger(__name__)
+coloredlogs.install(
+    level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+
 from transformers import pipeline
 from discord.ext import commands
-import logging
 import asyncio
 import random
 from util import globals
@@ -46,7 +54,7 @@ class SentimentAnalyzer(commands.Cog):
                 self.sentiment, message.content
             )  # need to do this otherwise the bot will not do anything until this is done
         except Exception as e:
-            logging.error(f"Error in sentiment analyzer: {e}")
+            logger.error(f"Error in sentiment analyzer: {e}")
             return
 
         self.bot.cached_sentiment[message.channel.id][result[0]["label"]] += 1
