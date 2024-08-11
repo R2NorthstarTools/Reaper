@@ -31,6 +31,16 @@ class PlayTesterPingProxy(commands.Cog):
             await ctx.send("Missing perms to ping playtesters", ephemeral=True)
             return
 
+        if (
+            not ctx.channel.id
+            in globals.config["channels"]["playtester-proxy-ping-allowed-channel-ids"]
+        ):
+            await ctx.send(
+                f"Not allowed to ping in this channel (#{ctx.channel.name})",
+                ephemeral=True,
+            )
+            return
+
         playtester_role_id = globals.config["roles"]["playtester-role-id"]
         logger.info(f"{ctx.author.display_name} pinged playtesters")
         await ctx.send(f"<@&{playtester_role_id}>")
