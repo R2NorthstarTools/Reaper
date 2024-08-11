@@ -107,95 +107,95 @@ class AutoResponse(commands.Cog):
             self.last_channel = message.channel.id
             logger.warn("Tried to send message while on cooldown! Didn't send message!")
             return
-        else:
-            if replycheck():
-                if str(message.author.id) in users:
+
+        if replycheck():
+            if str(message.author.id) in users:
+                return
+
+            if str(message.author.id) in neverusers:
+                return
+
+            if str(message.channel.id) in enabledchannels or str(
+                message.channel.name
+            ).startswith("ticket"):
+                # Should stop all bot messages
+                if message.author.bot:
                     return
 
-                if str(message.author.id) in neverusers:
-                    return
+                elif re.search("player.*account", message.content.lower()):
+                    await message.channel.send(
+                        reference=message, embed=playeraccount
+                    )
+                    logger.info("Couldn't find player account embed reply sent")
 
-                if str(message.channel.id) in enabledchannels or str(
-                    message.channel.name
-                ).startswith("ticket"):
-                    # Should stop all bot messages
-                    if message.author.bot:
+                elif re.search("failed.creating log file", message.content.lower()):
+                    await message.channel.send(reference=message, embed=ea)
+                    logger.info("Default EA App directory embed reply sent")
+
+                elif re.search(
+                    "controller.not.working", message.content.lower()
+                ) or re.search(
+                    "can.i.use.controller.*northstar", message.content.lower()
+                ):
+                    await message.channel.send(reference=message, embed=controller)
+                    logger.info("Controller embed reply sent")
+
+                elif re.search(
+                    "authentication.*failed", message.content.lower()
+                ) or re.search("cant.*join", message.content.lower()):
+                    if util.master_status.IsMasterDown():
+                        await message.channel.send(
+                            reference=message, embed=msdownembed
+                        )
+                    else:
                         return
 
-                    elif re.search("player.*account", message.content.lower()):
-                        await message.channel.send(
-                            reference=message, embed=playeraccount
-                        )
-                        logger.info("Couldn't find player account embed reply sent")
-
-                    elif re.search("failed.creating log file", message.content.lower()):
-                        await message.channel.send(reference=message, embed=ea)
-                        logger.info("Default EA App directory embed reply sent")
-
-                    elif re.search(
-                        "controller.not.working", message.content.lower()
-                    ) or re.search(
-                        "can.i.use.controller.*northstar", message.content.lower()
-                    ):
-                        await message.channel.send(reference=message, embed=controller)
-                        logger.info("Controller embed reply sent")
-
-                    elif re.search(
-                        "authentication.*failed", message.content.lower()
-                    ) or re.search("cant.*join", message.content.lower()):
-                        if util.master_status.IsMasterDown():
-                            await message.channel.send(
-                                reference=message, embed=msdownembed
-                            )
-                        else:
-                            return
-
-                    elif re.search("how|help", message.content.lower()) and re.search(
-                        "uninstall.northstar", message.content.lower()
-                    ):
-                        await message.channel.send(
-                            reference=message, embed=uninstalling
-                        )
-                        logger.info("Installing Northstar embed reply sent")
-
-                    elif re.search("how|help", message.content.lower()) and re.search(
-                        "install.northstar", message.content.lower()
-                    ):
-                        await message.channel.send(reference=message, embed=installing)
-                        logger.info("Uninstalling Northstar embed reply sent")
-
-                    elif (
-                        re.search("help|how", message.content.lower())
-                        and re.search("titanfall|northstar", message.content.lower())
-                        and re.search("install.*mods", message.content.lower())
-                    ):
-                        await message.channel.send(reference=message, embed=installmods)
-                        await message.channel.send(
-                            "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
-                        )
-                        logger.info("Northstar mods installing embed reply sent")
-
-                if (
-                    message.channel.id
-                    == globals.config["channels"]["report-users-channel-id"]
+                elif re.search("how|help", message.content.lower()) and re.search(
+                    "uninstall.northstar", message.content.lower()
                 ):
-                    # This is to check if the message is a "Person started a thread" message
-                    if message.type != discord.MessageType.thread_created:
+                    await message.channel.send(
+                        reference=message, embed=uninstalling
+                    )
+                    logger.info("Installing Northstar embed reply sent")
 
-                        # There was a note here explaining the need for a sleep between each reaction add.
-                        # However, this works perfectly fine, and I have had another bot on the same library
-                        # do this with 10 emotes in a list work perfectly 100% of the time
+                elif re.search("how|help", message.content.lower()) and re.search(
+                    "install.northstar", message.content.lower()
+                ):
+                    await message.channel.send(reference=message, embed=installing)
+                    logger.info("Uninstalling Northstar embed reply sent")
 
-                        emotes = [
-                            "🔴",
-                            "🟠",
-                            "🟢",
-                        ]
-                        for emote in emotes:
-                            await message.add_reaction(emote)
+                elif (
+                    re.search("help|how", message.content.lower())
+                    and re.search("titanfall|northstar", message.content.lower())
+                    and re.search("install.*mods", message.content.lower())
+                ):
+                    await message.channel.send(reference=message, embed=installmods)
+                    await message.channel.send(
+                        "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
+                    )
+                    logger.info("Northstar mods installing embed reply sent")
 
-                self.last_time = datetime.datetime.now(datetime.timezone.utc)
-            self.last_channel = message.channel.id
+            if (
+                message.channel.id
+                == globals.config["channels"]["report-users-channel-id"]
+            ):
+                # This is to check if the message is a "Person started a thread" message
+                if message.type != discord.MessageType.thread_created:
+
+                    # There was a note here explaining the need for a sleep between each reaction add.
+                    # However, this works perfectly fine, and I have had another bot on the same library
+                    # do this with 10 emotes in a list work perfectly 100% of the time
+
+                    emotes = [
+                        "🔴",
+                        "🟠",
+                        "🟢",
+                    ]
+                    for emote in emotes:
+                        await message.add_reaction(emote)
+
+            self.last_time = datetime.datetime.now(datetime.timezone.utc)
+        self.last_channel = message.channel.id
 
 
 async def setup(bot: commands.Bot) -> None:
