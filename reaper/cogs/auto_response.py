@@ -123,9 +123,7 @@ class AutoResponse(commands.Cog):
                     return
 
                 elif re.search("player.*account", message.content.lower()):
-                    await message.channel.send(
-                        reference=message, embed=playeraccount
-                    )
+                    await message.channel.send(reference=message, embed=playeraccount)
                     logger.info("Couldn't find player account embed reply sent")
 
                 elif re.search("failed.creating log file", message.content.lower()):
@@ -144,18 +142,14 @@ class AutoResponse(commands.Cog):
                     "authentication.*failed", message.content.lower()
                 ) or re.search("cant.*join", message.content.lower()):
                     if util.master_status.IsMasterDown():
-                        await message.channel.send(
-                            reference=message, embed=msdownembed
-                        )
+                        await message.channel.send(reference=message, embed=msdownembed)
                     else:
                         return
 
                 elif re.search("how|help", message.content.lower()) and re.search(
                     "uninstall.northstar", message.content.lower()
                 ):
-                    await message.channel.send(
-                        reference=message, embed=uninstalling
-                    )
+                    await message.channel.send(reference=message, embed=uninstalling)
                     logger.info("Installing Northstar embed reply sent")
 
                 elif re.search("how|help", message.content.lower()) and re.search(
