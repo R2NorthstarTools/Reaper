@@ -53,9 +53,6 @@ class SentimentAnalyzer(commands.Cog):
             result = await asyncio.to_thread(
                 self.sentiment, message.content
             )  # need to do this otherwise the bot will not do anything until this is done
-            logger.debug(f"{result}")
-            logger.debug(f"{message.author.name}: {message.content}")
-            logger.debug(f"")
         except Exception as e:
             logger.error(f"Error in sentiment analyzer: {e}")
             return
