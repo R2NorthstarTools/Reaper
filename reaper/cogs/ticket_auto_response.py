@@ -33,10 +33,9 @@ class TicketsAutoResponse(commands.Cog):
         sleep(3)
         await channel.send(
             """
-I'm a bot automatically replying to the ticket being opened.
+_I'm a bot automatically replying to the ticket being opened._
 
-If you're having an issue with the Northstar client itself, please send a log so that I can try to automatically read it, or a human can read it better. You can do this by going to `Titanfall2/R2Northstar/logs` and sending the newest `nslog` you have.
-Make sure not to send an `nsdmp`, and that you send the newest one! The newest ones are near the bottom by default on windows.
+If you're having an issue with the Northstar client itself, please send a log so that I can try to automatically read it, or a human can read it better. You can do this by going to `Titanfall2/R2Northstar/logs` and sending the newest `nslogXXXX-XX-XX XX-XX-XX.txt` you have. The newest ones are near the bottom by default on windows.
 
 If I don't automatically respond, please wait for a human to assist. If you're getting an error MESSAGE in game, you could also try typing that out here, as I automatically reply to some of those as well.
 """
