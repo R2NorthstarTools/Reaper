@@ -23,16 +23,17 @@ class PlayTesterPingProxy(commands.Cog):
 
         allowed_roles = set(globals.config["roles"]["ping-privileged-role-ids"])
 
-        # Check whether command invoker has necessary roles
-        if any(element.id in allowed_roles for element in ctx.author.roles):
-            playtester_role_id = globals.config["roles"]["playtester-role-id"]
-            logger.info(f"{ctx.author.display_name} pinged playtesters")
-            await ctx.send(f"<@&{playtester_role_id}>")
-        else:
+        # Check whether command invoker has necessary roles and return early if they don't
+        if not any(element.id in allowed_roles for element in ctx.author.roles):
             logger.info(
                 f"{ctx.author.display_name} tried to ping playtesters but was lacking permissions to do so"
             )
             await ctx.send("Missing perms to ping playtesters", ephemeral=True)
+            return
+
+        playtester_role_id = globals.config["roles"]["playtester-role-id"]
+        logger.info(f"{ctx.author.display_name} pinged playtesters")
+        await ctx.send(f"<@&{playtester_role_id}>")
 
 
 async def setup(bot: commands.Bot) -> None:
