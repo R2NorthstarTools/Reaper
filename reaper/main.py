@@ -37,12 +37,12 @@ COGS = (
     "cogs.log_reading",
     "cogs.master_check",
     "cogs.mod_search",
-    "cogs.playtester_ping",
     "cogs.playtester_ping_proxy",
+    "cogs.playtester_ping",
     "cogs.price_check",
+    "cogs.sentiment_analyzer",
     "cogs.ticket_auto_response",
     "cogs.user_replies",
-    "cogs.sentiment_analyzer",
 )
 INTENTS = discord.Intents.default()
 INTENTS.message_content = True
