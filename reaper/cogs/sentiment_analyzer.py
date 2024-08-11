@@ -53,6 +53,9 @@ class SentimentAnalyzer(commands.Cog):
             result = await asyncio.to_thread(
                 self.sentiment, message.content
             )  # need to do this otherwise the bot will not do anything until this is done
+            logger.debug(f"{result}")
+            logger.debug(f"{message.author.name}: {message.content}")
+            logger.debug(f"")
         except Exception as e:
             logger.error(f"Error in sentiment analyzer: {e}")
             return
@@ -75,7 +78,7 @@ class SentimentAnalyzer(commands.Cog):
                     globals.config["channels"]["sentiment-analysis-warn-channel"]
                 )
                 await moderator_channel.send(
-                    f"Negative sentiment detected in {message.jump_url}! Out of the last {messages_to_cache} messages, {total_negative} were negative."
+                    f"Negative sentiment detected in {message.jump_url}!\nThis does NOT mean that message itself is an issue, it simply was the last message to trigger.\n\nOut of the last {messages_to_cache} messages, {total_negative} were negative."
                 )
             self.reset_message_cache()
 
