@@ -28,6 +28,7 @@ allowed_users = util.json_handler.load_allowed_users()
 COGS = (
     "cogs.allowed_channels",
     "cogs.allowed_users",
+    "cogs.auto_react_reports",
     "cogs.auto_response",
     "cogs.global_replies",
     "cogs.help_command",

@@ -169,25 +169,6 @@ class AutoResponse(commands.Cog):
                     )
                     logger.info("Northstar mods installing embed reply sent")
 
-            if (
-                message.channel.id
-                == globals.config["channels"]["report-users-channel-id"]
-            ):
-                # This is to check if the message is a "Person started a thread" message
-                if message.type != discord.MessageType.thread_created:
-
-                    # There was a note here explaining the need for a sleep between each reaction add.
-                    # However, this works perfectly fine, and I have had another bot on the same library
-                    # do this with 10 emotes in a list work perfectly 100% of the time
-
-                    emotes = [
-                        "🔴",
-                        "🟠",
-                        "🟢",
-                    ]
-                    for emote in emotes:
-                        await message.add_reaction(emote)
-
             self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
 
