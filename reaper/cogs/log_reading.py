@@ -107,15 +107,6 @@ class LogReading(commands.Cog):
     intents.message_content = True
 
     @commands.Cog.listener()
-    async def on_guild_channel_create(self, channel):
-        if str(channel.name).startswith("ticket"):
-            await channel.typing()
-            sleep(3)
-            await channel.send(
-                "I'm a bot automatically replying to the ticket being opened. If you're having an issue with the Northstar client itself, please send a log so that I can try to automatically read it, or a human can read it better. You can do this by going to `Titanfall2/R2Northstar/logs` and sending the newest `nslog` you have. Make sure not to send an `nsdmp`, and that you send the newest one! The newest ones are near the bottom by default on windows.\n\nIf I don't automatically respond, please wait for a human to assist. If you're getting an error MESSAGE in game, you could also try typing that out here, as I automatically reply to some of those as well."
-            )
-
-    @commands.Cog.listener()
     async def on_message(self, message):
 
         global hud
