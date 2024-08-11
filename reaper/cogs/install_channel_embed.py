@@ -58,15 +58,15 @@ class InstallationChannel(commands.Cog):
     ):  # Yes, this gives an "Interaction failed" error. This is intended. This is so only the embeds show and no "x person used slash command" text appears
         allowed_users = util.json_handler.load_allowed_users()
 
-        if str(ctx.author.id) in allowed_users:
-            await ctx.channel.send(embed=helpembed)
-            await ctx.channel.send(embed=manual)
-            await ctx.channel.send(embed=installation)
-
-        else:
+        if not str(ctx.author.id) in allowed_users:
             await ctx.channel.send(
                 "You don't have permission to use this command!", ephemeral=True
             )
+            return
+
+        await ctx.channel.send(embed=helpembed)
+        await ctx.channel.send(embed=manual)
+        await ctx.channel.send(embed=installation)
 
 
 async def setup(bot: commands.Bot) -> None:
