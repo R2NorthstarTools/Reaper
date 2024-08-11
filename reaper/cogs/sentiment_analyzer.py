@@ -78,7 +78,7 @@ class SentimentAnalyzer(commands.Cog):
                     globals.config["channels"]["sentiment-analysis-warn-channel"]
                 )
                 await moderator_channel.send(
-                    f"Negative sentiment detected in {message.jump_url}!\nThis does NOT mean that message itself is an issue, it simply was the last message to trigger.\n\nOut of the last {messages_to_cache} messages, {total_negative} were negative."
+                    f"Negative sentiment detected in {message.channel.mention}!\nOut of the last {messages_to_cache} messages, {total_negative} were negative.\n\nLast relevant message: {message.jump_url}"
                 )
             self.reset_message_cache()
 
