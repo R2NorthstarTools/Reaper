@@ -40,7 +40,7 @@ COGS = (
     "cogs.playtester_ping_proxy",
     "cogs.price_check",
     "cogs.user_replies",
-    "cogs.sentiment_analyzer"
+    "cogs.sentiment_analyzer",
 )
 INTENTS = discord.Intents.default()
 INTENTS.message_content = True
