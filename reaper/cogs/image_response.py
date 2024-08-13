@@ -150,11 +150,13 @@ class imageStuff(commands.Cog):
             elif re.search("operation.not.permitted", text.lower()) and re.search(
                 "ea.games", text.lower()
             ):
-                await message.channel.send(embed=operationNotPermitted, reference=message)
+                await message.channel.send(
+                    embed=operationNotPermitted, reference=message
+                )
 
-            elif re.search("compile.error.undefined.variable", text.lower()) and re.search(
-                "progression_getpreference", text.lower()
-            ):
+            elif re.search(
+                "compile.error.undefined.variable", text.lower()
+            ) and re.search("progression_getpreference", text.lower()):
                 await message.channel.send(embed=vanillaPlus, reference=message)
 
             os.remove("image.png")
