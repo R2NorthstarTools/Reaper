@@ -32,8 +32,10 @@ class PlayTesterPingProxy(commands.Cog):
             return
 
         if (
-            not ctx.channel.id
-            in globals.config["channels"]["playtester-proxy-ping-allowed-channel-ids"]
+            ctx.channel.id
+            not in globals.config["channels"][
+                "playtester-proxy-ping-allowed-channel-ids"
+            ]
         ):
             await ctx.send(
                 f"Not allowed to ping in this channel (#{ctx.channel.name})",
