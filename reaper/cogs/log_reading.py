@@ -464,7 +464,7 @@ class LogReading(commands.Cog):
                             )
                             problem.add_field(
                                 name="\u200b",
-                                value="If you've already updated and are still seeing this, please check if you have a file called `northstar.dll` in `titanfall2/R2Northstar`. If you do, delete it, and try launching again.",
+                                value="If you've already updated and are still seeing this, please check if you have a file called `Northstar.dll` in `Titanfall2/R2Northstar`. If you do, delete it, and try launching again.",
                                 inline=False,
                             )
 
