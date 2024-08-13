@@ -11,7 +11,7 @@ class AllowedChannels(commands.Cog):
     )
     async def togglechannel(self, ctx):
         allowed_users = util.json_handler.load_allowed_users()
-        data = util.json_handler.load_channels()
+        data = util.json_handler.load_allowed_channels()
 
         if str(ctx.author.id) in allowed_users:
             if str(ctx.channel.id) in data:

@@ -65,7 +65,7 @@ class GlobalReplies(commands.Cog):
     async def replystatus(self, ctx):
         users = util.json_handler.load_users()
         neverusers = util.json_handler.load_neverusers()
-        allowedchannels = util.json_handler.load_channels()
+        allowedchannels = util.json_handler.load_allowed_channels()
 
         if replies:
             if str(ctx.author.id) in neverusers:

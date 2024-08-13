@@ -137,7 +137,7 @@ class LogReading(commands.Cog):
 
         view = LogButtons()
 
-        allowed_channels = util.json_handler.load_channels()
+        allowed_channels = util.json_handler.load_allowed_channels()
         if message.author.bot:
             return
 

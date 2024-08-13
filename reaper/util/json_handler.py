@@ -54,7 +54,7 @@ def save_channels(data):
     save_json(allowedchannels, data)
 
 
-def load_channels():
+def load_allowed_channels():
     return load_json(allowedchannels)
 
 

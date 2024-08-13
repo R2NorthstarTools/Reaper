@@ -97,7 +97,7 @@ class imageStuff(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        channels = util.json_handler.load_channels()
+        channels = util.json_handler.load_allowed_channels()
         users = util.json_handler.load_users()
 
         if str(message.author.id) in users:

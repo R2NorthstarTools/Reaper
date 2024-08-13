@@ -95,7 +95,7 @@ class AutoResponse(commands.Cog):
     async def on_message(self, message):
         users = util.json_handler.load_users()
         neverusers = util.json_handler.load_neverusers()
-        enabledchannels = util.json_handler.load_channels()
+        enabledchannels = util.json_handler.load_allowed_channels()
         time_diff = (
             datetime.datetime.now(datetime.timezone.utc) - self.last_time
         ).total_seconds()
