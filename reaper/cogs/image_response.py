@@ -90,6 +90,44 @@ scriptComp.add_field(
 )
 
 
+async def handle_response(text: str, message):
+    if re.search(
+        "encountered.client.script.compilation.error", text.lower()
+    ) and re.search("error|help", message.content.lower()):
+        await message.channel.send(embed=scriptComp, reference=message)
+
+    elif re.search("invalid.or.expired.masterserver.token", text.lower()) or re.search(
+        "couldn.find.player.account", text.lower()
+    ):
+        await message.channel.send(embed=playeraccount, reference=message)
+
+    elif re.search("origin.offline", text.lower()) or re.search(
+        "origin_logged_out", text.lower()
+    ):
+        await message.channel.send(embed=originOffline, reference=message)
+
+    elif re.search("MSVCP120|MSVCR120", text.lower()):
+        await message.channel.send(embed=msvcp, reference=message)
+
+    elif re.search("failed.creating.log.file", text.lower()):
+        await message.channel.send(embed=logFile, reference=message)
+
+    # FlightCore specific errors
+    elif re.search("mod.failed.sanity.check", text.lower()):
+        await message.channel.send(embed=modFailedSanity, reference=message)
+
+    # Viper specific errors
+    elif re.search("operation.not.permitted", text.lower()) and re.search(
+        "ea.games", text.lower()
+    ):
+        await message.channel.send(embed=operationNotPermitted, reference=message)
+
+    elif re.search("compile.error.undefined.variable", text.lower()) and re.search(
+        "progression_getpreference", text.lower()
+    ):
+        await message.channel.send(embed=vanillaPlus, reference=message)
+
+
 class imageStuff(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
@@ -121,43 +159,7 @@ class imageStuff(commands.Cog):
             text = pytesseract.image_to_string(image)
             logger.info(text)
 
-            if re.search(
-                "encountered.client.script.compilation.error", text.lower()
-            ) and re.search("error|help", message.content.lower()):
-                await message.channel.send(embed=scriptComp, reference=message)
-
-            elif re.search(
-                "invalid.or.expired.masterserver.token", text.lower()
-            ) or re.search("couldn.find.player.account", text.lower()):
-                await message.channel.send(embed=playeraccount, reference=message)
-
-            elif re.search("origin.offline", text.lower()) or re.search(
-                "origin_logged_out", text.lower()
-            ):
-                await message.channel.send(embed=originOffline, reference=message)
-
-            elif re.search("MSVCP120|MSVCR120", text.lower()):
-                await message.channel.send(embed=msvcp, reference=message)
-
-            elif re.search("failed.creating.log.file", text.lower()):
-                await message.channel.send(embed=logFile, reference=message)
-
-            # FlightCore specific errors
-            elif re.search("mod.failed.sanity.check", text.lower()):
-                await message.channel.send(embed=modFailedSanity, reference=message)
-
-            # Viper specific errors
-            elif re.search("operation.not.permitted", text.lower()) and re.search(
-                "ea.games", text.lower()
-            ):
-                await message.channel.send(
-                    embed=operationNotPermitted, reference=message
-                )
-
-            elif re.search(
-                "compile.error.undefined.variable", text.lower()
-            ) and re.search("progression_getpreference", text.lower()):
-                await message.channel.send(embed=vanillaPlus, reference=message)
+            await handle_response(text, message)
 
             os.remove("image.png")
             # is this bad? probably
