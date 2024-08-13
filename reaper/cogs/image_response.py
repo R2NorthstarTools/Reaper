@@ -95,37 +95,45 @@ async def handle_response(text: str, message):
         "encountered.client.script.compilation.error", text.lower()
     ) and re.search("error|help", message.content.lower()):
         await message.channel.send(embed=scriptComp, reference=message)
+        return
 
-    elif re.search("invalid.or.expired.masterserver.token", text.lower()) or re.search(
+    if re.search("invalid.or.expired.masterserver.token", text.lower()) or re.search(
         "couldn.find.player.account", text.lower()
     ):
         await message.channel.send(embed=playeraccount, reference=message)
+        return
 
-    elif re.search("origin.offline", text.lower()) or re.search(
+    if re.search("origin.offline", text.lower()) or re.search(
         "origin_logged_out", text.lower()
     ):
         await message.channel.send(embed=originOffline, reference=message)
+        return
 
-    elif re.search("MSVCP120|MSVCR120", text.lower()):
+    if re.search("MSVCP120|MSVCR120", text.lower()):
         await message.channel.send(embed=msvcp, reference=message)
+        return
 
-    elif re.search("failed.creating.log.file", text.lower()):
+    if re.search("failed.creating.log.file", text.lower()):
         await message.channel.send(embed=logFile, reference=message)
+        return
 
     # FlightCore specific errors
-    elif re.search("mod.failed.sanity.check", text.lower()):
+    if re.search("mod.failed.sanity.check", text.lower()):
         await message.channel.send(embed=modFailedSanity, reference=message)
+        return
 
     # Viper specific errors
-    elif re.search("operation.not.permitted", text.lower()) and re.search(
+    if re.search("operation.not.permitted", text.lower()) and re.search(
         "ea.games", text.lower()
     ):
         await message.channel.send(embed=operationNotPermitted, reference=message)
+        return
 
-    elif re.search("compile.error.undefined.variable", text.lower()) and re.search(
+    if re.search("compile.error.undefined.variable", text.lower()) and re.search(
         "progression_getpreference", text.lower()
     ):
         await message.channel.send(embed=vanillaPlus, reference=message)
+        return
 
 
 class imageStuff(commands.Cog):
