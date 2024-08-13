@@ -23,7 +23,7 @@ def getLatestDiscussion():
     query {
         repository(owner: "R2Northstar", name: "Northstar") {
             discussions(first: 1 categoryId: "DIC_kwDOGkM8Yc4CN-04") {
-                edges { 
+                edges {
                     node {
                         url
                         body
