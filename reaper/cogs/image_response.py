@@ -89,6 +89,15 @@ scriptComp.add_field(
     value=information_message,
 )
 
+engineError = discord.Embed(
+    description="Found a screenshot showing 'Engine Error'. Uploading a log file might be useful to resolve this issue",
+    color=0x5D3FD3,
+)
+engineError.add_field(
+    name="",
+    value=information_message,
+)
+
 
 async def handle_response(text: str, message):
     if re.search(
@@ -133,6 +142,10 @@ async def handle_response(text: str, message):
         "progression_getpreference", text.lower()
     ):
         await message.channel.send(embed=vanillaPlus, reference=message)
+        return
+
+    if re.search("engine.error", text.lower()):
+        await message.channel.send(embed=engineError, reference=message)
         return
 
 
