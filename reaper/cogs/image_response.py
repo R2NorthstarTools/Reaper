@@ -97,13 +97,13 @@ class imageStuff(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        channels = util.json_handler.load_allowed_channels()
+        allowed_channels = util.json_handler.load_allowed_channels()
         users = util.json_handler.load_users()
 
         if str(message.author.id) in users:
             return
 
-        if str(message.channel.id) in channels or str(message.channel.name).startswith(
+        if str(message.channel.id) in allowed_channels or str(message.channel.name).startswith(
             "ticket"
         ):
             if message.attachments:
