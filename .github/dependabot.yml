@@ -1,0 +1,11 @@
+# Configures dependabot
+
+version: 2
+updates:
+  # Poetry packages
+  - package-ecosystem: 'pip'
+    directory: '/'
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore: "
