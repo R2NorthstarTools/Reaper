@@ -40,6 +40,7 @@ COGS = (
     "cogs.playtester_ping_proxy",
     "cogs.playtester_ping",
     "cogs.price_check",
+    "cogs.rules_writer",
     "cogs.sentiment_analyzer",
     "cogs.ticket_auto_response",
     "cogs.user_replies",
