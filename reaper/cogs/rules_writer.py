@@ -47,7 +47,7 @@ def split_into_sized_sections(input_string, limit=2000):
     current_section = ""
 
     # Split the input string into lines
-    lines = input_string.split('\n')
+    lines = input_string.split("\n")
 
     for line in lines:
         # Check if adding this line will exceed the limit
