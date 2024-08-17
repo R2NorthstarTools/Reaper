@@ -42,6 +42,30 @@ def grab_rules_from_repo():
         return None  # No code block found
 
 
+def split_into_sized_sections(input_string, limit=2000):
+    sections = []
+    current_section = ""
+
+    # Split the input string into lines
+    lines = input_string.split("\n")
+
+    for line in lines:
+        # Check if adding this line will exceed the limit
+        if len(current_section) + len(line) + 1 > limit:  # +1 for the newline character
+            # Save the current section and start a new one
+            sections.append(current_section)
+            current_section = line
+        else:
+            # Otherwise, add the line to the current section
+            current_section += "\n" + line
+
+    # Add the last section if exists
+    if current_section:
+        sections.append(current_section)
+
+    return sections
+
+
 def parse_rules():
     """
     Parses rules into individual sections.
@@ -49,8 +73,7 @@ def parse_rules():
     """
     raw_rules = grab_rules_from_repo()
 
-    # For now this just does it based on newlines
-    parsed_rules = raw_rules.split("\n")
+    parsed_rules = split_into_sized_sections(raw_rules)
 
     return parsed_rules
 
