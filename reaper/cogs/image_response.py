@@ -171,20 +171,23 @@ class imageStuff(commands.Cog):
         if not message.attachments:
             return
 
-        if message.attachments[0].filename.endswith(".jpg") or message.attachments[
-            0
-        ].filename.endswith(".png"):
-            await message.attachments[0].save("image.png")
+        if not (
+            message.attachments[0].filename.endswith(".jpg")
+            or message.attachments[0].filename.endswith(".png")
+        ):
+            return
 
-            image = Image.open("image.png")
-            text = pytesseract.image_to_string(image)
-            logger.info(text)
+        await message.attachments[0].save("image.png")
 
-            await handle_response(text, message)
+        image = Image.open("image.png")
+        text = pytesseract.image_to_string(image)
+        logger.info(text)
 
-            os.remove("image.png")
-            # is this bad? probably
-            # does it work? also probably
+        await handle_response(text, message)
+
+        os.remove("image.png")
+        # is this bad? probably
+        # does it work? also probably
 
 
 async def setup(bot: commands.Bot) -> None:
