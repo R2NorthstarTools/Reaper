@@ -171,13 +171,14 @@ class imageStuff(commands.Cog):
         if not message.attachments:
             return
 
+        current_message_attachment = message.attachments[0]
         if not (
-            message.attachments[0].filename.endswith(".jpg")
-            or message.attachments[0].filename.endswith(".png")
+            current_message_attachment.filename.endswith(".jpg")
+            or current_message_attachment.filename.endswith(".png")
         ):
             return
 
-        await message.attachments[0].save("image.png")
+        await current_message_attachment.save("image.png")
 
         image = Image.open("image.png")
         text = pytesseract.image_to_string(image)
