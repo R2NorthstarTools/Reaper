@@ -11,7 +11,7 @@ import pytesseract
 from discord.ext import commands
 import re
 import util.json_handler
-import os
+import io
 import discord
 
 
@@ -178,17 +178,13 @@ class imageStuff(commands.Cog):
             ):
                 continue
 
-            await current_message_attachment.save("image.png")
+            image_data = await current_message_attachment.read()
 
-            image = Image.open("image.png")
+            image = Image.open(io.BytesIO(image_data))
             text = pytesseract.image_to_string(image)
             logger.info(text)
 
             await handle_response(text, message)
-
-            os.remove("image.png")
-            # is this bad? probably
-            # does it work? also probably
 
 
 async def setup(bot: commands.Bot) -> None:
