@@ -13,11 +13,11 @@ import requests
 from util import globals
 
 url = "https://api.github.com/graphql"
-githubAccessToken = globals.config["tokens"]["github"]
+github_access_token = globals.config["tokens"]["github"]
 
 
 def get_latest_discussion():
-    headers = {"Authorization": f"Bearer {githubAccessToken}"}
+    headers = {"Authorization": f"Bearer {github_access_token}"}
 
     query = """
     query {
@@ -56,7 +56,7 @@ def get_latest_discussion():
 
 
 def get_latest_release_name():
-    headers = {"Authorization": f"Bearer {githubAccessToken}"}
+    headers = {"Authorization": f"Bearer {github_access_token}"}
 
     try:
         response = requests.get(
@@ -77,17 +77,17 @@ class PlayTesterPing(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        playtestPingChannel = self.bot.get_channel(
+        playtest_ping_channel = self.bot.get_channel(
             globals.config["channels"]["playtesters-channel-id"]
         )
-        thunderstoreReleaseChannel = self.bot.get_channel(
+        thunderstore_release_channel = self.bot.get_channel(
             globals.config["channels"]["thunderstore-releases-channel-id"]
         )
 
         if message.author == self.bot.user:
             return
 
-        if message.channel == thunderstoreReleaseChannel:
+        if message.channel == thunderstore_release_channel:
             if not message.embeds:
                 return
             if (
@@ -97,18 +97,18 @@ class PlayTesterPing(commands.Cog):
                 and message.embeds[0].author.name == "northstar"
             ):
                 data = get_latest_discussion()
-                rcVersion = get_latest_release_name()
+                rc_version = get_latest_release_name()
 
                 embed = discord.Embed(title="Changelog:", description=data["body"])
 
                 embed.set_author(
-                    name="Northstar " + rcVersion,
+                    name="Northstar " + rc_version,
                     icon_url="https://avatars.githubusercontent.com/u/86304187",
                 )
 
-                pingMessage = await playtestPingChannel.send(
+                ping_message = await playtest_ping_channel.send(
                     f"""<@&936669179359141908>
-There is a new Northstar release candidate, `{rcVersion}`. If you find any issues or have feedback, please inform us in the thread attached to this message.
+There is a new Northstar release candidate, `{rc_version}`. If you find any issues or have feedback, please inform us in the thread attached to this message.
 ## **Installation**:
 **If you have __not__ installed a release candidate before:**
 Go to settings in FlightCore, and enable testing release channels. After you've done that, go to the play tab, click the arrow next to `LAUNCH GAME`, and select `Northstar release candidate`. Then, click the `UPDATE` button.
@@ -119,7 +119,7 @@ Make sure your release channel is still set to `Northstar release candidate`, an
 <{data["url"]}>""",
                     embed=embed,
                 )
-                await pingMessage.create_thread(name=rcVersion)
+                await ping_message.create_thread(name=rc_version)
 
 
 async def setup(bot: commands.Bot) -> None:
