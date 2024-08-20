@@ -79,6 +79,7 @@ class aclient(discord.Client):
 async def setup_hook() -> None:
     for cog in COGS:
         await bot.load_extension(cog)
+        logger.info(f"Loaded {cog}")
 
 
 client = aclient()
@@ -107,7 +108,7 @@ async def reload(ctx):
     if str(ctx.author.id) in allowed_users:
         for cog in COGS:
             await bot.reload_extension(cog)
-        logger.info("Reloaded cogs successfully!")
+            logger.info(f"Reloaded {cog}")
         await ctx.send("Reloaded cogs succesfully!", ephemeral=True)
     else:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
