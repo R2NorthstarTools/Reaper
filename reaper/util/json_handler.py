@@ -15,9 +15,8 @@ def init_json():
 
 
 def new_json(name):
-    fp = open(name, "w")
-    fp.write("{}")
-    fp.close()
+    with open(name, "w") as f:
+        json.dump({}, f)
 
 
 def save_json(file, data):
