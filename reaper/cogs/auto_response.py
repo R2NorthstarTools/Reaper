@@ -146,20 +146,20 @@ class AutoResponse(commands.Cog):
                     else:
                         return
 
-                elif re.search("how|help", message.content.lower()) and re.search(
+                elif re.search("how |help ", message.content.lower()) and re.search(
                     "uninstall.northstar", message.content.lower()
                 ):
                     await message.channel.send(reference=message, embed=uninstalling)
                     logger.info("Installing Northstar embed reply sent")
 
-                elif re.search("how|help", message.content.lower()) and re.search(
+                elif re.search("how |help ", message.content.lower()) and re.search(
                     "install.northstar", message.content.lower()
                 ):
                     await message.channel.send(reference=message, embed=installing)
                     logger.info("Uninstalling Northstar embed reply sent")
 
                 elif (
-                    re.search("help|how", message.content.lower())
+                    re.search("how |help ", message.content.lower())
                     and re.search("titanfall|northstar", message.content.lower())
                     and re.search("install.*mods", message.content.lower())
                 ):
