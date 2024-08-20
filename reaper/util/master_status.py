@@ -11,7 +11,7 @@ import requests
 NS_MASTER_SERVER_URL = "https://northstar.tf/client/servers"
 
 
-def IsMasterDown():
+def is_master_down():
     try:
         ms_response = requests.get(NS_MASTER_SERVER_URL)
         if ms_response.status_code == 200:

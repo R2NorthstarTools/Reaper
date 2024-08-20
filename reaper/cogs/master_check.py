@@ -8,11 +8,11 @@ class MasterCheck(commands.Cog):
 
     @commands.hybrid_command(description="Check Northstar master server status")
     async def ms_status(self, ctx):
-        if util.master_status.IsMasterDown() is True:
+        if util.master_status.is_master_down() is True:
             await ctx.send("Master server is likely **DOWN**")
             return
 
-        if util.master_status.IsMasterDown() is False:
+        if util.master_status.is_master_down() is False:
             await ctx.send("Master server is **UP**")
             return
 
