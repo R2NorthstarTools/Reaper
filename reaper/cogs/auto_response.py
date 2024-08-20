@@ -141,7 +141,7 @@ class AutoResponse(commands.Cog):
                 elif re.search(
                     "authentication.*failed", message.content.lower()
                 ) or re.search("cant.*join", message.content.lower()):
-                    if util.master_status.IsMasterDown():
+                    if util.master_status.is_master_down():
                         await message.channel.send(reference=message, embed=msdownembed)
                     else:
                         return
