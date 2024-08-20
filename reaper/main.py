@@ -25,26 +25,6 @@ util.json_handler.init_json()
 
 allowed_users = util.json_handler.load_allowed_users()
 
-COGS = (
-    "cogs.allowed_channels",
-    "cogs.allowed_users",
-    "cogs.auto_react_reports",
-    "cogs.auto_response",
-    "cogs.global_replies",
-    "cogs.help_command",
-    "cogs.image_response",
-    "cogs.install_channel_embed",
-    "cogs.log_reading",
-    "cogs.master_check",
-    "cogs.mod_search",
-    "cogs.playtester_ping_proxy",
-    "cogs.playtester_ping",
-    "cogs.price_check",
-    "cogs.rules_writer",
-    "cogs.sentiment_analyzer",
-    "cogs.ticket_auto_response",
-    "cogs.user_replies",
-)
 INTENTS = discord.Intents.default()
 INTENTS.message_content = True
 
@@ -77,8 +57,9 @@ class aclient(discord.Client):
 
 @bot.event
 async def setup_hook() -> None:
-    for cog in COGS:
-        await bot.load_extension(cog)
+    for filename in os.listdir("./reaper/cogs"):
+        if filename.endswith(".py"):
+            await bot.load_extension(f"cogs.{filename[:-3]}")
 
 
 client = aclient()
@@ -102,13 +83,12 @@ async def sync(ctx):
 @bot.hybrid_command(
     name="reload", description="Reloads the bot's cogs. Allowed users only."
 )
-async def reload(ctx):
+async def reload(ctx, cog):
 
     if str(ctx.author.id) in allowed_users:
-        for cog in COGS:
-            await bot.reload_extension(cog)
-        logger.info("Reloaded cogs successfully!")
-        await ctx.send("Reloaded cogs succesfully!", ephemeral=True)
+        await bot.reload_extension(f"cogs.{cog}")
+        logger.info(f"Reloaded {cog} successfully!")
+        await ctx.send(f"Reloaded {cog} succesfully!", ephemeral=True)
     else:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
 
