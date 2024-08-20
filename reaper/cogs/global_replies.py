@@ -38,7 +38,7 @@ class GlobalReplies(commands.Cog):
 
     # Enables replies across all servers
     @commands.hybrid_command(
-        description=f"Globally enables Reaper replying to messages. Allowed users only."
+        description="Globally enables Reaper replying to messages. Allowed users only."
     )
     async def toggleglobalreplies(self, ctx):
         allowed_users = util.json_handler.load_allowed_users()
