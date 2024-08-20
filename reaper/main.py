@@ -91,12 +91,13 @@ client = aclient()
 )
 async def sync(ctx):
 
-    if str(ctx.author.id) in allowed_users or ctx.author.id == bot.owner_id:
-        await bot.tree.sync()
-        logger.info("Commands synced successfully!")
-        await ctx.send("Commands synced successfully!")
-    else:
+    if not (str(ctx.author.id) in allowed_users or ctx.author.id == bot.owner_id):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
+        return
+
+    await bot.tree.sync()
+    logger.info("Commands synced successfully!")
+    await ctx.send("Commands synced successfully!")
 
 
 # Slash command to reload cogs
@@ -105,28 +106,28 @@ async def sync(ctx):
 )
 async def reload(ctx):
 
-    if str(ctx.author.id) in allowed_users:
-        for cog in COGS:
-            await bot.reload_extension(cog)
-            logger.info(f"Reloaded {cog}")
-        await ctx.send("Reloaded cogs succesfully!", ephemeral=True)
-    else:
+    if str(ctx.author.id) not in allowed_users:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
+        return
+
+    for cog in COGS:
+        await bot.reload_extension(cog)
+        logger.info(f"Reloaded {cog}")
+    await ctx.send("Reloaded cogs succesfully!", ephemeral=True)
 
 
 # Set the status for the bot
 @bot.hybrid_command(description="Set the status of the bot. Allowed users only.")
 async def setstatus(ctx, status: str):
 
-    if str(ctx.author.id) in allowed_users:
-        await bot.change_presence(
-            activity=discord.Activity(
-                type=discord.ActivityType.listening, name=f"{status}"
-            )
-        )
-        await ctx.send(f"Set bot status to `Listening to {status}`!", ephemeral=True)
-    else:
+    if str(ctx.author.id) not in allowed_users:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
+        return
+
+    await bot.change_presence(
+        activity=discord.Activity(type=discord.ActivityType.listening, name=f"{status}")
+    )
+    await ctx.send(f"Set bot status to `Listening to {status}`!", ephemeral=True)
 
 
 logger.info("Starting bot")
