@@ -1,4 +1,4 @@
-name: flake8 linter
+name: Flake8 linter
 
 on: [push, pull_request]
 
