@@ -390,7 +390,9 @@ class LogReading(commands.Cog):
                             if len(mods_disabled_core) > 1:
                                 if len(mods_disabled_core) == 2:
                                     for mod in mods_disabled_core:
-                                        disabled_core_string = disabled_core_string + mod
+                                        disabled_core_string = (
+                                            disabled_core_string + mod
+                                        )
 
                                 problem.add_field(
                                     name="Disabled core mods",
