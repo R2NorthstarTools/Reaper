@@ -38,7 +38,7 @@ def getLatestDiscussion():
         if response.status_code == 200:
             raw_data = response.json()
         else:
-            logger.warn(f"GitHub API returned HTTP code: {response.status_code}")
+            logger.error(f"GitHub API returned HTTP code: {response.status_code}")
             return None
 
     except requests.exceptions.RequestException as err:
