@@ -16,7 +16,7 @@ url = "https://api.github.com/graphql"
 githubAccessToken = globals.config["tokens"]["github"]
 
 
-def getLatestDiscussion():
+def get_latest_discussion():
     headers = {"Authorization": f"Bearer {githubAccessToken}"}
 
     query = """
@@ -55,7 +55,7 @@ def getLatestDiscussion():
     return discussion_post
 
 
-def getLatestReleaseName():
+def get_latest_release_name():
     headers = {"Authorization": f"Bearer {githubAccessToken}"}
 
     try:
@@ -96,8 +96,8 @@ class PlayTesterPing(commands.Cog):
                 )
                 and message.embeds[0].author.name == "northstar"
             ):
-                data = getLatestDiscussion()
-                rcVersion = getLatestReleaseName()
+                data = get_latest_discussion()
+                rcVersion = get_latest_release_name()
 
                 embed = discord.Embed(title="Changelog:", description=data["body"])
 
