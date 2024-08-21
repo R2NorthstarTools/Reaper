@@ -45,7 +45,14 @@ class PlayTesterPingProxy(commands.Cog):
 
         playtester_role_id = globals.config["roles"]["playtester-role-id"]
         logger.info(f"{ctx.author.display_name} pinged playtesters")
-        await ctx.send(f"<@&{playtester_role_id}>")
+
+        playtest_ping_channel = self.bot.get_channel(ctx.channel.id)
+        # Send ping in channel as opposed to context as otherwise it does not actually trigger a notification
+        await playtest_ping_channel.send(f"<@&{playtester_role_id}>")
+        await ctx.send(
+            f"Ping sent in <#{ctx.channel.id}>",
+            ephemeral=True,
+        )
 
 
 async def setup(bot: commands.Bot) -> None:
