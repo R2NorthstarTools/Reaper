@@ -17,9 +17,9 @@ class PlayTesterPingProxy(commands.Cog):
     # Command to ping playtesters
     @commands.hybrid_command(
         name="playtester_ping",
-        description="Ping playtesters (requires one of modder/contributor/helper/moderator roles)",
+        description="Ping playtesters and create named thread for discussion (requires modder role or higher)",
     )
-    async def playtester_ping(self, ctx):
+    async def playtester_ping(self, ctx, playtest_info: str):
 
         allowed_roles = set(globals.config["roles"]["ping-privileged-role-ids"])
 
@@ -48,11 +48,13 @@ class PlayTesterPingProxy(commands.Cog):
 
         playtest_ping_channel = self.bot.get_channel(ctx.channel.id)
         # Send ping in channel as opposed to context as otherwise it does not actually trigger a notification
-        await playtest_ping_channel.send(f"<@&{playtester_role_id}>")
+        ping_message = await playtest_ping_channel.send(f"<@&{playtester_role_id}>")
         await ctx.send(
             f"Ping sent in <#{ctx.channel.id}>",
             ephemeral=True,
         )
+        # Create a thread for players to discuss in
+        await ping_message.create_thread(name=playtest_info)
 
 
 async def setup(bot: commands.Bot) -> None:
