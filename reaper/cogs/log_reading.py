@@ -16,18 +16,6 @@ import os
 import re
 
 
-def decodetext(text, text_to_filter, text_to_filter2):
-    filtered_bytes = text.replace(b"\x82", b"")
-    decoded_string = filtered_bytes.decode("utf-8")
-    split_v2 = str(decoded_string)
-    lines_split = split_v2.splitlines()
-    new_text = ""
-    for i in lines_split:
-        if text_to_filter in i or text_to_filter2 in i:
-            new_text = new_text + i + "\n"
-    return new_text
-
-
 def version_check():
     try:
         gh_api_response = requests.get(
