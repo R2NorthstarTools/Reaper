@@ -98,6 +98,15 @@ engine_error.add_field(
     value=information_message,
 )
 
+tcp_port_info = discord.Embed(
+    description="Detect mention of a TCP port in the image. Should this be about forwarding then note that only the UDP port needs to forwarded. Forwarding TCP is no longer needed for hosting a Northstar server and has no effect since over a year.",
+    color=0x5D3FD3,
+)
+tcp_port_info.add_field(
+    name="",
+    value=information_message,
+)
+
 
 async def handle_response(text: str, message):
     if re.search(
@@ -146,6 +155,10 @@ async def handle_response(text: str, message):
 
     if re.search("engine.error", text.lower()):
         await message.channel.send(embed=engine_error, reference=message)
+        return
+
+    if re.search("tcp|top", text.lower()) and re.search("808.", text.lower()):
+        await message.channel.send(embed=tcp_port_info, reference=message)
         return
 
 
