@@ -87,27 +87,32 @@ class PlayTesterPing(commands.Cog):
         if message.author == self.bot.user:
             return
 
-        if message.channel == thunderstore_release_channel:
-            if not message.embeds:
-                return
-            if (
-                re.search(
-                    r"NorthstarReleaseCandidate v\d+.\d+.\d+", message.embeds[0].title
-                )
-                and message.embeds[0].author.name == "northstar"
-            ):
-                data = get_latest_discussion()
-                rc_version = get_latest_release_name()
+        if message.channel != thunderstore_release_channel:
+            return
 
-                embed = discord.Embed(title="Changelog:", description=data["body"])
+        if not message.embeds:
+            return
 
-                embed.set_author(
-                    name="Northstar " + rc_version,
-                    icon_url="https://avatars.githubusercontent.com/u/86304187",
-                )
+        if not (
+            re.search(
+                r"NorthstarReleaseCandidate v\d+.\d+.\d+", message.embeds[0].title
+            )
+            and message.embeds[0].author.name == "northstar"
+        ):
+            return
 
-                ping_message = await playtest_ping_channel.send(
-                    f"""<@&936669179359141908>
+        data = get_latest_discussion()
+        rc_version = get_latest_release_name()
+
+        embed = discord.Embed(title="Changelog:", description=data["body"])
+
+        embed.set_author(
+            name="Northstar " + rc_version,
+            icon_url="https://avatars.githubusercontent.com/u/86304187",
+        )
+
+        ping_message = await playtest_ping_channel.send(
+            f"""<@&936669179359141908>
 There is a new Northstar release candidate, `{rc_version}`. If you find any issues or have feedback, please inform us in the thread attached to this message.
 ## **Installation**:
 **If you have __not__ installed a release candidate before:**
@@ -117,9 +122,9 @@ Go to settings in FlightCore, and enable testing release channels. After you've 
 Make sure your release channel is still set to `Northstar release candidate`, and click the `UPDATE` button.
 ## **Release Notes**:
 <{data["url"]}>""",
-                    embed=embed,
-                )
-                await ping_message.create_thread(name=rc_version)
+            embed=embed,
+        )
+        await ping_message.create_thread(name=rc_version)
 
 
 async def setup(bot: commands.Bot) -> None:
