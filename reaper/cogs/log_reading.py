@@ -427,7 +427,6 @@ class LogReading(commands.Cog):
                 value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
                 inline=False,
             )
-            await message.channel.send(embed=problem, reference=message)
 
             dm_me = await self.bot.fetch_user(self.bot.owner_id)
 
