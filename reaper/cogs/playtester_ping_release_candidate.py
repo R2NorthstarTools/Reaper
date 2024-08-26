@@ -6,6 +6,7 @@ coloredlogs.install(
     level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+import asyncio
 import discord
 from discord.ext import commands
 import re
@@ -71,6 +72,17 @@ def get_latest_release_name():
     return response.json()[0]["tag_name"]
 
 
+async def wait_before_ping():
+    """Blocks execution until certain condition is met"""
+
+    # TODO: Right now this just waits a certain period of time. Instead we should ping Thunderstore API until we detect the new release candidate
+    # Wait 30 minutes before pinging
+    wait_time_sec = 60 * 30
+    logger.debug(f"Waiting {wait_time_sec} seconds before ping")
+    await asyncio.sleep(wait_time_sec)
+    logger.debug(f"Waited {wait_time_sec} seconds, continuing")
+
+
 class PlayTesterPing(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
@@ -100,6 +112,8 @@ class PlayTesterPing(commands.Cog):
             and message.embeds[0].author.name == "northstar"
         ):
             return
+
+        await wait_before_ping()
 
         data = get_latest_discussion()
         rc_version = get_latest_release_name()
