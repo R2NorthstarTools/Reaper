@@ -422,12 +422,6 @@ class LogReading(commands.Cog):
                         value=f"Northstar crashed right after attempting to load as asset from the mod `{bad_mod}`. Please try removing/disabling this mod to see if this solves the issue.",
                     )
 
-            problem.add_field(
-                name="",
-                value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
-                inline=False,
-            )
-
             dm_me = await self.bot.fetch_user(self.bot.owner_id)
 
             view = LogButtons(mods_list, mods_list_disabled)
