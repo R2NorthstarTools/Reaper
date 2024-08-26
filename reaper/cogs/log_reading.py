@@ -28,7 +28,7 @@ def decodetext(text, text_to_filter, text_to_filter2):
     return new_text
 
 
-def versionCheck():
+def version_check():
     try:
         gh_api_response = requests.get(
             "https://api.github.com/repos/R2Northstar/Northstar/releases/latest"
@@ -58,8 +58,8 @@ mods_disabled_core = []
 problem = discord.Embed(
     title="Problems I found in your log:", description="", color=0x5D3FD3
 )
-dmLog = discord.Embed(title="Somebody sent a log!", description="", color=0x5D3FD3)
-oldLog = discord.Embed(
+dm_log = discord.Embed(title="Somebody sent a log!", description="", color=0x5D3FD3)
+old_log = discord.Embed(
     title="It looks like the log you've sent is older! Please send the newest one.",
     description="Windows puts the newest logs at the bottom of the logs folder due to how they're named.",
     color=0x5D3FD3,
@@ -70,7 +70,7 @@ class LogButtons(discord.ui.View):
 
     # note: disabled mods still appear in enabled list. dunno why
     @discord.ui.button(label="List of enabled mods", style=discord.ButtonStyle.success)
-    async def modList(
+    async def mod_list(
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
         mod_string = ""
@@ -85,15 +85,15 @@ class LogButtons(discord.ui.View):
         )
 
     @discord.ui.button(label="List of disabled mods", style=discord.ButtonStyle.red)
-    async def modListDisabled(
+    async def mod_list_disabled(
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
-        modStringDisabled = ""
+        mod_string_disabled = ""
         for mod in mods_list_disabled:
-            modStringDisabled = modStringDisabled + "- " + mod
+            mod_string_disabled = mod_string_disabled + "- " + mod
 
         await interaction.response.send_message(
-            f"The user has the following mods disabled: \n{modStringDisabled}",
+            f"The user has the following mods disabled: \n{mod_string_disabled}",
             ephemeral=True,
         )
 
@@ -163,13 +163,13 @@ class LogReading(commands.Cog):
                         for i, line in enumerate(lines):
                             if "NorthstarLauncher version:" in line:
 
-                                verSplit = line.split("version:")[1]
-                                if verSplit.strip() == "0.0.0.1+dev":
+                                ver_split = line.split("version:")[1]
+                                if ver_split.strip() == "0.0.0.1+dev":
                                     return
-                                elif verSplit.strip() < versionCheck():
-                                    dmLog.add_field(
+                                elif ver_split.strip() < version_check():
+                                    dm_log.add_field(
                                         name="",
-                                        value=f"Version: {verSplit.strip()}",
+                                        value=f"Version: {ver_split.strip()}",
                                         inline=False,
                                     )
                                     problem_found = True
@@ -208,7 +208,7 @@ class LogReading(commands.Cog):
 
                                 # Check if HUD Revamp is installed: conflicts with Client Kill callback
                                 if "HUD Revamp" in line:
-                                    dmLog.add_field(
+                                    dm_log.add_field(
                                         name="",
                                         value="HUD Revamp: True",
                                         inline=False,
@@ -218,7 +218,7 @@ class LogReading(commands.Cog):
 
                                 # Check if Client Kill callback is installed: conflicts with HUD Revamp
                                 if "ClientKillCallback" in line:
-                                    dmLog.add_field(
+                                    dm_log.add_field(
                                         name="",
                                         value="Client Kill Callback: True",
                                         inline=False,
@@ -229,7 +229,7 @@ class LogReading(commands.Cog):
 
                                 # Check if the OLD, merged better server browser is loading. It's broken now and causes issues
                                 if "Better.Serverbrowser" in line:
-                                    dmLog.add_field(
+                                    dm_log.add_field(
                                         name="",
                                         value="Better.Serverbrowser: True",
                                         inline=False,
@@ -243,7 +243,7 @@ class LogReading(commands.Cog):
                                 'COMPILE ERROR expected ",", found identifier "inputParams"'
                                 in line
                             ):
-                                dmLog.add_field(
+                                dm_log.add_field(
                                     name="",
                                     value="Client kill callback compile error: True",
                                     inline=False,
@@ -256,7 +256,7 @@ class LogReading(commands.Cog):
                                 'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"'
                                 in line
                             ):
-                                dmLog.add_field(
+                                dm_log.add_field(
                                     name="",
                                     value="Missing negativbild: True",
                                     inline=False,
@@ -269,7 +269,7 @@ class LogReading(commands.Cog):
                                 'COMPILE ERROR Undefined variable "NS_InternalLoadFile"'
                                 in line
                             ):
-                                dmLog.add_field(
+                                dm_log.add_field(
                                     name="",
                                     value="Titan Framework issue: True",
                                     inline=False,
@@ -313,23 +313,23 @@ class LogReading(commands.Cog):
                                     match = re.search(
                                         r"LoadStreamPak: (\S+)", checkLine
                                     )
-                                    global badStreamPakLoad
-                                    badStreamPakLoad = str(match.group(1))
+                                    global bad_stream_pak_load
+                                    bad_stream_pak_load = str(match.group(1))
                                     problem_found = True
 
                                     # this shit is so fucking gross oh my fucking god
                                     # i am so sorry for what i did to your code tony
-                                    for lineAgain in lines:
+                                    for line_again in lines:
                                         if (
-                                            f"registered starpak '{badStreamPakLoad}'"
-                                            in lineAgain
+                                            f"registered starpak '{bad_stream_pak_load}'"
+                                            in line_again
                                         ):
 
                                             match = re.search(
                                                 r"Mod\s+(.*?)\s+registered",
-                                                lineAgain,
+                                                line_again,
                                             )
-                                            badStreamPakLoad = match.group(
+                                            bad_stream_pak_load = match.group(
                                                 1
                                             )  # Store problematic mod in global var
 
@@ -337,7 +337,7 @@ class LogReading(commands.Cog):
 
                                     with open(r"Logs/nslogstarpaks.txt", "w") as file1:
                                         file1.write(
-                                            f"Bad streampak: {badStreamPakLoad}"
+                                            f"Bad streampak: {bad_stream_pak_load}"
                                         )
                                         file1.close()
 
@@ -352,7 +352,7 @@ class LogReading(commands.Cog):
 
                                                 # Run back over the log to find what mod the pak is registered with
                                                 if bad_mod == "Northstar.Custom":
-                                                    doubleBarrelCrash = True
+                                                    double_barrel_crash = True
                                                 file2.close()
                                                 break  # End the loop as it is no longer useful
 
@@ -452,7 +452,7 @@ class LogReading(commands.Cog):
                                     value=f"The following mods replace the same audio (`{audio_duplicate}`):\n {', '.join(names)}",
                                     inline=False,
                                 )
-                                dmLog.add_field(
+                                dm_log.add_field(
                                     name="Audio replacement conflict",
                                     value=f"The following mods replace the same audio (`{audio_duplicate}`):\n {', '.join(names)}",
                                     inline=False,
@@ -461,7 +461,7 @@ class LogReading(commands.Cog):
                         if old_version:
                             problem.add_field(
                                 name="Older Version",
-                                value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {versionCheck()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
+                                value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {await version_check()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
                                 inline=False,
                             )
                             problem.add_field(
@@ -478,7 +478,7 @@ class LogReading(commands.Cog):
                             )
 
                         if mod_problem:
-                            if doubleBarrelCrash:
+                            if double_barrel_crash:
 
                                 problem.add_field(
                                     name="Mod crashing",
@@ -499,7 +499,7 @@ class LogReading(commands.Cog):
                         )
                         await message.channel.send(embed=problem, reference=message)
 
-                        dmme = await self.bot.fetch_user(self.bot.owner_id)
+                        dm_me = await self.bot.fetch_user(self.bot.owner_id)
 
                         if len(problem.fields) > 0:
                             problem.add_field(
@@ -510,20 +510,20 @@ class LogReading(commands.Cog):
                             await message.channel.send(
                                 embed=problem, reference=message, view=view
                             )
-                            dmLog.add_field(
+                            dm_log.add_field(
                                 name="I found an issue in the log and replied!",
                                 value=f"A link to their log can be found here: {message.jump_url}",
                             )
-                            await dmme.send(embed=dmLog)
+                            await dm_me.send(embed=dm_log)
                         else:
-                            await dmme.send(
+                            await dm_me.send(
                                 f"I failed to respond to a log! The log can be found here: {message.jump_url}"
                             )
                             await message.channel.send(
                                 "I failed to respond to the log properly!"
                             )
 
-                        dmLog.clear_fields()
+                        dm_log.clear_fields()
 
                         audio_duplicates_list.clear()
                         audio_list.clear()
@@ -540,13 +540,13 @@ class LogReading(commands.Cog):
                         bad_mod = ""
 
                     elif not problem_found:
-                        dmme = await self.bot.fetch_user(self.bot.owner_id)
-                        dmLog.add_field(
+                        dm_me = await self.bot.fetch_user(self.bot.owner_id)
+                        dm_log.add_field(
                             name="I didn't find any issues!",
                             value=f"Here's a log you could potentially train from: {message.jump_url}",
                         )
-                        await dmme.send(embed=dmLog)
-                        dmLog.clear_fields()
+                        await dm_me.send(embed=dm_log)
+                        dm_log.clear_fields()
 
                         logger.info("I didn't find any problems in the log!")
 
