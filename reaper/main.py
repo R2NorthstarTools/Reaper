@@ -38,7 +38,7 @@ COGS = (
     "cogs.master_check",
     "cogs.mod_search",
     "cogs.playtester_ping_proxy",
-    "cogs.playtester_ping",
+    "cogs.playtester_ping_release_candidate",
     "cogs.price_check",
     "cogs.rules_writer",
     "cogs.sentiment_analyzer",
