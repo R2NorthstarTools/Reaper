@@ -93,6 +93,7 @@ class LogReading(commands.Cog):
         old_version = False
         disabled_core_mod = False
         double_barrel_crash = False
+        mod_problem = False
         crash_counter = 0
         filename = None
         audio_list = []
