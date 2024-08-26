@@ -13,7 +13,7 @@ import requests
 import re
 import io
 
-async def versionCheck():
+async def version_check():
     try:
         gh_api_response = requests.get(
             "https://api.github.com/repos/R2Northstar/Northstar/releases/latest"
@@ -90,6 +90,7 @@ class LogReading(commands.Cog):
         better_server_browser = False
         old_version = False
         disabled_core_mod = False
+        double_barrel_crash = False
         crash_counter = 0
         filename = None
         audio_list = []
@@ -115,11 +116,6 @@ class LogReading(commands.Cog):
         title="Problems I found in your log:", description="", color=0x5D3FD3
         )
         dm_log = discord.Embed(title="Somebody sent a log!", description="", color=0x5D3FD3)
-        old_log = discord.Embed(
-            title="It looks like the log you've sent is older! Please send the newest one.",
-            description="Windows puts the newest logs at the bottom of the logs folder due to how they're named.",
-            color=0x5D3FD3,
-        )
         
         logger.info("Found a log!")
 
@@ -134,14 +130,14 @@ class LogReading(commands.Cog):
         for i, line in enumerate(lines):
             if "NorthstarLauncher version:" in line:
 
-                verSplit = line.split("version:")[1]
-                current_version = await versionCheck()
-                if verSplit.strip() == "0.0.0.1+dev":
+                ver_split = line.split("version:")[1]
+                current_version = await version_check()
+                if ver_split.strip() == "0.0.0.1+dev":
                     return
-                elif verSplit.strip() < current_version: # apparently this works? I'm shocked
+                elif ver_split.strip() < current_version: # apparently this works? I'm shocked
                     dm_log.add_field(
                         name="",
-                        value=f"Version: {verSplit.strip()}",
+                        value=f"Version: {ver_split.strip()}",
                         inline=False,
                     )
                     problem_found = True
@@ -301,7 +297,7 @@ class LogReading(commands.Cog):
 
 
                     if bad_stream_pak_load == "Northstar.Custom":
-                        doubleBarrelCrash = True
+                        double_barrel_crash = True
         # Properly set up the list for actual checking
         d = list(set(tuple(audio) for audio in audio_list))
 
@@ -405,7 +401,7 @@ class LogReading(commands.Cog):
             if old_version:
                 problem.add_field(
                     name="Older Version",
-                    value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {await versionCheck()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
+                    value=f"It seems that you're running an older version of Northstar. Updating may not solve your issue, but you should do it anyway. The current version is {await version_check()}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).",
                     inline=False,
                 )
                 problem.add_field(
@@ -422,7 +418,7 @@ class LogReading(commands.Cog):
                 )
 
             if mod_problem:
-                if doubleBarrelCrash:
+                if double_barrel_crash:
 
                     problem.add_field(
                         name="Mod crashing",
