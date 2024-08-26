@@ -13,6 +13,7 @@ import requests
 import re
 import io
 
+
 async def version_check():
     try:
         gh_api_response = requests.get(
@@ -28,12 +29,13 @@ async def version_check():
         logger.warn(f"GitHub API request failed: {err}")
         return None
 
-    ns_current_version = gh_data["name"][1:]  
+    ns_current_version = gh_data["name"][1:]
     # This gets the version as the raw version number without the "v". So '1.7.3' vs 'v1.7.3'
     return ns_current_version
 
+
 class LogButtons(discord.ui.View):
-    
+
     def __init__(self, mods_list, mods_list_disabled):
         super().__init__()
         self.mods_list = mods_list
@@ -103,7 +105,9 @@ class LogReading(commands.Cog):
         if message.author.bot:
             return
 
-        if str(message.channel.id) not in allowed_channels and not str(message.channel.name).startswith("ticket"):
+        if str(message.channel.id) not in allowed_channels and not str(
+            message.channel.name
+        ).startswith("ticket"):
             return
         if message.attachments:
             filename = message.attachments[0].filename
@@ -111,19 +115,21 @@ class LogReading(commands.Cog):
             return
         if "nslog" not in filename or not filename.endswith(".txt"):
             return
-        
+
         problem = discord.Embed(
-        title="Problems I found in your log:", description="", color=0x5D3FD3
+            title="Problems I found in your log:", description="", color=0x5D3FD3
         )
-        dm_log = discord.Embed(title="Somebody sent a log!", description="", color=0x5D3FD3)
-        
+        dm_log = discord.Embed(
+            title="Somebody sent a log!", description="", color=0x5D3FD3
+        )
+
         logger.info("Found a log!")
 
         await message.attachments[0].save(log_file)
         log_file.seek(0)
         lines = []
         for line in log_file:
-            lines.append(line.decode("utf-8").strip()) 
+            lines.append(line.decode("utf-8").strip())
         # We need to do this because there are circumstances where we want to read lines that came before the line we are reading now
         # And this is the easiest way to do it
 
@@ -134,7 +140,9 @@ class LogReading(commands.Cog):
                 current_version = await version_check()
                 if ver_split.strip() == "0.0.0.1+dev":
                     return
-                elif ver_split.strip() < current_version: # apparently this works? I'm shocked
+                elif (
+                    ver_split.strip() < current_version
+                ):  # apparently this works? I'm shocked
                     dm_log.add_field(
                         name="",
                         value=f"Version: {ver_split.strip()}",
@@ -157,9 +165,7 @@ class LogReading(commands.Cog):
                 mods_list_disabled.append(line.split("'")[1])
 
             if "blacklisted mod" in line:
-                mods_list_disabled.append(
-                    line.split('"')[1] + " (blacklisted)\n"
-                )
+                mods_list_disabled.append(line.split('"')[1] + " (blacklisted)\n")
 
             if "Loading mod" in line:
 
@@ -170,9 +176,7 @@ class LogReading(commands.Cog):
                         if mod + "\n" in line:
                             continue
                         else:
-                            mods_list.append(
-                                line.split("Loading mod")[1]
-                            )
+                            mods_list.append(line.split("Loading mod")[1])
 
                 # Check if HUD Revamp is installed: conflicts with Client Kill callback
                 if "HUD Revamp" in line:
@@ -207,10 +211,7 @@ class LogReading(commands.Cog):
                     better_server_browser = True
 
             # Check for a compile error for missing Client Kill callback as a dependency, or when there's a conflict with it
-            if (
-                'COMPILE ERROR expected ",", found identifier "inputParams"'
-                in line
-            ):
+            if 'COMPILE ERROR expected ",", found identifier "inputParams"' in line:
                 dm_log.add_field(
                     name="",
                     value="Client kill callback compile error: True",
@@ -220,10 +221,7 @@ class LogReading(commands.Cog):
                 problem_found = True
                 compile_error_client_kill_callback = True
 
-            if (
-                'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"'
-                in line
-            ):
+            if 'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"' in line:
                 dm_log.add_field(
                     name="",
                     value="Missing negativbild: True",
@@ -233,10 +231,7 @@ class LogReading(commands.Cog):
                 problem_found = True
                 rgb_error = True
 
-            if (
-                'COMPILE ERROR Undefined variable "NS_InternalLoadFile"'
-                in line
-            ):
+            if 'COMPILE ERROR Undefined variable "NS_InternalLoadFile"' in line:
                 dm_log.add_field(
                     name="",
                     value="Titan Framework issue: True",
@@ -278,23 +273,19 @@ class LogReading(commands.Cog):
                 if "LoadStreamPak" in checkLine and crash_counter == 1:
                     mod_problem = True
                     # Use regex to grab the name of the pak that probably failed
-                    match = re.search(
-                        r"LoadStreamPak: (\S+)", checkLine
-                    )
+                    match = re.search(r"LoadStreamPak: (\S+)", checkLine)
                     bad_stream_pak_load = str(match.group(1))
                     problem_found = True
 
-                if (
-                    f"registered starpak '{bad_stream_pak_load}'"
-                    in line
-                ):
+                if f"registered starpak '{bad_stream_pak_load}'" in line:
 
                     match = re.search(
                         r"Mod\s+(.*?)\s+registered",
                         line,
                     )
-                    bad_stream_pak_load = match.group(1) # Store problematic mod in global var
-
+                    bad_stream_pak_load = match.group(
+                        1
+                    )  # Store problematic mod in global var
 
                     if bad_stream_pak_load == "Northstar.Custom":
                         double_barrel_crash = True
@@ -330,9 +321,7 @@ class LogReading(commands.Cog):
                 if len(mods_disabled_core) > 1:
                     if len(mods_disabled_core) == 2:
                         for mod in mods_disabled_core:
-                            disabled_core_string = (
-                                disabled_core_string + mod
-                            )
+                            disabled_core_string = disabled_core_string + mod
 
                     problem.add_field(
                         name="Disabled core mods",
@@ -440,7 +429,7 @@ class LogReading(commands.Cog):
             await message.channel.send(embed=problem, reference=message)
 
             dm_me = await self.bot.fetch_user(self.bot.owner_id)
-            
+
             view = LogButtons(mods_list, mods_list_disabled)
 
             if len(problem.fields) > 0:
@@ -449,9 +438,7 @@ class LogReading(commands.Cog):
                     value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
                     inline=False,
                 )
-                await message.channel.send(
-                    embed=problem, reference=message, view=view
-                )
+                await message.channel.send(embed=problem, reference=message, view=view)
                 dm_log.add_field(
                     name="I found an issue in the log and replied!",
                     value=f"A link to their log can be found here: {message.jump_url}",
@@ -461,9 +448,7 @@ class LogReading(commands.Cog):
                 await dm_me.send(
                     f"I failed to respond to a log! The log can be found here: {message.jump_url}"
                 )
-                await message.channel.send(
-                    "I failed to respond to the log properly!"
-                )
+                await message.channel.send("I failed to respond to the log properly!")
 
             dm_log.clear_fields()
             audio_duplicates_list.clear()
@@ -480,6 +465,7 @@ class LogReading(commands.Cog):
             dm_log.clear_fields()
 
             logger.info("I didn't find any problems in the log!")
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(LogReading(bot))
