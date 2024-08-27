@@ -432,7 +432,7 @@ class LogReading(commands.Cog):
                     value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
                     inline=False,
                 )
-                await message.reply(embed=problem, reference=message, view=view)
+                await message.channel.send(embed=problem, reference=message, view=view)
                 dm_log.add_field(
                     name="I found an issue in the log and replied!",
                     value=f"A link to their log can be found here: {message.jump_url}",
