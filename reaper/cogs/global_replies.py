@@ -14,8 +14,10 @@ from discord.ext import commands
 replies = True
 
 # Embeds about global enabling/denying automatic replies for the bot
-replieson = discord.Embed(title="Automatic bot replies set to ***ON***", color=0x287E29)
-repliesoff = discord.Embed(
+replies_on_embed = discord.Embed(
+    title="Automatic bot replies set to ***ON***", color=0x287E29
+)
+replies_off_embed = discord.Embed(
     title="Automatic bot replies set to ***OFF***", color=0xDC143C
 )
 
@@ -48,12 +50,12 @@ class GlobalReplies(commands.Cog):
 
             if not replies:
                 replies = True
-                await ctx.send(embed=replieson)
+                await ctx.send(embed=replies_on_embed)
                 logger.info("Automatic bot replies are enabled")
 
             else:
                 replies = False
-                await ctx.send(embed=repliesoff)
+                await ctx.send(embed=replies_off_embed)
                 logger.info("Automatic bot replies are disabled")
         else:
             await ctx.send(
