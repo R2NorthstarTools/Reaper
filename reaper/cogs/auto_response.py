@@ -84,6 +84,13 @@ ea = discord.Embed(
     color=0x5D3FD3,
 )
 
+# Embed for first person animations
+first_person_animations_embed = discord.Embed(
+    title="I noticed you may have asked for about first person embark and execution animations",
+    description="First person embark and execution animations are controlled server side for technical reasons set by the base game. In order to see them you need to join a server that has them enabled or create your own.",
+    color=0x5D3FD3,
+)
+
 
 class AutoResponse(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -171,6 +178,16 @@ class AutoResponse(commands.Cog):
                 "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
             )
             logger.info("Northstar mods installing embed reply sent")
+
+        elif (
+            re.search("first.person", message.content.lower())
+            and re.search("mod|northstar|titanfall", message.content.lower())
+            and re.search("animation|embark|embark", message.content.lower())
+        ):
+            await message.channel.send(
+                reference=message, embed=first_person_animations_embed
+            )
+            logger.info("First person animations embed reply sent")
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
