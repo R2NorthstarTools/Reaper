@@ -432,7 +432,7 @@ class LogReading(commands.Cog):
                     value="Please note that I am a bot and am still heavily being worked on. There is a chance that some or all of this information is incorrect, in which case I apologize.\nIf you still encounter issues after doing this, please send another log.",
                     inline=False,
                 )
-                await message.channel.send(embed=problem, reference=message, view=view)
+                await message.reply(embed=problem, reference=message, view=view)
                 dm_log.add_field(
                     name="I found an issue in the log and replied!",
                     value=f"A link to their log can be found here: {message.jump_url}",
@@ -440,9 +440,11 @@ class LogReading(commands.Cog):
                 await dm_me.send(embed=dm_log)
             else:
                 await dm_me.send(
-                    f"I failed to respond to a log! The log can be found here: {message.jump_url}"
+                    f"I processed a log and found no errors! The log can be found here: {message.jump_url}"
                 )
-                await message.channel.send("I failed to respond to the log properly!")
+                await message.reply(
+                    "Sorry, I scanned this log but I didn't find any common issues. Please wait for a human to assist you."
+                )
 
             dm_log.clear_fields()
             audio_duplicates_list.clear()
