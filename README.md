@@ -12,4 +12,4 @@ Installation instructions can be found in [docs/installation.md](docs/installati
 
 ## Credits
 
-Reaper is a fork of [`Spectre`](https://github.com/itscynxx/Spectre/) and as such builds on top off the amazing work of everyone that contributed to it.
+Reaper is a fork of [`Spectre`](https://github.com/itscynxx/Spectre/) and as such builds on top of the amazing work of everyone that contributed to it.
