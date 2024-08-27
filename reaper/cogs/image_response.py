@@ -163,7 +163,7 @@ async def handle_response(text: str, message):
         return
 
     if re.search("engine.error", text.lower()):
-        if re.search("error_device_hung", text.lower):
+        if re.search("error_device_hung", text.lower()):
             await message.channel.send(
                 embed=engine_error_device_hung, reference=message
             )
