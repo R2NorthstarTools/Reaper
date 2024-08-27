@@ -94,6 +94,7 @@ class LogReading(commands.Cog):
         disabled_core_mod = False
         double_barrel_crash = False
         mod_problem = False
+        invalid_value = False
         crash_counter = 0
         filename = None
         audio_list = []
@@ -242,6 +243,19 @@ class LogReading(commands.Cog):
                 problem_found = True
                 framework_error = True
 
+            elif (
+                'Failed reading masterserver authentication response: encountered parse error "Invalid value."'
+                in line
+            ):
+                dm_log.add_field(
+                    name="",
+                    value="Cloudflare issue: True",
+                    inline=False,
+                )
+                logger.info("I found a CloudFlare issue >:(")
+                problem_found = True
+                invalid_value = True
+
             # Check for audio replacements being loaded
             # If 2 seperate mods replacing the same audio are enabled at the same time the game fucking kills itself
             elif "Finished async read of audio sample" in line:
@@ -365,6 +379,13 @@ class LogReading(commands.Cog):
                 problem.add_field(
                     name="Titan Framework",
                     value="Currently, Titan Framework expects a work in progress Northstar feature to function. As such, having it installed will cause issues (temporarily, until the feature is implemented), which uninstalling it will fix. You can temporarily make it work by manually installing the mod by moving the plugins inside the `plugins` folder of the mod into `r2northstar/plugins`, however this is a TEMPORARY fix, and you'll have to undo it when Northstar gets its next update.",
+                    inline=False,
+                )
+
+            if invalid_value:
+                problem.add_field(
+                    name="Server setup error",
+                    value="If you are trying to setup a server, you likely made an error while setting it up. Please double check your port forwarding and try again.",
                     inline=False,
                 )
 
