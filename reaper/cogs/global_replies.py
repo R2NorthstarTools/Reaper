@@ -68,44 +68,28 @@ class GlobalReplies(commands.Cog):
         allowedchannels = util.json_handler.load_allowed_channels()
 
         if replies:
-            if str(ctx.author.id) in neverusers:
-                replystatusenabled.add_field(
-                    name=f"{ctx.author.display_name}'s ability to control replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.author.id) in users:
-                replystatusenabled.add_field(
-                    name=f"{ctx.author.display_name}'s automatic replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.channel.id) in allowedchannels:
-                replystatusenabled.add_field(
-                    name="Automatic replies in this channel:", value="Enabled"
-                )
-            await ctx.send(embed=replystatusenabled, ephemeral=True)
-            replystatusenabled.clear_fields()
+            reply_status_embed = replystatusenabled
+        else:
+            reply_status_embed = replystatusdisabled
 
-        elif replies:
-            if str(ctx.author.id) in neverusers:
-                replystatusdisabled.add_field(
-                    name=f"{ctx.author.display_name}'s ability to control replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.author.id) in users:
-                replystatusdisabled.add_field(
-                    name=f"{ctx.author.display_name}'s automatic replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.channel.id) in allowedchannels:
-                replystatusdisabled.add_field(
-                    name="Automatic replies in this channel:", value="Enabled"
-                )
-            await ctx.send(embed=replystatusdisabled, ephemeral=True)
-            replystatusdisabled.clear_fields()
+        if str(ctx.author.id) in neverusers:
+            reply_status_embed.add_field(
+                name=f"{ctx.author.display_name}'s ability to control replies:",
+                value="Disabled",
+                inline=False,
+            )
+        if str(ctx.author.id) in users:
+            reply_status_embed.add_field(
+                name=f"{ctx.author.display_name}'s automatic replies:",
+                value="Disabled",
+                inline=False,
+            )
+        if str(ctx.channel.id) in allowedchannels:
+            reply_status_embed.add_field(
+                name="Automatic replies in this channel:", value="Enabled"
+            )
+        await ctx.send(embed=reply_status_embed, ephemeral=True)
+        reply_status_embed.clear_fields()
 
 
 async def setup(bot: commands.Bot) -> None:
