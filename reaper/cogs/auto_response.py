@@ -117,57 +117,60 @@ class AutoResponse(commands.Cog):
         if str(message.author.id) in neverusers:
             return
 
-        if str(message.channel.id) in enabledchannels or str(
-            message.channel.name
-        ).startswith("ticket"):
-            # Should stop all bot messages
-            if message.author.bot:
+        if not (
+            str(message.channel.id) in enabledchannels
+            or str(message.channel.name).startswith("ticket")
+        ):
+            return
+
+        # Should stop all bot messages
+        if message.author.bot:
+            return
+
+        if re.search("player.*account", message.content.lower()):
+            await message.channel.send(reference=message, embed=playeraccount)
+            logger.info("Couldn't find player account embed reply sent")
+
+        elif re.search("failed.creating log file", message.content.lower()):
+            await message.channel.send(reference=message, embed=ea)
+            logger.info("Default EA App directory embed reply sent")
+
+        elif re.search("controller.not.working", message.content.lower()) or re.search(
+            "can.i.use.controller.*northstar", message.content.lower()
+        ):
+            await message.channel.send(reference=message, embed=controller)
+            logger.info("Controller embed reply sent")
+
+        elif re.search("authentication.*failed", message.content.lower()) or re.search(
+            "cant.*join", message.content.lower()
+        ):
+            if util.master_status.is_master_down():
+                await message.channel.send(reference=message, embed=msdownembed)
+            else:
                 return
 
-            elif re.search("player.*account", message.content.lower()):
-                await message.channel.send(reference=message, embed=playeraccount)
-                logger.info("Couldn't find player account embed reply sent")
+        elif re.search("how |help ", message.content.lower()) and re.search(
+            "uninstall.northstar", message.content.lower()
+        ):
+            await message.channel.send(reference=message, embed=uninstalling)
+            logger.info("Installing Northstar embed reply sent")
 
-            elif re.search("failed.creating log file", message.content.lower()):
-                await message.channel.send(reference=message, embed=ea)
-                logger.info("Default EA App directory embed reply sent")
+        elif re.search("how |help ", message.content.lower()) and re.search(
+            "install.northstar", message.content.lower()
+        ):
+            await message.channel.send(reference=message, embed=installing)
+            logger.info("Uninstalling Northstar embed reply sent")
 
-            elif re.search(
-                "controller.not.working", message.content.lower()
-            ) or re.search("can.i.use.controller.*northstar", message.content.lower()):
-                await message.channel.send(reference=message, embed=controller)
-                logger.info("Controller embed reply sent")
-
-            elif re.search(
-                "authentication.*failed", message.content.lower()
-            ) or re.search("cant.*join", message.content.lower()):
-                if util.master_status.is_master_down():
-                    await message.channel.send(reference=message, embed=msdownembed)
-                else:
-                    return
-
-            elif re.search("how |help ", message.content.lower()) and re.search(
-                "uninstall.northstar", message.content.lower()
-            ):
-                await message.channel.send(reference=message, embed=uninstalling)
-                logger.info("Installing Northstar embed reply sent")
-
-            elif re.search("how |help ", message.content.lower()) and re.search(
-                "install.northstar", message.content.lower()
-            ):
-                await message.channel.send(reference=message, embed=installing)
-                logger.info("Uninstalling Northstar embed reply sent")
-
-            elif (
-                re.search("how |help ", message.content.lower())
-                and re.search("titanfall|northstar", message.content.lower())
-                and re.search("install.*mods", message.content.lower())
-            ):
-                await message.channel.send(reference=message, embed=installmods)
-                await message.channel.send(
-                    "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
-                )
-                logger.info("Northstar mods installing embed reply sent")
+        elif (
+            re.search("how |help ", message.content.lower())
+            and re.search("titanfall|northstar", message.content.lower())
+            and re.search("install.*mods", message.content.lower())
+        ):
+            await message.channel.send(reference=message, embed=installmods)
+            await message.channel.send(
+                "https://cdn.discordapp.com/attachments/942391932137668618/1069362595192127578/instruction_bruh.png"
+            )
+            logger.info("Northstar mods installing embed reply sent")
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
