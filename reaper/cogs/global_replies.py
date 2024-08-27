@@ -51,7 +51,7 @@ class GlobalReplies(commands.Cog):
                 await ctx.send(embed=replieson)
                 logger.info("Automatic bot replies are enabled")
 
-            elif not replies:
+            else:
                 replies = False
                 await ctx.send(embed=repliesoff)
                 logger.info("Automatic bot replies are disabled")
