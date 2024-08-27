@@ -94,6 +94,7 @@ class LogReading(commands.Cog):
         disabled_core_mod = False
         double_barrel_crash = False
         mod_problem = False
+        invalid_value = False
         crash_counter = 0
         filename = None
         audio_list = []
@@ -154,7 +155,7 @@ class LogReading(commands.Cog):
 
             # Check mods
 
-            if "(DISABLED)" in line:
+            elif "(DISABLED)" in line:
                 if (
                     "Northstar.Client" in line
                     or "Northtar.Custom" in line
@@ -165,10 +166,10 @@ class LogReading(commands.Cog):
                 logger.info(line.split("'")[1])
                 mods_list_disabled.append(line.split("'")[1])
 
-            if "blacklisted mod" in line:
+            elif "blacklisted mod" in line:
                 mods_list_disabled.append(line.split('"')[1] + " (blacklisted)\n")
 
-            if "Loading mod" in line:
+            elif "Loading mod" in line:
 
                 if "R2Northstar" in line:
                     continue
@@ -190,7 +191,7 @@ class LogReading(commands.Cog):
                     hud = True
 
                 # Check if Client Kill callback is installed: conflicts with HUD Revamp
-                if "ClientKillCallback" in line:
+                elif "ClientKillCallback" in line:
                     dm_log.add_field(
                         name="",
                         value="Client Kill Callback: True",
@@ -201,7 +202,7 @@ class LogReading(commands.Cog):
                     callback = True
 
                 # Check if the OLD, merged better server browser is loading. It's broken now and causes issues
-                if "Better.Serverbrowser" in line:
+                elif "Better.Serverbrowser" in line:
                     dm_log.add_field(
                         name="",
                         value="Better.Serverbrowser: True",
@@ -212,7 +213,7 @@ class LogReading(commands.Cog):
                     better_server_browser = True
 
             # Check for a compile error for missing Client Kill callback as a dependency, or when there's a conflict with it
-            if 'COMPILE ERROR expected ",", found identifier "inputParams"' in line:
+            elif 'COMPILE ERROR expected ",", found identifier "inputParams"' in line:
                 dm_log.add_field(
                     name="",
                     value="Client kill callback compile error: True",
@@ -222,7 +223,7 @@ class LogReading(commands.Cog):
                 problem_found = True
                 compile_error_client_kill_callback = True
 
-            if 'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"' in line:
+            elif 'COMPILE ERROR Undefined variable "ModSettings_AddDropdown"' in line:
                 dm_log.add_field(
                     name="",
                     value="Missing negativbild: True",
@@ -232,7 +233,7 @@ class LogReading(commands.Cog):
                 problem_found = True
                 rgb_error = True
 
-            if 'COMPILE ERROR Undefined variable "NS_InternalLoadFile"' in line:
+            elif 'COMPILE ERROR Undefined variable "NS_InternalLoadFile"' in line:
                 dm_log.add_field(
                     name="",
                     value="Titan Framework issue: True",
@@ -242,9 +243,22 @@ class LogReading(commands.Cog):
                 problem_found = True
                 framework_error = True
 
+            elif (
+                'Failed reading masterserver authentication response: encountered parse error "Invalid value."'
+                in line
+            ):
+                dm_log.add_field(
+                    name="",
+                    value="Cloudflare issue: True",
+                    inline=False,
+                )
+                logger.info("I found a CloudFlare issue >:(")
+                problem_found = True
+                invalid_value = True
+
             # Check for audio replacements being loaded
             # If 2 seperate mods replacing the same audio are enabled at the same time the game fucking kills itself
-            if "Finished async read of audio sample" in line:
+            elif "Finished async read of audio sample" in line:
 
                 if "packages" in line:
                     # Split the string after "R2Northstar/mods" to keep the folder name onwards
@@ -260,7 +274,7 @@ class LogReading(commands.Cog):
                 # Add these to the audio list for checking for errors
                 audio_list.append(c)
             # Checks for first line of the crash section of the log
-            if (
+            elif (
                 "[NORTHSTAR] [error] Northstar has crashed! a minidump has been written and exception info is available below:"
                 in line
             ):
@@ -278,7 +292,7 @@ class LogReading(commands.Cog):
                     bad_stream_pak_load = str(match.group(1))
                     problem_found = True
 
-                if f"registered starpak '{bad_stream_pak_load}'" in line:
+                elif f"registered starpak '{bad_stream_pak_load}'" in line:
 
                     match = re.search(
                         r"Mod\s+(.*?)\s+registered",
@@ -365,6 +379,13 @@ class LogReading(commands.Cog):
                 problem.add_field(
                     name="Titan Framework",
                     value="Currently, Titan Framework expects a work in progress Northstar feature to function. As such, having it installed will cause issues (temporarily, until the feature is implemented), which uninstalling it will fix. You can temporarily make it work by manually installing the mod by moving the plugins inside the `plugins` folder of the mod into `r2northstar/plugins`, however this is a TEMPORARY fix, and you'll have to undo it when Northstar gets its next update.",
+                    inline=False,
+                )
+
+            if invalid_value:
+                problem.add_field(
+                    name="Server setup error",
+                    value="If you are trying to setup a server, you likely made an error while setting it up. Please double check your port forwarding and try again.",
                     inline=False,
                 )
 

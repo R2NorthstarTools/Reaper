@@ -14,8 +14,10 @@ from discord.ext import commands
 replies = True
 
 # Embeds about global enabling/denying automatic replies for the bot
-replieson = discord.Embed(title="Automatic bot replies set to ***ON***", color=0x287E29)
-repliesoff = discord.Embed(
+replies_on_embed = discord.Embed(
+    title="Automatic bot replies set to ***ON***", color=0x287E29
+)
+replies_off_embed = discord.Embed(
     title="Automatic bot replies set to ***OFF***", color=0xDC143C
 )
 
@@ -28,7 +30,7 @@ replystatusdisabled = discord.Embed(
 )
 
 
-def replycheck():
+def allow_replies():
     return replies
 
 
@@ -48,12 +50,12 @@ class GlobalReplies(commands.Cog):
 
             if not replies:
                 replies = True
-                await ctx.send(embed=replieson)
+                await ctx.send(embed=replies_on_embed)
                 logger.info("Automatic bot replies are enabled")
 
-            elif not replies:
+            else:
                 replies = False
-                await ctx.send(embed=repliesoff)
+                await ctx.send(embed=replies_off_embed)
                 logger.info("Automatic bot replies are disabled")
         else:
             await ctx.send(
@@ -68,44 +70,28 @@ class GlobalReplies(commands.Cog):
         allowedchannels = util.json_handler.load_allowed_channels()
 
         if replies:
-            if str(ctx.author.id) in neverusers:
-                replystatusenabled.add_field(
-                    name=f"{ctx.author.display_name}'s ability to control replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.author.id) in users:
-                replystatusenabled.add_field(
-                    name=f"{ctx.author.display_name}'s automatic replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.channel.id) in allowedchannels:
-                replystatusenabled.add_field(
-                    name="Automatic replies in this channel:", value="Enabled"
-                )
-            await ctx.send(embed=replystatusenabled, ephemeral=True)
-            replystatusenabled.clear_fields()
+            reply_status_embed = replystatusenabled
+        else:
+            reply_status_embed = replystatusdisabled
 
-        elif replies:
-            if str(ctx.author.id) in neverusers:
-                replystatusdisabled.add_field(
-                    name=f"{ctx.author.display_name}'s ability to control replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.author.id) in users:
-                replystatusdisabled.add_field(
-                    name=f"{ctx.author.display_name}'s automatic replies:",
-                    value="Disabled",
-                    inline=False,
-                )
-            if str(ctx.channel.id) in allowedchannels:
-                replystatusdisabled.add_field(
-                    name="Automatic replies in this channel:", value="Enabled"
-                )
-            await ctx.send(embed=replystatusdisabled, ephemeral=True)
-            replystatusdisabled.clear_fields()
+        if str(ctx.author.id) in neverusers:
+            reply_status_embed.add_field(
+                name=f"{ctx.author.display_name}'s ability to control replies:",
+                value="Disabled",
+                inline=False,
+            )
+        if str(ctx.author.id) in users:
+            reply_status_embed.add_field(
+                name=f"{ctx.author.display_name}'s automatic replies:",
+                value="Disabled",
+                inline=False,
+            )
+        if str(ctx.channel.id) in allowedchannels:
+            reply_status_embed.add_field(
+                name="Automatic replies in this channel:", value="Enabled"
+            )
+        await ctx.send(embed=reply_status_embed, ephemeral=True)
+        reply_status_embed.clear_fields()
 
 
 async def setup(bot: commands.Bot) -> None:

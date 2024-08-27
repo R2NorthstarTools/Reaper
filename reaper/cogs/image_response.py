@@ -16,10 +16,11 @@ import discord
 
 
 information_message = "Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @geckoeidechse"
+common_embed_color = 0x5D3FD3
 
 vanilla_plus = discord.Embed(
     description="If you're using VanillaPlus, please make sure to read the instructions [on the mod page](https://northstar.thunderstore.io/package/NanohmProtogen/VanillaPlus/) (if you're updating from an older version, the steps have changed, so please read it again)\n\nIf you AREN'T using VanillaPlus, make sure you didn't disable any core mods. You can see if they're enabled or disabled in `R2Northstar/enabledmods.json`. Either change `false` to `true` on disabled core mods, or delete `enabledmods.json` and ALL mods will automatically enable",
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 vanilla_plus.add_field(
     name="",
@@ -28,7 +29,7 @@ vanilla_plus.add_field(
 
 operation_not_permitted = discord.Embed(
     description="EA's default install directory has some issues associated with it, which can be solved by following the [wiki section about this error](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app)",
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 operation_not_permitted.add_field(
     name="",
@@ -37,7 +38,7 @@ operation_not_permitted.add_field(
 
 mod_failed_sanity = discord.Embed(
     description="The \"Mod failed sanity check\" error is specific to FlightCore, and means that the mod isn't properly formatted and FlightCore can't automatically install it. However, you can still follow the [manual mod install guide](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/manual-installation#installing-northstar-mods-manually) to install the mod you wanted.",
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 mod_failed_sanity.add_field(
     name="",
@@ -46,7 +47,7 @@ mod_failed_sanity.add_field(
 
 log_file = discord.Embed(
     description='I noticed you encountered the "Failed creating log file!" error.\n\nPlease follow the [wiki section](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app) for solving this issue.',
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 log_file.add_field(
     name="",
@@ -55,7 +56,7 @@ log_file.add_field(
 
 msvcp = discord.Embed(
     description='The "MSVCP120.dll" or "MSVCR120.dll" error comes up when you\'re missing a dependency Titanfall 2 uses to run. Follow the [wiki section for this issue](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#msvcr) to solve it.',
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 msvcp.add_field(
     name="",
@@ -64,7 +65,7 @@ msvcp.add_field(
 
 playeraccount = discord.Embed(
     description='Try following the guide on solving the "Couldn\'t find player account" and "Invalid master server token" errors [here](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#playeraccount)',
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 playeraccount.add_field(
     name="",
@@ -73,7 +74,7 @@ playeraccount.add_field(
 
 origin_offline = discord.Embed(
     description='Try following the guide on solving the "Origin Offline" and "Origin logged out" errors [here](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#origin-offline)',
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 origin_offline.add_field(
     name="",
@@ -82,7 +83,7 @@ origin_offline.add_field(
 
 script_comp = discord.Embed(
     description="From this image alone, we can't see what's causing the issue. Please send a screenshot of the console (open it by hitting the `~` key), or send the newest log. You can find logs in `Titanfall2/R2Northstar/logs`, with the newest being on the bottom by default.",
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 script_comp.add_field(
     name="",
@@ -91,16 +92,34 @@ script_comp.add_field(
 
 engine_error = discord.Embed(
     description="Found a screenshot showing 'Engine Error'. Uploading a log file might be useful to resolve this issue",
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 engine_error.add_field(
     name="",
     value=information_message,
 )
 
+engine_error_device_hung = discord.Embed(
+    description="Found a screenshot showing 'ERROR_DEVICE_HUNG'. Maybe try one of the fixes described here: https://www.getdroidtips.com/titanfall-2-dxgi-error-device-hung-error-fix/",
+    color=common_embed_color,
+)
+engine_error_device_hung.add_field(
+    name="",
+    value=information_message,
+)
+
+engine_error_loaded_more_than_once = discord.Embed(
+    description="Found a screenshot showing 'X is being loaded more than once from Y'. This is likely caused by a mod being installed multiple times or a faulty mod. Try disabling all mods except then `Northstar.XYZ` ones and see if the issue still persists.",
+    color=common_embed_color,
+)
+engine_error_loaded_more_than_once.add_field(
+    name="",
+    value=information_message,
+)
+
 tcp_port_info = discord.Embed(
     description="Detect mention of a TCP port in the image. Should this be about forwarding then note that only the UDP port needs to forwarded. Forwarding TCP is no longer needed for hosting a Northstar server and has no effect since over a year.",
-    color=0x5D3FD3,
+    color=common_embed_color,
 )
 tcp_port_info.add_field(
     name="",
@@ -154,6 +173,18 @@ async def handle_response(text: str, message):
         return
 
     if re.search("engine.error", text.lower()):
+        if re.search("error_device_hung", text.lower()):
+            await message.channel.send(
+                embed=engine_error_device_hung, reference=message
+            )
+            return
+
+        if re.search("is.being.loaded.more.than.once.from", text.lower()):
+            await message.channel.send(
+                embed=engine_error_loaded_more_than_once, reference=message
+            )
+            return
+
         await message.channel.send(embed=engine_error, reference=message)
         return
 
