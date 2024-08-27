@@ -5,6 +5,9 @@
     "flake8.args": [
         "--ignore=E501,E402,W503"
     ],
+    "ruff.lint.args": [
+        "--ignore=E402"
+    ],
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true
