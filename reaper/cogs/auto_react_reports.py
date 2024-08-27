@@ -33,27 +33,27 @@ class AutoReactReports(commands.Cog):
             logger.warn("Tried to send message while on cooldown! Didn't send message!")
             return
 
-        if allow_replies():
-            if (
-                message.channel.id
-                == globals.config["channels"]["report-users-channel-id"]
-            ):
-                # This is to check if the message is a "Person started a thread" message
-                if message.type != discord.MessageType.thread_created:
+        if not allow_replies():
+            return
 
-                    # There was a note here explaining the need for a sleep between each reaction add.
-                    # However, this works perfectly fine, and I have had another bot on the same library
-                    # do this with 10 emotes in a list work perfectly 100% of the time
+        if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
+            # This is to check if the message is a "Person started a thread" message
+            if message.type == discord.MessageType.thread_created:
+                return
 
-                    emotes = [
-                        "🔴",
-                        "🟠",
-                        "🟢",
-                    ]
-                    for emote in emotes:
-                        await message.add_reaction(emote)
+            # There was a note here explaining the need for a sleep between each reaction add.
+            # However, this works perfectly fine, and I have had another bot on the same library
+            # do this with 10 emotes in a list work perfectly 100% of the time
 
-            self.last_time = datetime.datetime.now(datetime.timezone.utc)
+            emotes = [
+                "🔴",
+                "🟠",
+                "🟢",
+            ]
+            for emote in emotes:
+                await message.add_reaction(emote)
+
+        self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
 
 
