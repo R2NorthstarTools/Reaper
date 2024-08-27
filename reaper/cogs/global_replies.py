@@ -28,7 +28,7 @@ replystatusdisabled = discord.Embed(
 )
 
 
-def replycheck():
+def allow_replies():
     return replies
 
 

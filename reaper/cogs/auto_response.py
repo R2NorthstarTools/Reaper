@@ -11,7 +11,7 @@ import discord
 from discord.ext import commands
 import util.json_handler
 import util.master_status
-from cogs.global_replies import replycheck
+from cogs.global_replies import allow_replies
 import re
 from util import globals
 
@@ -108,7 +108,7 @@ class AutoResponse(commands.Cog):
             logger.warn("Tried to send message while on cooldown! Didn't send message!")
             return
 
-        if replycheck():
+        if allow_replies():
             if str(message.author.id) in users:
                 return
 
