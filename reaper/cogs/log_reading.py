@@ -471,6 +471,10 @@ class LogReading(commands.Cog):
             problem.clear_fields()
 
         elif not problem_found:
+            await message.channel.send(
+                "I couldn't find a common issue from the log. Please wait for a human to assist you",
+                reference=message,
+            )
             dm_me = await self.bot.fetch_user(self.bot.owner_id)
             dm_log.add_field(
                 name="I didn't find any issues!",
