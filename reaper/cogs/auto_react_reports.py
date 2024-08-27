@@ -9,7 +9,7 @@ coloredlogs.install(
 import datetime
 import discord
 from discord.ext import commands
-from cogs.global_replies import replycheck
+from cogs.global_replies import allow_replies
 from util import globals
 
 
@@ -33,7 +33,7 @@ class AutoReactReports(commands.Cog):
             logger.warn("Tried to send message while on cooldown! Didn't send message!")
             return
 
-        if replycheck():
+        if allow_replies():
             if (
                 message.channel.id
                 == globals.config["channels"]["report-users-channel-id"]
