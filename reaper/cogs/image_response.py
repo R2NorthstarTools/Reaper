@@ -98,6 +98,15 @@ engine_error.add_field(
     value=information_message,
 )
 
+engine_error_device_hung = discord.Embed(
+    description="Found a screenshot showing 'ERROR_DEVICE_HUNG'. Maybe try one of the fixes described here: https://www.getdroidtips.com/titanfall-2-dxgi-error-device-hung-error-fix/",
+    color=0x5D3FD3,
+)
+engine_error_device_hung.add_field(
+    name="",
+    value=information_message,
+)
+
 tcp_port_info = discord.Embed(
     description="Detect mention of a TCP port in the image. Should this be about forwarding then note that only the UDP port needs to forwarded. Forwarding TCP is no longer needed for hosting a Northstar server and has no effect since over a year.",
     color=0x5D3FD3,
@@ -154,6 +163,12 @@ async def handle_response(text: str, message):
         return
 
     if re.search("engine.error", text.lower()):
+        if re.search("error_device_hung", text.lower):
+            await message.channel.send(
+                embed=engine_error_device_hung, reference=message
+            )
+            return
+
         await message.channel.send(embed=engine_error, reference=message)
         return
 
