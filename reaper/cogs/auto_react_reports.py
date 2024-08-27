@@ -9,7 +9,6 @@ coloredlogs.install(
 import datetime
 import discord
 from discord.ext import commands
-from cogs.global_replies import allow_replies
 from util import globals
 
 
@@ -21,20 +20,6 @@ class AutoReactReports(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        time_diff = (
-            datetime.datetime.now(datetime.timezone.utc) - self.last_time
-        ).total_seconds()
-
-        if not (
-            time_diff > globals.config["general"]["cooldowntime"]
-            or message.channel.id != self.last_channel
-        ):
-            self.last_channel = message.channel.id
-            logger.warn("Tried to send message while on cooldown! Didn't send message!")
-            return
-
-        if not allow_replies():
-            return
 
         if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
             # This is to check if the message is a "Person started a thread" message
