@@ -107,6 +107,15 @@ engine_error_device_hung.add_field(
     value=information_message,
 )
 
+engine_error_loaded_more_than_once = discord.Embed(
+    description="Found a screenshot showing 'X is being loaded more than once from Y'. This is likely caused by a mod being installed multiple times or a faulty mod. Try disabling all mods except then `Northstar.XYZ` ones and see if the issue still persists.",
+    color=0x5D3FD3,
+)
+engine_error_loaded_more_than_once.add_field(
+    name="",
+    value=information_message,
+)
+
 tcp_port_info = discord.Embed(
     description="Detect mention of a TCP port in the image. Should this be about forwarding then note that only the UDP port needs to forwarded. Forwarding TCP is no longer needed for hosting a Northstar server and has no effect since over a year.",
     color=0x5D3FD3,
@@ -166,6 +175,12 @@ async def handle_response(text: str, message):
         if re.search("error_device_hung", text.lower()):
             await message.channel.send(
                 embed=engine_error_device_hung, reference=message
+            )
+            return
+
+        if re.search("is.being.loaded.more.than.once.from", text.lower()):
+            await message.channel.send(
+                embed=engine_error_loaded_more_than_once, reference=message
             )
             return
 
