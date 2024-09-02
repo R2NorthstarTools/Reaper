@@ -126,6 +126,15 @@ tcp_port_info.add_field(
     value=information_message,
 )
 
+flightcore_default_titanfall_ea_default_path = discord.Embed(
+    description="Detected FlightCore error message with mention of default install path for Titanfall2 using EA App.\nUsing the instructions provided in the following link might resolve your issue: https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app",
+    color=common_embed_color,
+)
+flightcore_default_titanfall_ea_default_path.add_field(
+    name="",
+    value=information_message,
+)
+
 
 async def handle_response(text: str, message):
     if re.search(
@@ -190,6 +199,16 @@ async def handle_response(text: str, message):
 
     if re.search("tcp|top", text.lower()) and re.search("808.", text.lower()):
         await message.channel.send(embed=tcp_port_info, reference=message)
+        return
+
+    if (
+        re.search("flightcore", text.lower())
+        and re.search("cannot.install.to.default.ea.app.install.path.", text.lower())
+        and re.search("move.titanfall", text.lower())
+    ):
+        await message.channel.send(
+            embed=flightcore_default_titanfall_ea_default_path, reference=message
+        )
         return
 
 
