@@ -95,6 +95,7 @@ class LogReading(commands.Cog):
         double_barrel_crash = False
         mod_problem = False
         invalid_value = False
+        script_error = []
         crash_counter = 0
         filename = None
         audio_list = []
@@ -242,6 +243,20 @@ class LogReading(commands.Cog):
                 logger.info("I found a titan framework issue >:(")
                 problem_found = True
                 framework_error = True
+
+            elif "SCRIPT ERROR" in line:
+                dm_log.add_field(
+                    name="",
+                    value="SCRIPT ERROR: True",
+                    inline=False,
+                )
+                logger.info("I found a script error!")
+                problem_found = True
+                j = i
+                while lines[j] != "" and j < i + 15:
+                    script_error.append(lines[j])
+                    logger.info(line[j])
+                    j += 1
 
             elif (
                 'Failed reading masterserver authentication response: encountered parse error "Invalid value."'
@@ -425,6 +440,14 @@ class LogReading(commands.Cog):
                 problem.add_field(
                     name="Fixing audio replacement conflicts",
                     value="Please remove mods until only one of these audio mods are enabled. These names aren't perfect to what they are for the mod, however they are the file names for the mod, so you can just remove the folder matching the name from `Titanfall2/R2Northstar/mods`.",
+                    inline=False,
+                )
+
+            if script_error:
+                logger.info("adding field")
+                problem.add_field(
+                    name="Script Error",
+                    value=f"The following script error was found: \n ```{'\n'.join(script_error)}```\nYou likely have an old or outdated mod. You can try to find it based on the files listed in this part of the log and delete it, or wait for a human to give you more information.",
                     inline=False,
                 )
 
