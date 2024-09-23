@@ -107,6 +107,9 @@ class AutoResponse(commands.Cog):
             datetime.datetime.now(datetime.timezone.utc) - self.last_time
         ).total_seconds()
 
+        if not message.guild:
+            return
+
         if not (
             time_diff > globals.config["general"]["cooldowntime"]
             or message.channel.id != self.last_channel
