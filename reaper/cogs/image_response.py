@@ -225,7 +225,7 @@ class imageStuff(commands.Cog):
         if str(message.author.id) in users:
             return
 
-        if message.guild is None:
+        if not message.guild:
             return
 
         if not (
