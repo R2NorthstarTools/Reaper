@@ -225,6 +225,9 @@ class imageStuff(commands.Cog):
         if str(message.author.id) in users:
             return
 
+        if not message.guild:
+            return
+
         if not (
             str(message.channel.id) in allowed_channels
             or str(message.channel.name).startswith("ticket")
