@@ -253,7 +253,9 @@ class LogReading(commands.Cog):
                 logger.info("I found a script error!")
                 problem_found = True
                 j = i
-                while lines[j] != "" and j < i + 15:
+                script_read_failsafe = 15
+                while lines[j] != "" and j < i + script_read_failsafe:
+                    # script traceback ends with a blank line, 15 is just a failsafe
                     script_error.append(lines[j])
                     logger.info(lines[j])
                     j += 1
