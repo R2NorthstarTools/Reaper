@@ -255,7 +255,7 @@ class LogReading(commands.Cog):
                 j = i
                 while lines[j] != "" and j < i + 15:
                     script_error.append(lines[j])
-                    logger.info(line[j])
+                    logger.info(lines[j])
                     j += 1
 
             elif (
