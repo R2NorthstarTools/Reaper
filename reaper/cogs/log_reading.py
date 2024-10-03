@@ -79,6 +79,9 @@ class LogButtons(discord.ui.View):
         if len(mod_string) > 2000:  # Discord message limit
             mod_string = mod_string[:1997] + "..."
 
+        if mod_string == "":
+            mod_string = "No enabled mods found"
+
         await interaction.response.send_message(mod_string, ephemeral=True)
 
     @discord.ui.button(label="List of disabled mods", style=discord.ButtonStyle.red)
@@ -92,6 +95,9 @@ class LogButtons(discord.ui.View):
 
         if len(mod_string) > 2000:  # Discord message limit
             mod_string = mod_string[:1997] + "..."
+
+        if mod_string == "":
+            mod_string = "No disabled mods found"
 
         await interaction.response.send_message(mod_string, ephemeral=True)
 
