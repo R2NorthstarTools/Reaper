@@ -294,27 +294,24 @@ class LogReading(commands.Cog):
                 inline=False,
             )
 
-        # First case: Handles paths with 'packages' and 'mods' subfolders (without capturing audio_file)
+        # Audio can be loaded under /packages or /mods so its easier to have two regexes
         audio_matches_case1 = re.findall(
             r"Finished async read of audio sample R2Northstar\\packages\\([^\\]+)\\mods\\[^\\]+\\audio\\([^\\]+)",
             log,
         )
 
-        # Second case: Handles paths with only 'mods' folder (without capturing audio_file)
         audio_matches_case2 = re.findall(
             r"Finished async read of audio sample R2Northstar\\mods\\([^\\]+)\\audio\\([^\\]+)",
             log,
         )
 
         loaded_audio = {}
-        # Handling matches for the first case
         for mod_folder, audio_folder in audio_matches_case1:
             if audio_folder not in loaded_audio:
                 loaded_audio[audio_folder] = []
             if mod_folder not in loaded_audio[audio_folder]:
                 loaded_audio[audio_folder].append(mod_folder)
 
-        # Handling matches for the second case
         for mod_folder, audio_folder in audio_matches_case2:
             if audio_folder not in loaded_audio:
                 loaded_audio[audio_folder] = []
