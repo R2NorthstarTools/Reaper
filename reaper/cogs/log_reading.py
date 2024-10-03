@@ -306,13 +306,7 @@ class LogReading(commands.Cog):
         )
 
         loaded_audio = {}
-        for mod_folder, audio_folder in audio_matches_case1:
-            if audio_folder not in loaded_audio:
-                loaded_audio[audio_folder] = []
-            if mod_folder not in loaded_audio[audio_folder]:
-                loaded_audio[audio_folder].append(mod_folder)
-
-        for mod_folder, audio_folder in audio_matches_case2:
+        for mod_folder, audio_folder in audio_matches_case1 + audio_matches_case2:
             if audio_folder not in loaded_audio:
                 loaded_audio[audio_folder] = []
             if mod_folder not in loaded_audio[audio_folder]:
