@@ -16,7 +16,7 @@ from discord.ext import commands
 def grab_rules_from_repo():
     """Grabs the rules from the corresponding GitHub repo and extracts them from the Markdown document"""
 
-    rules_link = "https://raw.githubusercontent.com/R2Northstar/NorthstarWiki/main/docs/other/moderation/rules.md"
+    rules_link = "https://raw.githubusercontent.com/R2Northstar/NorthstarDocs/main/docs/Wiki/other/moderation/rules.md"
 
     # Fetch the markdown file from the URL
     response = requests.get(rules_link)
