@@ -8,7 +8,7 @@ replies = True
 helpembed = discord.Embed(title="Having issues with Northstar?", color=0xFFF9AC)
 helpembed.add_field(
     name="Troubleshooting issues with Northstar or installing Northstar",
-    value="Check out the [FAQ](https://r2northstar.gitbook.io/r2northstar-wiki/faq) and [troubleshooting](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting) pages of the wiki for your error\n\nIf you can't find your error, feel free to open a ticket in the [help channel](https://discordapp.com/channels/920776187884732556/922663326994018366/1101924175343517827) by reading the embedded message and clicking the button to open a ticket",
+    value="Check out the [FAQ](https://docs.northstar.tf/Wiki/faq/) and [troubleshooting](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/) pages of the wiki for your error\n\nIf you can't find your error, feel free to open a ticket in the [help channel](https://discordapp.com/channels/920776187884732556/922663326994018366/1101924175343517827) by reading the embedded message and clicking the button to open a ticket",
 )
 
 # Embeds for the installation channel - Manual
@@ -19,7 +19,7 @@ manual = discord.Embed(
 )
 manual.add_field(
     name="\u200b",
-    value="Download the newest `.zip` from the [releases page](https://github.com/R2Northstar/Northstar/releases/latest)\n\nFollow the [Manual installation guide](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/manual-installation)",
+    value="Download the newest `.zip` from the [releases page](https://github.com/R2Northstar/Northstar/releases/latest)\n\nFollow the [Manual installation guide](https://docs.northstar.tf/Wiki/installing-northstar/manual-installation/)",
 )
 
 # Embeds for the installation channel - Automatic
@@ -30,17 +30,17 @@ installation = discord.Embed(
 )
 installation.add_field(
     name="FlightCore",
-    value="Simple, easy to use mod manager and Northstar installer. Most stable mod manager.\n\nWorks on Windows and Linux, and is actively updated.\n\n[Download (Windows)](https://r2northstartools.github.io/FlightCore/index.html?win-setup)\n\n[Guide to setting up FlightCore](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/northstar-installers/flightcore-guide)",
+    value="Simple, easy to use mod manager and Northstar installer. Most stable mod manager.\n\nWorks on Windows and Linux, and is actively updated.\n\n[Download (Windows)](https://r2northstartools.github.io/FlightCore/index.html?win-setup)\n\n[Guide to setting up FlightCore](https://docs.northstar.tf/Wiki/installing-northstar/northstar-installers/flightcore-guide/)",
     inline=True,
 )
 installation.add_field(
     name="VTOL",
-    value="Advanced, feature rich mod manager and Northstar installer. Additionally very useful if you might want to make mods.\n\nWorks on Windows, and is actively updated.\n\n[Download (Windows)](https://github.com/BigSpice/VTOL/releases/latest/download/VTOL_Installer.msi)\n\n[Guide to setting up VTOL](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/northstar-installers/vtol-guide)",
+    value="Advanced, feature rich mod manager and Northstar installer. Additionally very useful if you might want to make mods.\n\nWorks on Windows, and is actively updated.\n\n[Download (Windows)](https://github.com/BigSpice/VTOL/releases/latest/download/VTOL_Installer.msi)\n\n[Guide to setting up VTOL](https://docs.northstar.tf/Wiki/installing-northstar/northstar-installers/vtol-guide/)",
     inline=True,
 )
 installation.add_field(
     name="Viper",
-    value="Simple, easy to use mod manager and Northstar installer. Good when it works.\n\nWorks on Windows and Linux, and occasionally recieves bug fix updates.\n\n[Download (Windows)](https://0negal.github.io/viper/index.html?win-setup)\n\n[Guide to setting up Viper](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/northstar-installers/viper-guide)",
+    value="Simple, easy to use mod manager and Northstar installer. Good when it works.\n\nWorks on Windows and Linux, and occasionally recieves bug fix updates.\n\n[Download (Windows)](https://0negal.github.io/viper/index.html?win-setup)\n\n[Guide to setting up Viper](https://docs.northstar.tf/Wiki/installing-northstar/northstar-installers/viper-guide/)",
     inline=True,
 )
 
