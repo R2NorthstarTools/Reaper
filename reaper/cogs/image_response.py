@@ -28,7 +28,7 @@ vanilla_plus.add_field(
 )
 
 operation_not_permitted = discord.Embed(
-    description="EA's default install directory has some issues associated with it, which can be solved by following the [wiki section about this error](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app)",
+    description="EA's default install directory has some issues associated with it, which can be solved by following the [wiki section about this error](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#cannot-write-log-file-when-using-northstar-on-ea-app)",
     color=common_embed_color,
 )
 operation_not_permitted.add_field(
@@ -37,7 +37,7 @@ operation_not_permitted.add_field(
 )
 
 mod_failed_sanity = discord.Embed(
-    description="The \"Mod failed sanity check\" error is specific to FlightCore, and means that the mod isn't properly formatted and FlightCore can't automatically install it. However, you can still follow the [manual mod install guide](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/manual-installation#installing-northstar-mods-manually) to install the mod you wanted.",
+    description="The \"Mod failed sanity check\" error is specific to FlightCore, and means that the mod isn't properly formatted and FlightCore can't automatically install it. However, you can still follow the [manual mod install guide](https://docs.northstar.tf/Wiki/installing-northstar/manual-installation/#installing-northstar-mods-manually) to install the mod you wanted.",
     color=common_embed_color,
 )
 mod_failed_sanity.add_field(
@@ -46,7 +46,7 @@ mod_failed_sanity.add_field(
 )
 
 log_file = discord.Embed(
-    description='I noticed you encountered the "Failed creating log file!" error.\n\nPlease follow the [wiki section](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app) for solving this issue.',
+    description='I noticed you encountered the "Failed creating log file!" error.\n\nPlease follow the [wiki section](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#cannot-write-log-file-when-using-northstar-on-ea-app) for solving this issue.',
     color=common_embed_color,
 )
 log_file.add_field(
@@ -55,7 +55,7 @@ log_file.add_field(
 )
 
 msvcp = discord.Embed(
-    description='The "MSVCP120.dll" or "MSVCR120.dll" error comes up when you\'re missing a dependency Titanfall 2 uses to run. Follow the [wiki section for this issue](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#msvcr) to solve it.',
+    description='The "MSVCP120.dll" or "MSVCR120.dll" error comes up when you\'re missing a dependency Titanfall 2 uses to run. Follow the [wiki section for this issue](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#msvcr120dll-msvcp120dll-not-found) to solve it.',
     color=common_embed_color,
 )
 msvcp.add_field(
@@ -64,7 +64,7 @@ msvcp.add_field(
 )
 
 playeraccount = discord.Embed(
-    description='Try following the guide on solving the "Couldn\'t find player account" and "Invalid master server token" errors [here](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#playeraccount)',
+    description='Try following the guide on solving the "Couldn\'t find player account" and "Invalid master server token" errors [here](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#couldnt-find-player-accountinvalid-master-server-token)',
     color=common_embed_color,
 )
 playeraccount.add_field(
@@ -73,7 +73,7 @@ playeraccount.add_field(
 )
 
 origin_offline = discord.Embed(
-    description='Try following the guide on solving the "Origin Offline" and "Origin logged out" errors [here](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#origin-offline)',
+    description='Try following the guide on solving the "Origin Offline" and "Origin logged out" errors [here](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#origin-offlineorigin_logged_out)',
     color=common_embed_color,
 )
 origin_offline.add_field(
@@ -127,7 +127,7 @@ tcp_port_info.add_field(
 )
 
 flightcore_default_titanfall_ea_default_path = discord.Embed(
-    description="Detected FlightCore error message with mention of default install path for Titanfall2 using EA App.\nUsing the instructions provided in the following link might resolve your issue: https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app",
+    description="Detected FlightCore error message with mention of default install path for Titanfall2 using EA App.\nUsing the instructions provided in the following link might resolve your issue: https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#cannot-write-log-file-when-using-northstar-on-ea-app",
     color=common_embed_color,
 )
 flightcore_default_titanfall_ea_default_path.add_field(
