@@ -66,6 +66,7 @@ class LogButtons(discord.ui.View):
     def __init__(self, mods):
         super().__init__()
         self.mods = mods
+        self.timeout = None  # make buttons last forever
 
     @discord.ui.button(label="List of enabled mods", style=discord.ButtonStyle.success)
     async def mod_list(
