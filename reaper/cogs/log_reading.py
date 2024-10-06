@@ -112,18 +112,10 @@ class LogReading(commands.Cog):
         allowed_channels = util.json_handler.load_allowed_channels()
         if message.author.bot:
             return
-
         if str(message.channel.id) not in allowed_channels and not str(
             message.channel.name
         ).startswith("ticket"):
             return
-        if message.attachments:
-            filename = message.attachments[0].filename
-        if not filename:
-            return
-        if "nslog" not in filename or not filename.endswith(".txt"):
-            return
-
         problem = discord.Embed(
             title="Problems I found in your log:", description="", color=0x5D3FD3
         )
@@ -131,10 +123,18 @@ class LogReading(commands.Cog):
             title="Somebody sent a log!", description="", color=0x5D3FD3
         )
 
-        logger.info("Found a log!")
-
         log_file = io.BytesIO()
-        await message.attachments[0].save(log_file)
+        if message.attachments:
+            for attachment in message.attachments:
+                if (
+                    attachment.filename.endswith(".txt")
+                    and "nslog" in attachment.filename
+                ):
+                    await attachment.save(log_file)
+                    logger.info("Found a log!")
+                    break
+            else:
+                return
         log_file.seek(0)
         lines = []
         for line in log_file:
