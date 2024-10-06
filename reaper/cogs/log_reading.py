@@ -135,6 +135,8 @@ class LogReading(commands.Cog):
                     break
             else:
                 return
+        else:
+            return
         log_file.seek(0)
         lines = []
         for line in log_file:
