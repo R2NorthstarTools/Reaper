@@ -34,7 +34,7 @@ controller = discord.Embed(
 )
 controller.add_field(
     name="\u200b",
-    value="Try following the [controller not working](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#controller) wiki section for multiple ways you can fix a controller not working on Northstar.",
+    value="Try following the [controller not working](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#controller-not-working) wiki section for multiple ways you can fix a controller not working on Northstar.",
 )
 
 # Embed for automatically replying to potential questions about installing mods for Northstar
@@ -48,12 +48,12 @@ installmods.add_field(
 )
 installmods.add_field(
     name="Manual mod installation",
-    value="See the [manual mod installation section](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/manual-installation#installing-northstar-mods-manually) of the wiki.",
+    value="See the [manual mod installation section](https://docs.northstar.tf/Wiki/installing-northstar/manual-installation/#installing-northstar-mods-manually) of the wiki.",
 )
 
 # Embed for automatically replying to mentions of "Couldn't find player account"
 playeraccount = discord.Embed(
-    description='I noticed that you may have asked for help regarding the "Couldn\'t find player account" error. Please read the [wiki section for this issue](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#playeraccount) to solve the error.',
+    description='I noticed that you may have asked for help regarding the "Couldn\'t find player account" error. Please read the [wiki section for this issue](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#couldnt-find-player-accountinvalid-master-server-token) to solve the error.',
     color=0x5D3FD3,
 )
 
@@ -80,7 +80,7 @@ fastifyError = discord.Embed(
 # Embed for default EA stuff
 ea = discord.Embed(
     title='I noticed you may have asked for help regarding the "Couldn\'t write log file!" error.',
-    description="If you have the game installed on EA, please follow the [wiki section](https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/troubleshooting#cannot-write-log-file-when-using-northstar-on-ea-app) for solving this issue.",
+    description="If you have the game installed on EA, please follow the [wiki section](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#cannot-write-log-file-when-using-northstar-on-ea-app) for solving this issue.",
     color=0x5D3FD3,
 )
 
