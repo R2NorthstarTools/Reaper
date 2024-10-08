@@ -284,6 +284,21 @@ class LogReading(commands.Cog):
                 value="If you are trying to setup a server, you likely made an error while setting it up. Please double check your port forwarding and try again.",
                 inline=False,
             )
+        if re.match(
+            r".*Failed performing northstar origin auth: error Timeout was reached.*",
+            log,
+            re.DOTALL,
+        ):
+            dm_log.add_field(
+                name="",
+                value="Masterserver Issue: True",
+                inline=False,
+            )
+            problem.add_field(
+                name="Origin auth error",
+                value="Please follow this [guide](https://docs.northstar.tf/Wiki/installing-northstar/troubleshooting/#couldnt-find-player-accountinvalid-master-server-token).\nIf that doesn't work, please try again in a few minutes.\nIf all else fails please say so and wait for a human to assist you.",
+                inline=False,
+            )
         script_error_match = re.search(r"SCRIPT ERROR: (.*)", log)
         if script_error_match:
             details = script_error_match.group(1)
