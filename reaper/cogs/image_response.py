@@ -135,6 +135,15 @@ flightcore_default_titanfall_ea_default_path.add_field(
     value=information_message,
 )
 
+flightcore_tauri_ipc_error = discord.Embed(
+    description="Detected FlightCore error message with mention of `_TAURI_IPC_` error\nTry restarting FlightCore to resolve the error. If that doesn't work, please make an issue on [GitHub](<https://github.com/R2NorthstarTools/FlightCore/issues>) or ping `@geckoeidechse`",
+    color=common_embed_color,
+)
+flightcore_tauri_ipc_error.add_field(
+    name="",
+    value=information_message,
+)
+
 
 async def handle_response(text: str, message):
     if re.search(
@@ -209,6 +218,15 @@ async def handle_response(text: str, message):
         await message.channel.send(
             embed=flightcore_default_titanfall_ea_default_path, reference=message
         )
+        return
+
+    # TypeError: window._TAURI_IPC_is not a function
+    if (
+        re.search("typeerror", text.lower())
+        and re.search("tauri", text.lower())
+        and re.search("ipc", text.lower())
+    ):
+        await message.channel.send(embed=flightcore_tauri_ipc_error, reference=message)
         return
 
 
