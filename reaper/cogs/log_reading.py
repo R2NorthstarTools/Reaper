@@ -120,7 +120,7 @@ class LogReading(commands.Cog):
         problem = discord.Embed(
             title="Problems I found in your log:", description="", color=0x5D3FD3
         )
-        tracker = discord.Embed(
+        debug_embed = discord.Embed(
             title="Somebody sent a log!", description="", color=0x5D3FD3
         )
 
@@ -158,7 +158,7 @@ class LogReading(commands.Cog):
                     value=f"It seems that you're running an older version of Northstar ({version_number}). Updating may not solve your issue, but you should do it anyway. The current version is {latest_version}. Please update by using one of the methods in the [installation channel](https://discord.com/channels/920776187884732556/922662496588943430).\n\nIf you've already updated and are still seeing this, please check if you have a file called `Northstar.dll` in `Titanfall2/R2Northstar`. If you do, delete it, and try launching again.",
                     inline=False,
                 )
-                tracker.add_field(
+                debug_embed.add_field(
                     name="Outdated Northstar Version",
                     value=f"Their version: {version_number}",
                     inline=False,
@@ -193,7 +193,7 @@ class LogReading(commands.Cog):
                 value=f"The core mods {', '.join(disabled_core_mods)} are disabled! Please re-enable them using a mod manager or by deleting `Titanfall2/R2Northstar/enabledmods.json` (this only applies if trying to play Northstar. If you are playing vanilla via Northstar and encountering an issue, this does not apply)",
                 inline=False,
             )
-            tracker.add_field(
+            debug_embed.add_field(
                 name="Goober turned off core mods",
                 value=f"Core mods that are disabled: {', '.join(disabled_core_mods)}",
                 inline=False,
@@ -218,7 +218,7 @@ class LogReading(commands.Cog):
                         value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to delete/disable HUD Revamp.",
                         inline=False,
                     )
-                    tracker.add_field(
+                    debug_embed.add_field(
                         name="Mod Incompatibility",
                         value="HUD Revamp",
                         inline=False,
@@ -229,7 +229,7 @@ class LogReading(commands.Cog):
                         value="One or more mods you have may require the mod [Client killcallback](https://northstar.thunderstore.io/package/S2Mods/KraberPrimrose/) to work. Please install or update the mod via a mod manager or Thunderstore.",
                         inline=False,
                     )
-                    tracker.add_field(
+                    debug_embed.add_field(
                         name="Missing dependency!",
                         value="Client killcallback",
                         inline=False,
@@ -240,7 +240,7 @@ class LogReading(commands.Cog):
                     value="One or more mods you have may require the mod [Negativbild](https://northstar.thunderstore.io/package/odds/Negativbild/) to work. Please install or update this mod via a mod manager or Thundersore",
                     inline=False,
                 )
-                tracker.add_field(
+                debug_embed.add_field(
                     name="Missing dependency!",
                     value="Negativbild",
                     inline=False,
@@ -253,7 +253,7 @@ class LogReading(commands.Cog):
                     value="Currently, Titan Framework expects a work in progress Northstar feature to function. As such, having it installed will cause issues (temporarily, until the feature is implemented), which uninstalling it will fix. You can temporarily make it work by manually installing the mod by moving the plugins inside the `plugins` folder of the mod into `r2northstar/plugins`, however this is a TEMPORARY fix, and you'll have to undo it when Northstar gets its next update.",
                     inline=False,
                 )
-                tracker.add_field(
+                debug_embed.add_field(
                     name="Titan Framework",
                     value="",
                     inline=False,
@@ -264,7 +264,7 @@ class LogReading(commands.Cog):
                     value=f"`{details}`\nOne or more of your mods are either broken, clashing, or incompatible. Try removing any mods you added recently or check if they require any dependencies. Please wait for a human to assist you further.",
                     inline=False,
                 )
-                tracker.add_field(
+                debug_embed.add_field(
                     name="Unknown compile error",
                     value=f"`{details}`",
                     inline=False,
@@ -275,7 +275,7 @@ class LogReading(commands.Cog):
             re.DOTALL,
         ):
 
-            tracker.add_field(
+            debug_embed.add_field(
                 name="",
                 value="Cloudflare issue: True",
                 inline=False,
@@ -290,7 +290,7 @@ class LogReading(commands.Cog):
             log,
             re.DOTALL,
         ):
-            tracker.add_field(
+            debug_embed.add_field(
                 name="",
                 value="Masterserver Issue: True",
                 inline=False,
@@ -303,7 +303,7 @@ class LogReading(commands.Cog):
         script_error_match = re.search(r"SCRIPT ERROR: (.*)", log)
         if script_error_match:
             details = script_error_match.group(1)
-            tracker.add_field(
+            debug_embed.add_field(
                 name="",
                 value="SCRIPT ERROR: True",
                 inline=False,
@@ -344,7 +344,7 @@ class LogReading(commands.Cog):
                 formatted_conflicts += f"The following mods are replacing the same audio (`{audio_conflict}`):\n"
                 formatted_conflicts += ", ".join(loaded_audio[audio_conflict]) + "\n"
 
-            tracker.add_field(
+            debug_embed.add_field(
                 name="",
                 value="Duplicate audio found!",
                 inline=False,
@@ -356,7 +356,7 @@ class LogReading(commands.Cog):
             )
 
         view = LogButtons(mods)
-        log_tracker = await self.bot.fetch_channel(
+        log_debugger = await self.bot.fetch_channel(
             globals.config["channels"]["log-reader-log-channel"]
         )
 
@@ -372,17 +372,17 @@ class LogReading(commands.Cog):
                 value="While waiting for a human to help you, consider the following:\n- Have you recently added any mods?\n- Does this issue persist when you disable all of your mods?",
             )
         await message.reply(embed=problem, view=view)
-        if tracker.fields:
-            tracker.add_field(
+        if debug_embed.fields:
+            debug_embed.add_field(
                 name="I found an issue in the log and replied!",
                 value=f"A link to their log can be found here: {message.jump_url}",
             )
         else:
-            tracker.add_field(
+            debug_embed.add_field(
                 name="I didn't find any issues in a log!",
                 value=f"Here's a log you can train from: {message.jump_url}",
             )
-        await log_tracker.send(embed=tracker)
+        await log_debugger.send(embed=debug_embed)
 
 
 async def setup(bot: commands.Bot) -> None:
