@@ -24,6 +24,7 @@ sentiment-analysis-channels = [
     789, # Replace me!
 ]
 sentiment-analysis-warn-channel = 123456789 # Replace me!
+log-reader-log-channel = 123456789 # Replace me!
 
 [tokens]
 discord = "REPLACE-ME"
