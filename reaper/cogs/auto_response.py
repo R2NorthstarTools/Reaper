@@ -183,7 +183,7 @@ class AutoResponse(commands.Cog):
             logger.info("Northstar mods installing embed reply sent")
 
         elif (
-            re.search("first.person", message.content.lower())
+            re.search("(1st|first).person", message.content.lower())
             and re.search("mod|northstar|titanfall", message.content.lower())
             and re.search("animation|embark|embark", message.content.lower())
         ):
