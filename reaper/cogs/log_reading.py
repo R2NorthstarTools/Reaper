@@ -150,7 +150,7 @@ class LogReading(commands.Cog):
         if northstar_match:
             version_number = northstar_match.group(1).strip()[:-2]
             latest_version = await version_check()
-            if version_number == "0.0.0.1+dev":
+            if "+d" in version_number:
                 return
             if latest_version.strip() > version_number:
                 problem.add_field(
