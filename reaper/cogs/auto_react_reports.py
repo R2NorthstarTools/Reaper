@@ -55,16 +55,25 @@ class AutoReactReports(commands.Cog):
                 for i, line in enumerate(lines):
                     if i >= len(expected):
                         break
-                    if line.lower().startswith(expected[i]):
-                        continue
+                    if not line.lower().startswith(expected[i]):
+                        await message.author.send(
+                            f"Thank you for your report ({message.jump_url}), please edit it to match this format:\n"
+                            "```Name:\n"
+                            "Server:\n"
+                            "Reason:\n"
+                            "Evidence:```"
+                        )
+                        return
                 return
-            await message.author.send(
-                f"Thank you for your report ({message.jump_url}), please edit it to match this format:\n"
-                "```Name:\n"
-                "Server:\n"
-                "Reason:\n"
-                "Evidence:```"
-            )
+            else:
+                await message.author.send(
+                    f"Thank you for your report ({message.jump_url}), please edit it to match this format:\n"
+                    "```Name:\n"
+                    "Server:\n"
+                    "Reason:\n"
+                    "Evidence:```"
+                )
+                return
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
