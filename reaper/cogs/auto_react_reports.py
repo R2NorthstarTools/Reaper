@@ -20,6 +20,8 @@ class AutoReactReports(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if not message.content:
+            return
 
         if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
             # This is to check if the message is a "Person started a thread" message
@@ -37,6 +39,32 @@ class AutoReactReports(commands.Cog):
             ]
             for emote in emotes:
                 await message.add_reaction(emote)
+
+            # I fought regex and regex won, leaving in case someone wants to take a crack at it, this wasted around 15 minutes of fiddling
+            # if not re.match(
+            #     r"(?im)^name:\s*(.*?)\s*$^server:\s*(.*?)\s*$^reason:\s*(.*?)\s*$^evidence:\s*(.*?)\s*$",
+            #     message.content,
+            #     re.MULTILINE | re.IGNORECASE,
+            # ):
+            #     await message.author.send("regex didnt match")
+
+            # This is my non regex attempt that worked on the first try and took a minute lol
+            lines = message.content.split("\n")
+            expected = ["name", "server", "reason", "evidence"]
+            if len(lines) >= len(expected):
+                for i, line in enumerate(lines):
+                    if i >= len(expected):
+                        break
+                    if line.lower().startswith(expected[i]):
+                        continue
+                return
+            await message.author.send(
+                f"Thank you for your report ({message.jump_url}), please edit it to match this format:\n"
+                "```Name:\n"
+                "Server:\n"
+                "Reason:\n"
+                "Evidence:```"
+            )
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
