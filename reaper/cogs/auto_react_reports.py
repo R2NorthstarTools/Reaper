@@ -65,7 +65,11 @@ class AutoReactReports(commands.Cog):
             for emote in emotes:
                 await message.add_reaction(emote)
 
-            format_response_text = f"""
+        result = check_fails_formatting_criteria(message.content)
+        print(f"{result=}")
+        if result:
+            await message.author.send(
+                f"""
 Thank you for your report ({message.jump_url}), please edit it to match this format:
 ```
 Name:
@@ -74,10 +78,7 @@ Reason:
 Evidence:
 ```
 """
-        result = check_fails_formatting_criteria(message.content)
-        print(f"{result=}")
-        if result:
-            await message.author.send(format_response_text)
+            )
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
