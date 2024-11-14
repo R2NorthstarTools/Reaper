@@ -12,6 +12,31 @@ from discord.ext import commands
 from util import globals
 
 
+def check_fails_formatting_criteria(message_content: str) -> bool:
+
+    # I fought regex and regex won, leaving in case someone wants to take a crack at it, this wasted around 15 minutes of fiddling
+    # if not re.match(
+    #     r"(?im)^name:\s*(.*?)\s*$^server:\s*(.*?)\s*$^reason:\s*(.*?)\s*$^evidence:\s*(.*?)\s*$",
+    #     message.content,
+    #     re.MULTILINE | re.IGNORECASE,
+    # ):
+    #     await message.author.send("regex didnt match")
+
+    # This is my non regex attempt that worked on the first try and took a minute lol
+    lines = message_content.split("\n")
+    expected = ["name", "server", "reason", "evidence"]
+    if len(lines) < len(expected):
+        return True
+
+    for i, line in enumerate(lines):
+        if i >= len(expected):
+            break
+        if not line.lower().startswith(expected[i]):
+            return True
+
+    return False
+
+
 class AutoReactReports(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
@@ -20,6 +45,8 @@ class AutoReactReports(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if not message.content:
+            return
 
         if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
             # This is to check if the message is a "Person started a thread" message
@@ -37,6 +64,21 @@ class AutoReactReports(commands.Cog):
             ]
             for emote in emotes:
                 await message.add_reaction(emote)
+
+        result = check_fails_formatting_criteria(message.content)
+        print(f"{result=}")
+        if result:
+            await message.author.send(
+                f"""
+Thank you for your report ({message.jump_url}), please edit it to match this format:
+```
+Name:
+Server:
+Reason:
+Evidence:
+```
+"""
+            )
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
