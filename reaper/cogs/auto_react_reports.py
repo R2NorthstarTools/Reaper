@@ -49,6 +49,15 @@ class AutoReactReports(commands.Cog):
             #     await message.author.send("regex didnt match")
 
             # This is my non regex attempt that worked on the first try and took a minute lol
+            format_response_text = f"""
+Thank you for your report ({message.jump_url}), please edit it to match this format:
+```
+Name:
+Server:
+Reason:
+Evidence:
+```
+"""
             lines = message.content.split("\n")
             expected = ["name", "server", "reason", "evidence"]
             if len(lines) >= len(expected):
@@ -56,23 +65,11 @@ class AutoReactReports(commands.Cog):
                     if i >= len(expected):
                         break
                     if not line.lower().startswith(expected[i]):
-                        await message.author.send(
-                            f"Thank you for your report ({message.jump_url}), please edit it to match this format:\n"
-                            "```Name:\n"
-                            "Server:\n"
-                            "Reason:\n"
-                            "Evidence:```"
-                        )
+                        await message.author.send(format_response_text)
                         return
                 return
             else:
-                await message.author.send(
-                    f"Thank you for your report ({message.jump_url}), please edit it to match this format:\n"
-                    "```Name:\n"
-                    "Server:\n"
-                    "Reason:\n"
-                    "Evidence:```"
-                )
+                await message.author.send(format_response_text)
                 return
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
