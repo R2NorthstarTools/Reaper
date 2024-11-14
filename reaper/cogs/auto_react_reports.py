@@ -48,28 +48,31 @@ class AutoReactReports(commands.Cog):
         if not message.content:
             return
 
-        if message.channel.id == globals.config["channels"]["report-users-channel-id"]:
-            # This is to check if the message is a "Person started a thread" message
-            if message.type == discord.MessageType.thread_created:
-                return
+        # Only listen on specific channel
+        if message.channel.id != globals.config["channels"]["report-users-channel-id"]:
+            return
 
-            # There was a note here explaining the need for a sleep between each reaction add.
-            # However, this works perfectly fine, and I have had another bot on the same library
-            # do this with 10 emotes in a list work perfectly 100% of the time
+        # This is to check if the message is a "Person started a thread" message
+        if message.type == discord.MessageType.thread_created:
+            return
 
-            emotes = [
-                "🔴",
-                "🟠",
-                "🟢",
-            ]
-            for emote in emotes:
-                await message.add_reaction(emote)
+        # There was a note here explaining the need for a sleep between each reaction add.
+        # However, this works perfectly fine, and I have had another bot on the same library
+        # do this with 10 emotes in a list work perfectly 100% of the time
 
-            result = check_fails_formatting_criteria(message.content)
-            print(f"{result=}")
-            if result:
-                await message.author.send(
-                    f"""
+        emotes = [
+            "🔴",
+            "🟠",
+            "🟢",
+        ]
+        for emote in emotes:
+            await message.add_reaction(emote)
+
+        result = check_fails_formatting_criteria(message.content)
+        print(f"{result=}")
+        if result:
+            await message.author.send(
+                f"""
 Thank you for your report ({message.jump_url}), please edit it to match this format:
 ```
 Name:
@@ -78,7 +81,7 @@ Reason:
 Evidence:
 ```
 """
-                )
+            )
 
         self.last_time = datetime.datetime.now(datetime.timezone.utc)
         self.last_channel = message.channel.id
