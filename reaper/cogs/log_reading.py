@@ -259,11 +259,8 @@ class LogReading(commands.Cog):
                     inline=False,
                 )
             elif 'COMPILE ERROR Undefined variable "NSGetModDownloadLinkByModName"' in details:
-                vanillaplus = False
-                for mod in mods:
-                    if mod.name == "VanillaPlus":
-                        vanillaplus = True
-                if vanillaplus:
+                # Check if Vanilla+ is installed
+                if any(mod.name == "VanillaPlus" for mod in mods):
                     problem.add_field(
                         name="Vanilla+",
                         value="You are likely using an outdated version of Vanilla+. Please uninstall your current version and download the latest one [here](https://thunderstore.io/c/northstar/p/NachosChipeados/VanillaPlus/).",
