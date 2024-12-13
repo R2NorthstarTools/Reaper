@@ -258,7 +258,10 @@ class LogReading(commands.Cog):
                     value="",
                     inline=False,
                 )
-            elif 'COMPILE ERROR Undefined variable "NSGetModDownloadLinkByModName"' in details:
+            elif (
+                'COMPILE ERROR Undefined variable "NSGetModDownloadLinkByModName"'
+                in details
+            ):
                 # Check if Vanilla+ is installed
                 if any(mod.name == "VanillaPlus" for mod in mods):
                     problem.add_field(
