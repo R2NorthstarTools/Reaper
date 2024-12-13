@@ -258,6 +258,33 @@ class LogReading(commands.Cog):
                     value="",
                     inline=False,
                 )
+            elif (
+                'COMPILE ERROR Undefined variable "NSGetModDownloadLinkByModName"'
+                in details
+            ):
+                # Check if Vanilla+ is installed
+                if any(mod.name == "VanillaPlus" for mod in mods):
+                    problem.add_field(
+                        name="Vanilla+",
+                        value="You are likely using an outdated version of Vanilla+. Please uninstall your current version and download the latest one [here](https://thunderstore.io/c/northstar/p/NachosChipeados/VanillaPlus/).",
+                        inline=False,
+                    )
+                    debug_embed.add_field(
+                        name="Vanilla+",
+                        value="",
+                        inline=False,
+                    )
+                else:
+                    problem.add_field(
+                        name="Outdated mods!",
+                        value="One or more mods you have may not support the latest versions of Northstar. Please disable the offending mods until they are updated.",
+                        inline=False,
+                    )
+                    debug_embed.add_field(
+                        name="Outdated mods!",
+                        value="",
+                        inline=False,
+                    )
             else:
                 problem.add_field(
                     name="Unknown compile error",
