@@ -215,7 +215,7 @@ class LogReading(commands.Cog):
                 if hud and callback:  # TODO: is this still true?
                     problem.add_field(
                         name="Mod Incompatibility",
-                        value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to install this [compatibility patch](https://thunderstore.io/c/northstar/p/Capt_Diqhedd/ClientKillCallback_HUDRevamp_Compatibility_Patch/)",
+                        value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to install this [compatibility patch](https://thunderstore.io/c/northstar/p/Capt_Diqhedd/ClientKillCallback_HUDRevamp_Compatibility_Patch/).",
                         inline=False,
                     )
                     debug_embed.add_field(
