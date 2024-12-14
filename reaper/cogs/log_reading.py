@@ -226,7 +226,7 @@ class LogReading(commands.Cog):
                 else:
                     problem.add_field(
                         name="Missing dependency!",
-                        value="One or more mods you have may require the mod [Client killcallback](https://thunderstore.io/c/northstar/p/S2Mods/ClientKillCallback/) to work. Please install or update the mod via a mod manager or Thunderstore.",
+                        value="One or more mods you have may require the mod [Client killcallback](https://northstar.thunderstore.io/package/S2Mods/ClientKillCallback/) to work. Please install or update the mod via a mod manager or Thunderstore.",
                         inline=False,
                     )
                     debug_embed.add_field(
