@@ -215,7 +215,7 @@ class LogReading(commands.Cog):
                 if hud and callback:  # TODO: is this still true?
                     problem.add_field(
                         name="Mod Incompatibility",
-                        value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to delete/disable HUD Revamp.",
+                        value="I noticed you have both HUD Revamp and Client Kill Callback installed. Currently, these two mods create conflicts. The easiest way to solve this is to install this [compatibility patch](https://northstar.thunderstore.io/package/Capt_Diqhedd/ClientKillCallback_HUDRevamp_Compatibility_Patch/).",
                         inline=False,
                     )
                     debug_embed.add_field(
@@ -226,7 +226,7 @@ class LogReading(commands.Cog):
                 else:
                     problem.add_field(
                         name="Missing dependency!",
-                        value="One or more mods you have may require the mod [Client killcallback](https://northstar.thunderstore.io/package/S2Mods/KraberPrimrose/) to work. Please install or update the mod via a mod manager or Thunderstore.",
+                        value="One or more mods you have may require the mod [Client killcallback](https://northstar.thunderstore.io/package/S2Mods/ClientKillCallback/) to work. Please install or update the mod via a mod manager or Thunderstore.",
                         inline=False,
                     )
                     debug_embed.add_field(
