@@ -203,7 +203,7 @@ class LogReading(commands.Cog):
         compile_search = re.search(r"COMPILE ERROR\s*(.*)", log)
         if compile_search:
             details = compile_search.group(1)
-            if 'expected ",", found indentifier "inputParams"' in details:
+            if 'expected ",", found identifier "inputParams"' in details:
                 hud = False
                 callback = False
                 # its ok to check the mods now because all of the mods will have been loaded at this point
