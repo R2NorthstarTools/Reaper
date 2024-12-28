@@ -30,6 +30,7 @@ COGS = (
     "cogs.allowed_users",
     "cogs.auto_react_reports",
     "cogs.auto_response",
+    "cogs.doc_search",
     "cogs.global_replies",
     "cogs.help_command",
     "cogs.image_response",
