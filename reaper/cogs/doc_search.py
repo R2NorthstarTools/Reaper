@@ -6,7 +6,9 @@ class DocSearch(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    @commands.hybrid_command()
+    @commands.hybrid_command(
+        description="Generates a search query link for NorthstarDocs based on search term"
+    )
     async def docsearch(self, ctx, *, query):
         query = query.replace(" ", "+")
         # convert special characters to link friendly format
