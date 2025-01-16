@@ -1,5 +1,6 @@
-from discord.ext import commands
 import urllib
+
+from discord.ext import commands
 
 
 class DocSearch(commands.Cog):

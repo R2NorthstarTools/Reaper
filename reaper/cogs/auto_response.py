@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -7,12 +8,13 @@ coloredlogs.install(
 )
 
 import datetime
+import re
+
 import discord
-from discord.ext import commands
 import util.json_handler
 import util.master_status
 from cogs.global_replies import allow_replies
-import re
+from discord.ext import commands
 from util import globals
 
 # Embed for automatically replying to potential questions about installing Northstar

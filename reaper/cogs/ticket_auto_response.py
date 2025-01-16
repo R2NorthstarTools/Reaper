@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -6,9 +7,10 @@ coloredlogs.install(
     level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+from time import sleep
+
 import discord
 from discord.ext import commands
-from time import sleep
 
 
 class TicketsAutoResponse(commands.Cog):

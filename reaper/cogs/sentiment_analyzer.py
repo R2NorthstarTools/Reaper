@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -7,10 +8,11 @@ coloredlogs.install(
 )
 
 
-from transformers import pipeline
-from discord.ext import commands
 import asyncio
 import random
+
+from discord.ext import commands
+from transformers import pipeline
 from util import globals
 
 

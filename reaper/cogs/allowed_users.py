@@ -1,8 +1,9 @@
-from discord.ext import commands
-from discord import app_commands
-import util.json_handler
 import typing
+
 import discord
+import util.json_handler
+from discord import app_commands
+from discord.ext import commands
 
 allowed_users = util.json_handler.load_allowed_users()
 

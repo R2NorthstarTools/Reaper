@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -7,6 +8,7 @@ coloredlogs.install(
 )
 
 import datetime
+
 import discord
 from discord.ext import commands
 from util import globals
