@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -6,13 +7,14 @@ coloredlogs.install(
     level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-from discord.ext import commands
-import requests
-import re
-import discord
 import asyncio
-from discord import app_commands
+import re
 from typing import Optional
+
+import discord
+import requests
+from discord import app_commands
+from discord.ext import commands
 
 
 class PaginationView(discord.ui.View):

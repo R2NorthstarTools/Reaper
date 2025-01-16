@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -6,13 +7,14 @@ coloredlogs.install(
     level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-from PIL import Image
-import pytesseract
-from discord.ext import commands
-import re
-import util.json_handler
 import io
+import re
+
 import discord
+import pytesseract
+import util.json_handler
+from discord.ext import commands
+from PIL import Image
 
 
 information_message = "Please note that I'm a bot automatically reading your image. There is a chance this information is wrong, in which case please ping @geckoeidechse"

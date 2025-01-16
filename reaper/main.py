@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -6,10 +7,11 @@ coloredlogs.install(
     level="DEBUG", logger=logger, fmt="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-import discord
-from discord.ext import commands
 import os
+
+import discord
 import tomllib
+from discord.ext import commands
 from util import globals
 
 # Load config into global var

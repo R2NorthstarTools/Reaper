@@ -1,5 +1,5 @@
-from discord.ext import commands
 import util.master_status
+from discord.ext import commands
 
 
 class MasterCheck(commands.Cog):

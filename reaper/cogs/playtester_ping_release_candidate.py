@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -7,10 +8,11 @@ coloredlogs.install(
 )
 
 import asyncio
-import discord
-from discord.ext import commands
 import re
+
+import discord
 import requests
+from discord.ext import commands
 from util import globals
 
 url = "https://api.github.com/graphql"

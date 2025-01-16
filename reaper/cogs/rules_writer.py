@@ -1,4 +1,5 @@
 import logging
+
 import coloredlogs
 
 logger = logging.getLogger(__name__)
@@ -8,6 +9,7 @@ coloredlogs.install(
 
 import asyncio
 import re
+
 import requests
 import util.json_handler
 from discord.ext import commands
