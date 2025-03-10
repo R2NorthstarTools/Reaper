@@ -21,7 +21,7 @@ information_message = "Please note that I'm a bot automatically reading your ima
 common_embed_color = 0x5D3FD3
 
 vanilla_plus = discord.Embed(
-    description="If you're using VanillaPlus, please make sure to read the instructions [on the mod page](https://northstar.thunderstore.io/package/NanohmProtogen/VanillaPlus/) (if you're updating from an older version, the steps have changed, so please read it again)\n\nIf you AREN'T using VanillaPlus, make sure you didn't disable any core mods. You can see if they're enabled or disabled in `R2Northstar/enabledmods.json`. Either change `false` to `true` on disabled core mods, or delete `enabledmods.json` and ALL mods will automatically enable",
+    description="If you're using VanillaPlus, please make sure to read the instructions [on the mod page](https://northstar.thunderstore.io/package/NachosChipeados/VanillaPlus/) (if you're updating from an older version, the steps have changed, so please read it again)\n\nIf you AREN'T using VanillaPlus, make sure you didn't disable any core mods. You can see if they're enabled or disabled in `R2Northstar/enabledmods.json`. Either change `false` to `true` on disabled core mods, or delete `enabledmods.json` and ALL mods will automatically enable",
     color=common_embed_color,
 )
 vanilla_plus.add_field(
@@ -111,7 +111,7 @@ engine_error_device_hung.add_field(
 )
 
 engine_error_loaded_more_than_once = discord.Embed(
-    description="Found a screenshot showing 'X is being loaded more than once from Y'. This is likely caused by a mod being installed multiple times or a faulty mod. Try disabling all mods except then `Northstar.XYZ` ones and see if the issue still persists.",
+    description="Found a screenshot showing 'X is being loaded more than once from Y'. This is likely caused by a mod being installed multiple times or a faulty mod. Try disabling all mods except the `Northstar.XYZ` ones and see if the issue still persists.",
     color=common_embed_color,
 )
 engine_error_loaded_more_than_once.add_field(
