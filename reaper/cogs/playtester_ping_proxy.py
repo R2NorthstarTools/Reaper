@@ -21,7 +21,6 @@ class PlayTesterPingProxy(commands.Cog):
         description="Ping playtesters and create named thread for discussion (requires modder role or higher)",
     )
     async def playtester_ping(self, ctx, playtest_info: str):
-
         allowed_roles = set(globals.config["roles"]["ping-privileged-role-ids"])
 
         # Check whether command invoker has necessary roles and return early if they don't

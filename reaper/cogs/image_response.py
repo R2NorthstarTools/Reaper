@@ -238,7 +238,6 @@ class imageStuff(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-
         allowed_channels = util.json_handler.load_allowed_channels()
         users = util.json_handler.load_users()
 

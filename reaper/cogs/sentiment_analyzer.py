@@ -17,7 +17,6 @@ from util import globals
 
 
 class SentimentAnalyzer(commands.Cog):
-
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.sentiment = pipeline(

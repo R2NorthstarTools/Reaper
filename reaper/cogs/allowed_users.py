@@ -22,9 +22,7 @@ class AllowedUsers(commands.Cog):
         user: typing.Optional[discord.Member],
         role: typing.Optional[discord.Role],
     ):
-
         if ctx.author.id == self.bot.owner_id:
-
             if user is not None and role is not None:
                 await ctx.send(
                     "Please only select either a user or a role to allow!",

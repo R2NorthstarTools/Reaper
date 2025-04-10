@@ -93,7 +93,6 @@ client = aclient()
     name="sync", description="Syncs the bot's commands. Allowed users only."
 )
 async def sync(ctx):
-
     if not (str(ctx.author.id) in allowed_users or ctx.author.id == bot.owner_id):
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
         return
@@ -108,7 +107,6 @@ async def sync(ctx):
     name="reload", description="Reloads the bot's cogs. Allowed users only."
 )
 async def reload(ctx):
-
     if str(ctx.author.id) not in allowed_users:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
         return
@@ -122,7 +120,6 @@ async def reload(ctx):
 # Set the status for the bot
 @bot.hybrid_command(description="Set the status of the bot. Allowed users only.")
 async def setstatus(ctx, status: str):
-
     if str(ctx.author.id) not in allowed_users:
         await ctx.send("You don't have permission to use this command!", ephemeral=True)
         return

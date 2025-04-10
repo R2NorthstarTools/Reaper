@@ -18,7 +18,6 @@ from discord.ext import commands
 
 
 class PaginationView(discord.ui.View):
-
     current_page: int = 0
 
     async def send(self, ctx):
@@ -78,7 +77,6 @@ class ModSearch(commands.Cog):
     async def modsearch(
         self, ctx, search_string: str, method: Optional[app_commands.Choice[str]]
     ):
-
         if len(search_string) < 3:
             character_warning = await ctx.send(
                 "Search must be at least 3 characters", ephemeral=True

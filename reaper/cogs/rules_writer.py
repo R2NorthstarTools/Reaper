@@ -104,7 +104,6 @@ class RulesWriter(commands.Cog):
 
         # Send them
         for section in parsed_rules:
-
             # Skip empty lines until they are fixed upstream
             if not section:
                 continue

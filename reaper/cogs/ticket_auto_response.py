@@ -23,7 +23,6 @@ class TicketsAutoResponse(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel):
-
         if not str(channel.name).startswith("ticket"):
             # Not a ticket channel, ignore
             return

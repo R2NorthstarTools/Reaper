@@ -65,7 +65,6 @@ class Mod:
 
 
 class LogButtons(discord.ui.View):
-
     def __init__(self, mods):
         super().__init__()
         self.mods = mods
@@ -303,7 +302,6 @@ class LogReading(commands.Cog):
             log,
             re.DOTALL,
         ):
-
             debug_embed.add_field(
                 name="",
                 value="Cloudflare issue: True",
@@ -367,7 +365,6 @@ class LogReading(commands.Cog):
                 audio_conflicts.append(audio_folder)
 
         if audio_conflicts:
-
             formatted_conflicts = ""
             for audio_conflict in audio_conflicts:
                 formatted_conflicts += f"The following mods are replacing the same audio (`{audio_conflict}`):\n"

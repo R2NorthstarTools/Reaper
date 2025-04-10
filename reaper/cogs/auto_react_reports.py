@@ -15,7 +15,6 @@ from util import globals
 
 
 def check_fails_formatting_criteria(message_content: str) -> bool:
-
     # I fought regex and regex won, leaving in case someone wants to take a crack at it, this wasted around 15 minutes of fiddling
     # if not re.match(
     #     r"(?im)^name:\s*(.*?)\s*$^server:\s*(.*?)\s*$^reason:\s*(.*?)\s*$^evidence:\s*(.*?)\s*$",
