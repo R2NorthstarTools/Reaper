@@ -5,9 +5,6 @@
     "flake8.args": [
         "--ignore=E501,E402,W503"
     ],
-    "ruff.lint.args": [
-        "--ignore=E402"
-    ],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "files.insertFinalNewline": true,
