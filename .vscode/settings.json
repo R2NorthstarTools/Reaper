@@ -2,9 +2,6 @@
     "python.analysis.extraPaths": [
         "./reaper"
     ],
-    "flake8.args": [
-        "--ignore=E501,E402,W503"
-    ],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "files.insertFinalNewline": true,
