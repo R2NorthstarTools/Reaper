@@ -9,7 +9,7 @@
         "--ignore=E402"
     ],
     "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.defaultFormatter": "charliermarsh.ruff",
         "files.insertFinalNewline": true,
         "editor.formatOnSave": true
     }
