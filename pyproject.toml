@@ -1,33 +1,38 @@
-[tool.poetry]
+[project]
 name = "reaper"
 version = "0.1.0"
 description = ""
 authors = [
-    "Gecko <gecko.eidechse+git@pm.me>",
-    "Cyn <70904206+CooldudePUGS@users.noreply.github.com>",
+    { name = "Gecko", email = "gecko.eidechse+git@pm.me" },
+    { name = "Cyn", email = "70904206+CooldudePUGS@users.noreply.github.com" },
 ]
-license = "MIT"
+requires-python = "~=3.11"
 readme = "README.md"
+license = "MIT"
+dependencies = [
+    "discord-py>=2.5.2,<3",
+    "wheel>=0.45.1,<0.46",
+    "beautifulsoup4>=4.13.3,<5",
+    "lxml>=5.3.2,<6",
+    "pytesseract>=0.3.13,<0.4",
+    "requests>=2.32.3,<3",
+    "coloredlogs>=15.0.1,<16",
+    "accelerate>=1.6.0,<2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-discord-py = "^2.5.2"
-wheel = "^0.45.1"
-beautifulsoup4 = "^4.13.3"
-lxml = "^5.3.2"
-pytesseract = "^0.3.13"
-requests = "^2.32.3"
-coloredlogs = "^15.0.1"
+[dependency-groups]
+dev = ["black>=25.1.0,<26"]
+sentiment-analyzer = [
+    "transformers>=4.50.3,<5",
+    "torch>=2.6.0,<3",
+]
 
-
-[tool.poetry.group.dev.dependencies]
-black = "^25.1.0"
-
-
-[tool.poetry.group.sentiment-analyzer.dependencies]
-transformers = "^4.50.3"
-torch = "^2.6.0"
+[tool.uv]
+default-groups = [
+    "dev",
+    "sentiment-analyzer",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
