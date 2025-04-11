@@ -854,21 +854,21 @@ sentiment-analyzer = [
 
 [package.metadata]
 requires-dist = [
-    { name = "accelerate", specifier = ">=1.6.0,<2" },
-    { name = "beautifulsoup4", specifier = ">=4.13.3,<5" },
-    { name = "coloredlogs", specifier = ">=15.0.1,<16" },
-    { name = "discord-py", specifier = ">=2.5.2,<3" },
-    { name = "lxml", specifier = ">=5.3.2,<6" },
-    { name = "pytesseract", specifier = ">=0.3.13,<0.4" },
-    { name = "requests", specifier = ">=2.32.3,<3" },
-    { name = "wheel", specifier = ">=0.45.1,<0.46" },
+    { name = "accelerate", specifier = ">=1.6.0" },
+    { name = "beautifulsoup4", specifier = ">=4.13.3" },
+    { name = "coloredlogs", specifier = ">=15.0.1" },
+    { name = "discord-py", specifier = ">=2.5.2" },
+    { name = "lxml", specifier = ">=5.3.2" },
+    { name = "pytesseract", specifier = ">=0.3.13" },
+    { name = "requests", specifier = ">=2.32.3" },
+    { name = "wheel", specifier = ">=0.45.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [{ name = "ruff", specifier = ">=0.11.5" }]
 sentiment-analyzer = [
-    { name = "torch", specifier = ">=2.6.0,<3" },
-    { name = "transformers", specifier = ">=4.50.3,<5" },
+    { name = "torch", specifier = ">=2.6.0" },
+    { name = "transformers", specifier = ">=4.50.3" },
 ]
 
 [[package]]
