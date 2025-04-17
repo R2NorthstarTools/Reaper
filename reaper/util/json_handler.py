@@ -1,7 +1,7 @@
 import json
 import os
 
-from util import globals
+from util import global_variables
 
 
 def init_json():
@@ -66,7 +66,7 @@ def load_allowed_users():
     return load_json(allowedusers)
 
 
-noreplylist = globals.config["general"]["noreplylist"]
-neverreplylist = globals.config["general"]["neverreplylist"]
-allowedchannels = globals.config["general"]["allowedchannels"]
-allowedusers = globals.config["general"]["allowedusers"]
+noreplylist = global_variables.config["general"]["noreplylist"]
+neverreplylist = global_variables.config["general"]["neverreplylist"]
+allowedchannels = global_variables.config["general"]["allowedchannels"]
+allowedusers = global_variables.config["general"]["allowedusers"]

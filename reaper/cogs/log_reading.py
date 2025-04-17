@@ -14,7 +14,7 @@ import discord
 import requests
 import util.json_handler
 from discord.ext import commands
-from util import globals
+from util import global_variables
 
 
 async def version_check():
@@ -383,7 +383,7 @@ class LogReading(commands.Cog):
 
         view = LogButtons(mods)
         log_debugger = await self.bot.fetch_channel(
-            globals.config["channels"]["log-reader-log-channel"]
+            global_variables.config["channels"]["log-reader-log-channel"]
         )
 
         if problem.fields:
