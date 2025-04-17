@@ -20,5 +20,5 @@ def is_master_down():
         else:
             return True
     except requests.exceptions.RequestException as err:
-        logger.warn(f"Encountered exception while requesting MS: {err}")
+        logger.warning(f"Encountered exception while requesting MS: {err}")
         return None

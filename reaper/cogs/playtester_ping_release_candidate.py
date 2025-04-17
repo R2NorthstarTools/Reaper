@@ -45,7 +45,7 @@ def get_latest_discussion():
             return None
 
     except requests.exceptions.RequestException as err:
-        logger.warn(f"GitHub API request failed: {err}")
+        logger.warning(f"GitHub API request failed: {err}")
         return None
 
     discussion_post = {
@@ -68,7 +68,7 @@ def get_latest_release_name():
         )
 
     except requests.exceptions.RequestException as err:
-        logger.warn(f"GitHub API request failed: {err}")
+        logger.warning(f"GitHub API request failed: {err}")
         return None
 
     return response.json()[0]["tag_name"]
