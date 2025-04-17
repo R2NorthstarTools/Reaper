@@ -91,7 +91,7 @@ class ModSearch(commands.Cog):
                 data = response.json()
 
         except requests.exceptions.RequestException as err:
-            logger.warn(err)
+            logger.warning(err)
             return
 
         mods = {}
