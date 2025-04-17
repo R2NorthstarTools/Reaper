@@ -38,4 +38,6 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.ruff.lint]
-extend-ignore = ["E402"]
+extend-ignore = [
+    "E402", # Ignore: Module level import not at top of file
+]
