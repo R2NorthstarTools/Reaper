@@ -40,7 +40,9 @@ build-backend = "hatchling.build"
 [tool.ruff.lint]
 select = [
     "A004", # Check for import shadowing builtin functions: https://docs.astral.sh/ruff/rules/builtin-import-shadowing/
+    "D104", # Require doc strings for public packages: https://docs.astral.sh/ruff/rules/undocumented-public-package/
     "G010", # Add check for logger.warn
+    "INP",  # Require an `__init__.py` for (sub)packages
 ]
 extend-ignore = [
     "E402", # Ignore: Module level import not at top of file
