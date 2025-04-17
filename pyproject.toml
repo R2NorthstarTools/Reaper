@@ -39,6 +39,7 @@ build-backend = "hatchling.build"
 
 [tool.ruff.lint]
 select = [
+    "A004", # Check for import shadowing builtin functions: https://docs.astral.sh/ruff/rules/builtin-import-shadowing/
     "G010", # Add check for logger.warn
 ]
 extend-ignore = [

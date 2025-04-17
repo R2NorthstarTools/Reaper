@@ -11,7 +11,7 @@ import datetime
 
 import discord
 from discord.ext import commands
-from util import globals
+from util import global_variables
 
 
 def check_fails_formatting_criteria(message_content: str) -> bool:
@@ -50,7 +50,10 @@ class AutoReactReports(commands.Cog):
             return
 
         # Only listen on specific channel
-        if message.channel.id != globals.config["channels"]["report-users-channel-id"]:
+        if (
+            message.channel.id
+            != global_variables.config["channels"]["report-users-channel-id"]
+        ):
             return
 
         # This is to check if the message is a "Person started a thread" message

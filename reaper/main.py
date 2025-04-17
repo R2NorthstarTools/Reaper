@@ -12,13 +12,13 @@ import os
 import discord
 import tomllib
 from discord.ext import commands
-from util import globals
+from util import global_variables
 
 # Load config into global var
 with open("config.toml", "rb") as file:
-    globals.config = tomllib.load(file)
-    config = globals.config["general"]
-    tokens = globals.config["tokens"]
+    global_variables.config = tomllib.load(file)
+    config = global_variables.config["general"]
+    tokens = global_variables.config["tokens"]
 import util.json_handler
 
 if not os.path.exists("data"):

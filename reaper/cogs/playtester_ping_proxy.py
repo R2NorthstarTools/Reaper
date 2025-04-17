@@ -8,7 +8,7 @@ coloredlogs.install(
 )
 
 from discord.ext import commands
-from util import globals
+from util import global_variables
 
 
 class PlayTesterPingProxy(commands.Cog):
@@ -21,7 +21,9 @@ class PlayTesterPingProxy(commands.Cog):
         description="Ping playtesters and create named thread for discussion (requires modder role or higher)",
     )
     async def playtester_ping(self, ctx, playtest_info: str):
-        allowed_roles = set(globals.config["roles"]["ping-privileged-role-ids"])
+        allowed_roles = set(
+            global_variables.config["roles"]["ping-privileged-role-ids"]
+        )
 
         # Check whether command invoker has necessary roles and return early if they don't
         if not any(element.id in allowed_roles for element in ctx.author.roles):
@@ -33,7 +35,7 @@ class PlayTesterPingProxy(commands.Cog):
 
         if (
             ctx.channel.id
-            not in globals.config["channels"][
+            not in global_variables.config["channels"][
                 "playtester-proxy-ping-allowed-channel-ids"
             ]
         ):
@@ -43,7 +45,7 @@ class PlayTesterPingProxy(commands.Cog):
             )
             return
 
-        playtester_role_id = globals.config["roles"]["playtester-role-id"]
+        playtester_role_id = global_variables.config["roles"]["playtester-role-id"]
         logger.info(f"{ctx.author.display_name} pinged playtesters")
 
         playtest_ping_channel = self.bot.get_channel(ctx.channel.id)
