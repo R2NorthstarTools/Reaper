@@ -39,7 +39,7 @@ operation_not_permitted.add_field(
 )
 
 mod_failed_sanity = discord.Embed(
-    description="The \"Mod failed sanity check\" error is specific to FlightCore, and means that the mod isn't properly formatted and FlightCore can't automatically install it. However, you can still follow the [manual mod install guide](https://docs.northstar.tf/Wiki/installing-northstar/manual-installation/#installing-northstar-mods-manually) to install the mod you wanted.",
+    description="The \"Mod failed sanity check\" error is specific to FlightCore, and means that the mod isn't properly formatted and therefore FlightCore can't automatically install it until the mod author fixes their mod. However, you can still follow the [manual mod install guide](https://docs.northstar.tf/Wiki/installing-northstar/manual-installation/#installing-northstar-mods-manually) to try to install the mod you wanted.",
     color=common_embed_color,
 )
 mod_failed_sanity.add_field(
