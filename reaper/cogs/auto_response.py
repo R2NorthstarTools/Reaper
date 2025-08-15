@@ -15,7 +15,7 @@ import util.json_handler
 import util.master_status
 from cogs.global_replies import allow_replies
 from discord.ext import commands
-from util import globals
+from util import global_variables
 
 # Embed for automatically replying to potential questions about installing Northstar
 installing = discord.Embed(
@@ -113,11 +113,13 @@ class AutoResponse(commands.Cog):
             return
 
         if not (
-            time_diff > globals.config["general"]["cooldowntime"]
+            time_diff > global_variables.config["general"]["cooldowntime"]
             or message.channel.id != self.last_channel
         ):
             self.last_channel = message.channel.id
-            logger.warn("Tried to send message while on cooldown! Didn't send message!")
+            logger.warning(
+                "Tried to send message while on cooldown! Didn't send message!"
+            )
             return
 
         if not allow_replies():

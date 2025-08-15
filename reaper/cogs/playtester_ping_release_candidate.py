@@ -13,10 +13,10 @@ import re
 import discord
 import requests
 from discord.ext import commands
-from util import globals
+from util import global_variables
 
 url = "https://api.github.com/graphql"
-github_access_token = globals.config["tokens"]["github"]
+github_access_token = global_variables.config["tokens"]["github"]
 
 
 def get_latest_discussion():
@@ -45,7 +45,7 @@ def get_latest_discussion():
             return None
 
     except requests.exceptions.RequestException as err:
-        logger.warn(f"GitHub API request failed: {err}")
+        logger.warning(f"GitHub API request failed: {err}")
         return None
 
     discussion_post = {
@@ -68,7 +68,7 @@ def get_latest_release_name():
         )
 
     except requests.exceptions.RequestException as err:
-        logger.warn(f"GitHub API request failed: {err}")
+        logger.warning(f"GitHub API request failed: {err}")
         return None
 
     return response.json()[0]["tag_name"]
@@ -92,10 +92,10 @@ class PlayTesterPing(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         playtest_ping_channel = self.bot.get_channel(
-            globals.config["channels"]["playtesters-channel-id"]
+            global_variables.config["channels"]["playtesters-channel-id"]
         )
         thunderstore_release_channel = self.bot.get_channel(
-            globals.config["channels"]["thunderstore-releases-channel-id"]
+            global_variables.config["channels"]["thunderstore-releases-channel-id"]
         )
 
         if message.author == self.bot.user:

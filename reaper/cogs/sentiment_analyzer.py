@@ -13,7 +13,7 @@ import random
 
 from discord.ext import commands
 from transformers import pipeline
-from util import globals
+from util import global_variables
 
 
 class SentimentAnalyzer(commands.Cog):
@@ -28,7 +28,9 @@ class SentimentAnalyzer(commands.Cog):
 
     def reset_message_cache(self):
         self.bot.cached_sentiment = {}
-        for channel in globals.config["channels"]["sentiment-analysis-channels"]:
+        for channel in global_variables.config["channels"][
+            "sentiment-analysis-channels"
+        ]:
             self.bot.cached_sentiment[channel] = {
                 "positive": 0,
                 "negative": 0,
@@ -43,10 +45,10 @@ class SentimentAnalyzer(commands.Cog):
             return
         if (
             message.channel.id
-            not in globals.config["channels"]["sentiment-analysis-channels"]
+            not in global_variables.config["channels"]["sentiment-analysis-channels"]
         ):
             return
-        msg_ratio = globals.config["general"]["sentiment-analysis-ratio"]
+        msg_ratio = global_variables.config["general"]["sentiment-analysis-ratio"]
         if random.randint(1, msg_ratio) != 1:
             return
 
@@ -68,12 +70,16 @@ class SentimentAnalyzer(commands.Cog):
 
         total = total_negative + total_normal
 
-        messages_to_cache = globals.config["general"]["sentiment-analysis-cache"]
+        messages_to_cache = global_variables.config["general"][
+            "sentiment-analysis-cache"
+        ]
 
         if total >= messages_to_cache:
             if total_negative > total_normal:
                 moderator_channel = self.bot.get_channel(
-                    globals.config["channels"]["sentiment-analysis-warn-channel"]
+                    global_variables.config["channels"][
+                        "sentiment-analysis-warn-channel"
+                    ]
                 )
                 await moderator_channel.send(
                     f"Negative sentiment detected in {message.channel.mention}!\nOut of the last {messages_to_cache} messages, {total_negative} were negative.\n\nLast relevant message: {message.jump_url}"
