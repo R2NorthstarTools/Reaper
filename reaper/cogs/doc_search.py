@@ -11,9 +11,10 @@ class DocSearch(commands.Cog):
         description="Generates a search query link for NorthstarDocs based on search term"
     )
     async def docsearch(self, ctx, *, query):
+        query = discord.utils.escape_mentions(query)
         query = query.replace(" ", "+")
         # convert special characters to link friendly format
-        urllib.parse.quote_plus(query)
+        query = urllib.parse.quote_plus(query)
         await ctx.send(f"https://docs.northstar.tf/?q={query}")
 
 
