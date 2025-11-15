@@ -1,5 +1,6 @@
 import urllib
 
+import discord
 from discord.ext import commands
 
 
