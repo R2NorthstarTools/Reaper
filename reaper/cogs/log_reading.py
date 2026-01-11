@@ -167,7 +167,7 @@ class LogReading(commands.Cog):
 
         # Check if core mods disabled, mod checking
         mod_matches = re.finditer(
-            r"'([^']*)' loaded successfully, version (\d+\.\d+\.\d+)( \(DISABLED\))?",
+            r"'(.+?)' loaded successfully, version (\d+\.\d+\.\d+)( \(DISABLED\))?",
             log,
         )
         disabled_core_mods = []
@@ -179,7 +179,6 @@ class LogReading(commands.Cog):
                 core = False
                 if name in [
                     "Northstar.Client",
-                    "Northstar.Custom",
                     "Northstar.CustomServers",
                 ]:
                     core = True
