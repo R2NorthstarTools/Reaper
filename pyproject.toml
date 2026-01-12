@@ -6,7 +6,7 @@ authors = [
     { name = "Gecko", email = "gecko.eidechse+git@pm.me" },
     { name = "Cyn", email = "70904206+CooldudePUGS@users.noreply.github.com" },
 ]
-requires-python = "~=3.11"
+requires-python = ">=3.13,<3.14"
 readme = "README.md"
 license = "MIT"
 dependencies = [
