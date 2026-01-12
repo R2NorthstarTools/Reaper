@@ -179,6 +179,7 @@ class LogReading(commands.Cog):
                 core = False
                 if name in [
                     "Northstar.Client",
+                    "Northstar.Custom",
                     "Northstar.CustomServers",
                 ]:
                     core = True
