@@ -15,7 +15,7 @@ dependencies = [
     "beautifulsoup4>=4.13.3",
     "lxml>=6.1.0",
     "pytesseract>=0.3.13",
-    "requests>=2.32.3",
+    "requests>=2.34.0",
     "coloredlogs>=15.0.1",
     "accelerate>=1.6.0",
 ]
