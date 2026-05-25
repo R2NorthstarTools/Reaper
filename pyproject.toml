@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["ruff>=0.15.13"]
+dev = ["ruff>=0.15.14"]
 sentiment-analyzer = [
     "transformers>=5.8.1",
     "torch>=2.12.0",
