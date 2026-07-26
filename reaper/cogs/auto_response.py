@@ -190,6 +190,9 @@ class AutoResponse(commands.Cog):
             re.search("(1st|first).person", message.content.lower())
             and re.search("mod|northstar|titanfall", message.content.lower())
             and re.search("animation|embark|embark", message.content.lower())
+            and not re.search(
+                "khalmee/first_person_embarks_and_executions/", message.content.lower()
+            )
         ):
             await message.channel.send(
                 reference=message, embed=first_person_animations_embed
