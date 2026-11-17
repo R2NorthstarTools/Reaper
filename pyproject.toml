@@ -24,7 +24,7 @@ dependencies = [
 dev = ["ruff>=0.17.4"]
 sentiment-analyzer = [
     "transformers>=5.22.1",
-    "torch>=2.14.1",
+    "torch>=2.15.0",
 ]
 
 [tool.uv]
